@@ -1685,7 +1685,7 @@ TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 
     sum_lepton_vect += leptonP4;
   }
-
+  std::cout<<"\n";
   // Loop over electrons
   for( std::vector<pat::Electron>::const_iterator iEle = electrons.begin(); iEle != electrons.end(); iEle++ ){ 
 
@@ -1715,7 +1715,7 @@ TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 
     double trigMVAOutput = iEle->userFloat("mvaValue");//miniAODhelper.GetElectronMVAIDValue(*iEle);//myMVATrig->mvaValue(*iEle,false);
     int category = iEle->userInt("mvaCategory");
-
+    std::cout<<numEvents_ <<"  "<<trigMVAOutput<<"  "<<category<<"\n";
     
     bool myTrigPresel = ( iEle->pt()>15 && 
 			  ( ( abs(iEle->superCluster()->position().eta()) < 1.4442 && 
