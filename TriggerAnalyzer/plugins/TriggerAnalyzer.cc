@@ -1715,7 +1715,7 @@ TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 
     double trigMVAOutput = iEle->userFloat("mvaValue");//miniAODhelper.GetElectronMVAIDValue(*iEle);//myMVATrig->mvaValue(*iEle,false);
     int category = iEle->userInt("mvaCategory");
-    std::cout<<numEvents_ <<"  "<<trigMVAOutput<<"  "<<category<<"\n";
+    //std::cout<<numEvents_ <<"  "<<trigMVAOutput<<"  "<<category<<"\n";
     
     bool myTrigPresel = ( iEle->pt()>15 && 
 			  ( ( abs(iEle->superCluster()->position().eta()) < 1.4442 && 
