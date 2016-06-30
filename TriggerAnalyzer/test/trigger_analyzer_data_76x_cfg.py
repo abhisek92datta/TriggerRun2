@@ -11,13 +11,12 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 1000
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff')
 
 #process.GlobalTag.globaltag = 'MCRUN2_74_V9'
-#process.GlobalTag.globaltag = '76X_dataRun2_v12' ##'74X_dataRun2_v2'#'74X_dataRun2_Express_v0'
-process.GloablTag.globaltag = '76X_dataRun2_v15'
+process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v8' ##'74X_dataRun2_v2'#'74X_dataRun2_Express_v0'
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10000)
+    input = cms.untracked.int32(100000)
     )
 
 from JetMETCorrections.Configuration.JetCorrectionServices_cff import *
@@ -42,12 +41,31 @@ process.ak4PFchsL1L2L3 = cms.ESProducer("JetCorrectionESChain",
 	)
 )
 
+
+
 process.source = cms.Source("PoolSource",
         fileNames = cms.untracked.vstring(
             #'root://xrootd.unl.edu//store/mc/RunIISpring15DR74/TT_TuneCUETP8M1_13TeV-powheg-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v2/00000/10590823-AA0C-E511-A3BC-00259073E388.root',
             #'root://xrootd.unl.edu//store/mc/RunIISpring15DR74/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/Asympt25ns_MCRUN2_74_V9-v3/10000/02B810EA-7214-E511-BDAB-0025905964C2.root',
-            'root://xrootd.unl.edu//store/data/Run2015D/SingleElectron/MINIAOD/16Dec2015-v1/20002/8C404194-47A7-E511-8390-0CC47A4D7654.root',
-            )
+            #'root://xrootd.unl.edu//store/data/Run2015D/SingleElectron/MINIAOD/16Dec2015-v1/20002/8C404194-47A7-E511-8390-0CC47A4D7654.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/0A7BD549-131A-E611-8287-02163E0134FC.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/0C65F947-0F1A-E611-A1E6-02163E0144EA.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/1CCC1100-0E1A-E611-98C7-02163E014332.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/2209DFC5-191A-E611-9809-02163E014272.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/361F045C-111A-E611-AEF0-02163E01457C.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/3A8562C4-2B1A-E611-96AC-02163E0141D2.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/429D71B2-1D1A-E611-A5A9-02163E013926.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/4CF12A3D-0D1A-E611-9C13-02163E011FB9.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/546F0CFC-131A-E611-906F-02163E013942.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/56DDF2F4-0F1A-E611-AD12-02163E012065.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/58B8145B-1E1A-E611-BBF1-02163E01262F.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/5A806FDD-121A-E611-AC73-02163E013929.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/6014DA64-0E1A-E611-BC7F-02163E011E1A.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/662BEDED-091A-E611-9450-02163E0125FE.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/689AF1F8-0B1A-E611-B9D7-02163E0139B9.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/6EA788B9-0A1A-E611-9786-02163E011AB8.root',
+	    '/store/data/Run2016B/SingleElectron/MINIAOD/PromptReco-v2/000/273/158/00000/7C4306F0-1A1A-E611-AD6A-02163E011CA6.root',
+	    )
 )
 
 ## override the L1 menu from an Xml file
