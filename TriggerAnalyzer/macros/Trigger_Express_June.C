@@ -89,7 +89,7 @@ t = clock();
   std::cout << "  treefilename  = " << treefilename.c_str() << std::endl;
   std::cout << "  histofilename = " << histofilename.c_str() << std::endl;
 
- TChain *chain = new TChain("triggeranalzyer/triggerTree");
+ TChain *chain = new TChain("triggeranalyzer/triggerTree");
  
   chain->Add(treefilename.c_str());
   chain->Add(treefilename2.c_str());
