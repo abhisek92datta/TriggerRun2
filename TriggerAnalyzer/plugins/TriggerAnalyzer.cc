@@ -232,6 +232,8 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   genTtbarIdToken_(consumes<int>(iConfig.getParameter<edm::InputTag>("genTtbarId"))),
   isData_(iConfig.getParameter<bool>("isData"))
 {
+
+//cout<<" 123152365473542384765 ";
    //now do what ever initialization is needed
   verbose_ = false;
   debug_ = false;
@@ -342,6 +344,8 @@ void
 TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
   using namespace edm;
+  
+  //cout<<"ABCDSDFSDFLSDFLKSJDF;LKJSD;LKFJ ;LSKJDF;LAKJSDF; LKJASD;LF KJAS;LDFKJ A;LSKDJF ";
 
   numEvents_++;
 
@@ -386,25 +390,31 @@ TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
   if( debug_ ) std::cout << " ====> test 1 " << std::endl;
 
   // Get Trigger and Event Handles
-  edm::ESHandle<L1GtTriggerMenu> menuRcd;
-  iSetup.get<L1GtTriggerMenuRcd>().get(menuRcd) ;
-  const L1GtTriggerMenu* menu = menuRcd.product();
+ // edm::ESHandle<L1GtTriggerMenu> menuRcd;
+  //iSetup.get<L1GtTriggerMenuRcd>().get(menuRcd) ;
+  //const L1GtTriggerMenu* menu = menuRcd.product();
 
   // vint    l1t_accept;
   // vstring l1t_name;
   int pass_L1_SingleEG25 = -1;
   int pass_L1_SingleMu16 = -1;
+  
+  //cout<<"b";
   //bool passL1HTT100 = false;
+  /*
   if( gtReadoutRecord.isValid() ){
     const DecisionWord& gtDecisionWord = gtReadoutRecord->decisionWord();
-
+cout<<" c" ;
     // L1 algos
     for( CItAlgo algo = menu->gtAlgorithmMap().begin(); algo!=menu->gtAlgorithmMap().end(); ++algo) {
       int algoBitNumber = (algo->second).algoBitNumber();
-
+      cout<<algoBitNumber<<" "<<gtDecisionWord.size();
+cout<<"d";
       std::string name = (algo->second).algoName();
+      cout<<" s";
       bool accept = gtDecisionWord.at(algoBitNumber);
       int prescaleFactor = -1;
+      cout<<"e";
 
       //if( name=="L1_HTT100" && accept ) passL1HTT100 = true;
 
@@ -414,11 +424,13 @@ TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
       // int is_accept = ( accept ) ? 1 : 0;
       // l1t_accept.push_back(is_accept);
       // l1t_name.push_back(name);
-
+cout<<"f";
       if( accept ) l1talgo_cppath_[name]+=1;
       if( verbose_ ) std::cout << " =====>  L1T algo: path name = " << (algo->second).algoName() << ",\t prescale = " << prescaleFactor << ",\t pass = " << gtDecisionWord.at(algoBitNumber) << std::endl; 
     }
   }
+  */
+  //cout<<"22222 ";
 
   if( debug_ ) std::cout << " ====> test 2 " << std::endl;
 
@@ -439,6 +451,8 @@ TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
   std::vector<std::string> vec_hltEle27WP85Gsf_filter;
 
   std::vector<int> vec_hltPFHT200Jet30_id;
+  
+  //cout<<" 33333 fsdf ";
 
   if( triggerObjects.isValid() && triggerResults.isValid() ){
     const edm::TriggerNames &names = iEvent.triggerNames(*triggerResults);
@@ -485,6 +499,8 @@ TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
       }
     }
   }
+  
+  //cout<<" *****@#$@#$ 44 ";
 
 
   std::vector<double> vec_hltL1SingleEG25_pt;

@@ -40,7 +40,7 @@
 #if !defined(__CINT__) && !defined(__MAKECINT__)
 
 
-#include "TriggerRun2/TriggerAnalyzer/interface/TriggerStudyEventVars.h"
+#include "TriggerStudyEventVars.h"
 
 #endif
 
@@ -76,10 +76,10 @@ t = clock();
   stream << jobN;
   str_jobN = stream.str();
 
-  std::string treefilename = "/eos/uscms/store/user/sflowers/treeMaker/Summer16_June13_Trigger/SingleElectron/Run2015D-16Run2016B-v1_SilverJSON_2016_01_31_triggerTree_v1_211/160615_131259/0000/trigger_analyzer_*.root";
-  std::string treefilename2 = "/eos/uscms/store/user/sflowers/treeMaker/Summer16_June13_Trigger/SingleElectron/Run2015D-16Run2016B-v1_SilverJSON_2016_01_31_triggerTree_v1_211/160615_131259/0001/trigger_analyzer_*.root";
+  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_without_event_sel/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0000/trigger_analyzer_*.root";
+  std::string treefilename2 = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_without_event_sel/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0001/trigger_analyzer_*.root";
+  std::string treefilename3 = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_without_event_sel/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0002/trigger_analyzer_*.root";
   
- 
   std::string s_end = "_" + str_jobN + ".root";
   if( Njobs==1 ) s_end = ".root";
 
@@ -93,7 +93,7 @@ t = clock();
  
   chain->Add(treefilename.c_str());
   chain->Add(treefilename2.c_str());
- 
+  chain->Add(treefilename3.c_str());
   
   ////////////////////////////////////
   
@@ -116,7 +116,7 @@ t = clock();
   /////////////
  
   
-	triggerStudyEventVars *eve=0;
+    triggerStudyEventVars *eve=0;
     chain->SetBranchAddress("eve.", &eve );
 	
     TFile histofile(histofilename.c_str(),"recreate");
@@ -152,21 +152,26 @@ t = clock();
 	//TEfficiency things!
 	//So the idea for TEfficiency is you are creating a histogram that looks bin by bin like (Passed Events)/(All Events) 
 	
-	TEfficiency* Eff_pt = new TEfficiency("Eff_pt","my efficiency;x;#epsilon",100,0,200);
-	TEfficiency* Eff_eta = new TEfficiency("Eff_eta","my efficiency;x;#epsilon",25,-2.5,2.5);
-	TEfficiency* Eff_2d = new TEfficiency("Eff_2d","my efficiency;x;#epsilon",100,0,200,25,-2.5,2.5);
+	TEfficiency* Eff_pt_sing = new TEfficiency("Eff_pt_sing","my efficiency;x;#epsilon",100,0,200);
+	TEfficiency* Eff_eta_sing = new TEfficiency("Eff_eta_sing","my efficiency;x;#epsilon",25,-2.5,2.5);
+	TEfficiency* Eff_2d_sing = new TEfficiency("Eff_2d_sing","my efficiency;x;#epsilon",100,0,200,25,-2.5,2.5);
 	
+	TEfficiency* Eff_pt_cross = new TEfficiency("Eff_pt_cross","my efficiency;x;#epsilon",100,0,200);
+        TEfficiency* Eff_eta_cross = new TEfficiency("Eff_eta_cross","my efficiency;x;#epsilon",25,-2.5,2.5);
+        TEfficiency* Eff_2d_cross = new TEfficiency("Eff_2d_cross","my efficiency;x;#epsilon",100,0,200,25,-2.5,2.5);
+	
+
 	//Sometimes you are asked to do specific binning for your efficiency plots (in the case of making Trigger Scale Factors)
 	
-	int n_ptBins = 5;
-	double x_ptBins[6] = {15.0, 25.0, 35.0, 45.0, 55.0, 200.0};
+	//int n_ptBins = 5;
+	//double x_ptBins[6] = {15.0, 25.0, 35.0, 45.0, 55.0, 200.0};
 	
-	int n_etaBins = 10;
-	double x_etaBins[11] = {-2.5,-2.1, -1.5660, -1.4442, -0.8, 0, 0.8, 1.4442, 1.5660, 2.1, 2.5};
+	//int n_etaBins = 10;
+	//double x_etaBins[11] = {-2.5,-2.1, -1.5660, -1.4442, -0.8, 0, 0.8, 1.4442, 1.5660, 2.1, 2.5};
 	
-	TEfficiency* Eff_bin_pt = new TEfficiency("Eff_bin_pt","my efficiency;x;#epsilon",n_ptBins,x_ptBins);
-	TEfficiency* Eff_bin_eta = new TEfficiency("Eff_bin_eta","my efficiency;x;#epsilon",n_etaBins,x_etaBins);
-	TEfficiency* Eff_bin_2d = new TEfficiency("Eff_bin_2d","my efficiency;x;#epsilon",n_ptBins,x_ptBins,n_etaBins,x_etaBins);
+	//TEfficiency* Eff_bin_pt = new TEfficiency("Eff_bin_pt","my efficiency;x;#epsilon",n_ptBins,x_ptBins);
+	//TEfficiency* Eff_bin_eta = new TEfficiency("Eff_bin_eta","my efficiency;x;#epsilon",n_etaBins,x_etaBins);
+	//TEfficiency* Eff_bin_2d = new TEfficiency("Eff_bin_2d","my efficiency;x;#epsilon",n_ptBins,x_ptBins,n_etaBins,x_etaBins);
 	
 	
 	//Something interesting you can do when viewing the root file is if you want to investigate the indvidual numerator and denominator
@@ -282,7 +287,7 @@ t = clock();
 		h_catyield->Fill(this_category);	
 		
 		int passcross = eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v_;
-		int passsing = eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_v_;
+		int passsing = eve->pass_HLT_Ele27_eta2p1_WPTight_Gsf_v_;
 		
 		if(passcross==1)h_catyield_CrossEleTrig->Fill(this_category);
 		if(passsing==1)h_catyield_SingleEleTrig->Fill(this_category);
@@ -292,13 +297,18 @@ t = clock();
 		//Eff_var->Fill(bool_pass,variable);
 		//Eff_2d->Fill(bool_pass,variable1,variable2);
 		
-		Eff_pt->Fill(passcross,vvLEPTON[0][0]);
-		Eff_eta->Fill(passcross,vvLEPTON[0][1]);
-		Eff_2d->Fill(passcross,vvLEPTON[0][0],vvLEPTON[0][1]);
+		Eff_pt_sing->Fill(passsing,vvLEPTON[0][0]);
+		Eff_eta_sing->Fill(passsing,vvLEPTON[0][1]);
+		Eff_2d_sing->Fill(passsing,vvLEPTON[0][0],vvLEPTON[0][1]);
 		
-		Eff_bin_pt->Fill(passcross,vvLEPTON[0][0]);
-		Eff_bin_eta->Fill(passcross,vvLEPTON[0][1]);
-		Eff_bin_2d->Fill(passcross,vvLEPTON[0][0],vvLEPTON[0][1]);
+		Eff_pt_cross->Fill(passcross,vvLEPTON[0][0]);
+        Eff_eta_cross->Fill(passcross,vvLEPTON[0][1]);
+        Eff_2d_cross->Fill(passcross,vvLEPTON[0][0],vvLEPTON[0][1]);
+		
+
+		//Eff_bin_pt->Fill(passsing,vvLEPTON[0][0]);
+		//Eff_bin_eta->Fill(passsing,vvLEPTON[0][1]);
+		//Eff_bin_2d->Fill(passsing,vvLEPTON[0][0],vvLEPTON[0][1]);
 		
 		
 		
