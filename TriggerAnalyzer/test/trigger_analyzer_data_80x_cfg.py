@@ -71,6 +71,10 @@ process.source = cms.Source("PoolSource",
 #	    )
 #)
 
+import FWCore.PythonUtilities.LumiList as LumiList
+process.source.lumisToProcess = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSCOMM/COMM_DQM/certification/Collisions16/13TeV/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON.txt').getVLuminosityBlockRange()
+
+
 ## override the L1 menu from an Xml file
 #process.l1GtTriggerMenuXml = cms.ESProducer("L1GtTriggerMenuXmlProducer",
 #  TriggerMenuLuminosity = cms.string('startup'),
