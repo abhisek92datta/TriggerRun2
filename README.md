@@ -8,7 +8,7 @@ cmsenv
 
 git clone https://github.com/abhisek92datta/TriggerRun2.git
 
-git clone https://github.com/abhisek92datta/MiniAOD.git
+git clone https://github.com/cms-ttH/MiniAOD.git
 
 cd MiniAOD
 
