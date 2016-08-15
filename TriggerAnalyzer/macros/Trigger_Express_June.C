@@ -46,7 +46,7 @@ typedef std::vector<double>                    vdouble;
 typedef std::vector<std::vector<double> >      vvdouble;
 typedef std::vector<std::vector<int> >         vvint;
 
-
+/*
 bool passesMuonPOGIdTight(const double normalizedChi2, const int numberOfValidMuonHits, const double d0, const double dz, const int numberOfValidPixelHits , const int trackerLayersWithMeasurement, const int numberOfMatchedStations, const int isPFMuon ){
 
     bool passesGlobalTrackID = ( ( normalizedChi2 < 10.) 
@@ -72,7 +72,7 @@ bool passesMuonPOGIdTight(const double normalizedChi2, const int numberOfValidMu
     return true;
 
 }
-
+*/
 
 void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
@@ -233,6 +233,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
 		//Grab Specific Lepton information from trees
 		
+		int event_nr = eve->evt_;
 		vdouble lepton_pt = eve->lepton_pt_;
 		vdouble lepton_eta = eve->lepton_eta_;
 		vdouble lepton_phi = eve->lepton_phi_;
@@ -249,6 +250,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   		vint lepton_trackerLayersWithMeasurement = eve->lepton_trackerLayersWithMeasurement_;
 		vint lepton_numberOfMatchedStations = eve->lepton_numberOfMatchedStations_;
 		
+		vint is_IDTight = eve->lepton_is_IDTight_;
 		vint isTight = eve->lepton_isTight_;
 		vint isLoose = eve->lepton_isLoose_;
 		vint isMuon = eve->lepton_isMuon_; 
@@ -278,6 +280,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			//vlepton.push_back(lepton_energy[i]);
 			//vvLEPTON.push_back(vlepton);
 			
+		/*	
 			if(isMuon[i]==1) {
 				if (lepton_pt[i]>15 && fabs(lepton_eta[i])<2.4) {
 					if (lepton_rel_IsoR04[i]<0.25) {
@@ -286,6 +289,10 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 					}
 				}
 			}
+		*/		
+			 if(is_IDTight[i]==1) {
+				numLooseMu++;			
+			 }
 			
 			else {
 				if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {
@@ -354,7 +361,22 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		if(pass_WPLoose==1) N_eve_loose++;
 		if(pass_WPTight==1) N_eve_tight++;
 		if(pass_WPLoose_HT200==1) N_eve_loose_ht200++;
-		
+	
+		/*	
+		std::cout<<event_nr<<"\n";
+		if(pass_WPTight == 1){
+			for(int i=0;i<int(jet_pt.size());i++) {
+        	                if ( jet_pt[i]>30 && fabs(jet_eta[i])<2.4 ) {
+                	                std::cout<<jet_pt[i]<<"  ";
+                        	       
+                      	        	   
+                       	 	}
+                	}
+
+		}
+		std::cout<<"\n\n";
+		*/	
+
 		//Using TEfficiency
 		
 		//Eff_var->Fill(bool_pass,variable);

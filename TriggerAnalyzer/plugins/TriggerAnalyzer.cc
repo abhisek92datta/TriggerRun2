@@ -1221,7 +1221,6 @@ cout<<"f";
   // Use JEC from GT
   std::vector<pat::Jet> correctedJets_noSys = miniAODhelper.GetCorrectedJets(rawJets, iEvent, iSetup, sysType::NA);
   //std::vector<pat::Jet> correctedJets_noSys = GetCorrectedJets(rawJets, rho_event, sysType::NA);
-  //correctedJets_noSys = miniAODhelper.GetCorrectedJets(correctedJets_noSys, iEvent, iSetup, sysType::NA, false, true);
   //std::vector<pat::Jet> correctedJets_noSys = miniAODhelper.GetCorrectedJets(rawJets, sysType::NA);
 
   std::vector<pat::Jet> selectedJets_noSys_unsorted = miniAODhelper.GetSelectedJets(correctedJets_noSys, minLooseJetPt, 3.0, jetID::none, '-' );
