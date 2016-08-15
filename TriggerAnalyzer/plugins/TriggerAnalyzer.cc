@@ -1828,6 +1828,7 @@ cout<<"f";
 
     int isTight = ( miniAODhelper.isGoodElectron(*iEle, minTightLeptonPt, 2.1, electronID::electronTight) ) ? 1 : 0;
     int isLoose = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronLoose) ) ? 1 : 0;
+    int is_IDTight = false;
 
     int isPhys14L = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronPhys14L) ) ? 1 : 0;
     int isPhys14M = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronPhys14M) ) ? 1 : 0;
@@ -1948,7 +1949,7 @@ cout<<"f";
     lepton_isMuon.push_back(0);
     lepton_isTight.push_back(isTight);
     lepton_isLoose.push_back(isLoose);
-    lepton_is_IDTight.push_back(-99);
+    lepton_is_IDTight.push_back(is_IDTight);
     lepton_isPhys14L.push_back(isPhys14L);
     lepton_isPhys14M.push_back(isPhys14M);
     lepton_isPhys14T.push_back(isPhys14T);
