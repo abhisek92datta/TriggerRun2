@@ -1696,7 +1696,7 @@ cout<<"f";
 
     int isTight = ( miniAODhelper.isGoodMuon(*iMu, minTightLeptonPt, 2.1, muonID::muonTight, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
     int isLoose = ( miniAODhelper.isGoodMuon(*iMu, minLooseLeptonPt, 2.4, muonID::muonLoose, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
-	int is_IDTight = ( miniAODhelper.isGoodMuon(*iMu, minLooseLeptonPt, 2.4, muonID::muonTight, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
+	int is_IDTight = ( miniAODhelper.isGoodMuon(*iMu, minLooseLeptonPt, 2.4, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
 
     int isPhys14L = false;
     int isPhys14M = false;
