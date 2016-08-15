@@ -214,7 +214,13 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
 
   TH1D* h_numSecVtx;
 
+  FactorizedJetCorrector* _jetCorrector;
+  JetCorrectionUncertainty* _jetCorrectorUnc;
+
   MiniAODHelper miniAODhelper;
+  void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
+  std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const double &, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
+
 };
 
 //
@@ -327,6 +333,7 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   miniAODhelper.SetUp(era, insample_, iAnalysisType, isData);
 
   miniAODhelper.SetJetCorrectorUncertainty();
+  SetFactorizedJetCorrector();
 
 }
 
@@ -343,6 +350,98 @@ TriggerAnalyzer::~TriggerAnalyzer()
 //
 // member functions
 //
+
+// for JEC
+
+void TriggerAnalyzer::SetFactorizedJetCorrector(const sysType::sysType iSysType){
+
+    std::vector<JetCorrectorParameters> corrParams;	
+    if (isData_) {
+    
+    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt");
+    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt");
+    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt");
+    JetCorrectorParameters *L2L3JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
+
+
+    corrParams.push_back(*L1JetPar);
+    corrParams.push_back(*L2JetPar);
+    corrParams.push_back(*L3JetPar);
+    corrParams.push_back(*L2L3JetPar);
+    _jetCorrector = new FactorizedJetCorrector(corrParams);
+
+    std::string _JESUncFile = "data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt";		
+    _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
+    
+    delete L3JetPar;
+    delete L2JetPar;
+    delete L1JetPar;
+    delete L2L3JetPar;
+    }
+    
+    else {	
+    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_MC_L3Absolute_AK4PFchs.txt");
+    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_MC_L2Relative_AK4PFchs.txt");
+    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_MC_L1FastJet_AK4PFchs.txt");
+
+    corrParams.push_back(*L1JetPar);
+    corrParams.push_back(*L2JetPar);
+    corrParams.push_back(*L3JetPar);
+    _jetCorrector = new FactorizedJetCorrector(corrParams);
+
+    std::string _JESUncFile = "data/JEC/Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt";	
+    _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
+    
+    delete L3JetPar;
+    delete L2JetPar;
+    delete L1JetPar;
+    }
+}
+
+std::vector<pat::Jet> 
+TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const double &rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
+	
+  std::vector<pat::Jet> outputJets;
+
+  for( std::vector<pat::Jet>::const_iterator it = inputJets.begin(), ed = inputJets.end(); it != ed; ++it ){
+    
+    pat::Jet jet = (*it);
+    double scale = 1.;
+
+	// JEC
+
+    _jetCorrector->setJetPt(jet.pt());
+    _jetCorrector->setJetEta(jet.eta());
+    _jetCorrector->setJetA(jet.jetArea());
+    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
+
+    scale = _jetCorrector->getCorrection();
+    jet.scaleEnergy( scale );
+
+    if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
+      _jetCorrectorUnc->setJetPt(jet.pt());
+      _jetCorrectorUnc->setJetEta(jet.eta()); // here you must use the CORRECTED jet pt
+      double unc = 1;
+      double jes = 1;
+      if( iSysType==sysType::JESup ){
+	unc = _jetCorrectorUnc->getUncertainty(true);
+	jes = 1 + unc;
+      }
+      else if( iSysType==sysType::JESdown ){
+	unc = _jetCorrectorUnc->getUncertainty(false);
+	jes = 1 - unc;
+      }
+
+      jet.scaleEnergy( jes );
+    }
+    outputJets.push_back(jet);
+  }
+
+  return outputJets;
+}
+
+
+
 
 // ------------ method called for each event  ------------
 void
@@ -1121,6 +1220,8 @@ cout<<"f";
   std::vector<pat::Jet> rawJets = miniAODhelper.GetUncorrectedJets(pfJets_ID_clean);
   // Use JEC from GT
   std::vector<pat::Jet> correctedJets_noSys = miniAODhelper.GetCorrectedJets(rawJets, iEvent, iSetup, sysType::NA);
+  //std::vector<pat::Jet> correctedJets_noSys = GetCorrectedJets(rawJets, rho_event, sysType::NA);
+  //correctedJets_noSys = miniAODhelper.GetCorrectedJets(correctedJets_noSys, iEvent, iSetup, sysType::NA, false, true);
   //std::vector<pat::Jet> correctedJets_noSys = miniAODhelper.GetCorrectedJets(rawJets, sysType::NA);
 
   std::vector<pat::Jet> selectedJets_noSys_unsorted = miniAODhelper.GetSelectedJets(correctedJets_noSys, minLooseJetPt, 3.0, jetID::none, '-' );
@@ -1518,7 +1619,7 @@ cout<<"f";
 
 
 
-  vint lepton_genId, lepton_genParentId, lepton_genGrandParentId, lepton_trkCharge, lepton_charge, lepton_isMuon, lepton_isTight, lepton_isLoose;
+  vint lepton_genId, lepton_genParentId, lepton_genGrandParentId, lepton_trkCharge, lepton_charge, lepton_isMuon, lepton_isTight, lepton_is_IDTight, lepton_isLoose;
   vint lepton_isPhys14L, lepton_isPhys14M, lepton_isPhys14T;
   vint lepton_isSpring15L, lepton_isSpring15M, lepton_isSpring15T, lepton_isTrigMVAM;
   vdouble lepton_pt;
@@ -1595,6 +1696,7 @@ cout<<"f";
 
     int isTight = ( miniAODhelper.isGoodMuon(*iMu, minTightLeptonPt, 2.1, muonID::muonTight, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
     int isLoose = ( miniAODhelper.isGoodMuon(*iMu, minLooseLeptonPt, 2.4, muonID::muonLoose, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
+	int is_IDTight = ( miniAODhelper.isGoodMuon(*iMu, minLooseLeptonPt, 2.4, muonID::muonTight, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
 
     int isPhys14L = false;
     int isPhys14M = false;
@@ -1637,6 +1739,7 @@ cout<<"f";
     lepton_isMuon.push_back(1);
     lepton_isTight.push_back(isTight);
     lepton_isLoose.push_back(isLoose);
+    lepton_is_IDTight.push_back(is_IDTight);
     lepton_isPhys14L.push_back(isPhys14L);
     lepton_isPhys14M.push_back(isPhys14M);
     lepton_isPhys14T.push_back(isPhys14T);
@@ -1845,6 +1948,7 @@ cout<<"f";
     lepton_isMuon.push_back(0);
     lepton_isTight.push_back(isTight);
     lepton_isLoose.push_back(isLoose);
+    lepton_is_IDTight.push_back(-99);
     lepton_isPhys14L.push_back(isPhys14L);
     lepton_isPhys14M.push_back(isPhys14M);
     lepton_isPhys14T.push_back(isPhys14T);
@@ -1921,6 +2025,7 @@ cout<<"f";
   eve->lepton_isMuon_           = lepton_isMuon;
   eve->lepton_isTight_          = lepton_isTight;
   eve->lepton_isLoose_          = lepton_isLoose;
+  eve->lepton_is_IDTight_		= lepton_is_IDTight;
   eve->lepton_isPhys14L_        = lepton_isPhys14L;
   eve->lepton_isPhys14M_        = lepton_isPhys14M;
   eve->lepton_isPhys14T_        = lepton_isPhys14T;
