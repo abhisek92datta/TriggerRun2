@@ -1231,7 +1231,7 @@ cout<<"f";
   else 
   	doJER = 1;
   std::vector<pat::Jet> correctedJets_noSys = GetCorrectedJets(rawJets, rho_event, sysType::NA);
-  std::vector<pat::Jet> correctedJets_noSys = miniAODhelper.GetCorrectedJets(correctedJets_noSys, iEvent, iSetup, sysType::NA, 0, doJER);
+  correctedJets_noSys = miniAODhelper.GetCorrectedJets(correctedJets_noSys, iEvent, iSetup, sysType::NA, 0, doJER);
   //std::vector<pat::Jet> correctedJets_noSys = GetCorrectedJets(rawJets, rho_event, sysType::NA);
   //std::vector<pat::Jet> correctedJets_noSys = miniAODhelper.GetCorrectedJets(rawJets, sysType::NA);
 
