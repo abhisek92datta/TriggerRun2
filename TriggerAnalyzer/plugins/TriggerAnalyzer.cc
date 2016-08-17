@@ -133,6 +133,7 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT <pat::METCollection> pfMetToken;
   edm::EDGetTokenT <pat::METCollection> pfMetNoHFToken;
   edm::EDGetTokenT <pat::METCollection> puppiMetToken;
+  edm::EDGetTokenT<reco::GenJetCollection> token_genjets;
 
   edm::EDGetTokenT <pat::PackedCandidateCollection> packedpfToken;
 
@@ -271,6 +272,7 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   /// FIXME
   pfMetNoHFToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETs")));
   puppiMetToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETsPuppi")));
+  token_genjets = consumes<reco::GenJetCollection>(edm::InputTag(std::string("slimmedGenJets")));
 
   packedpfToken = consumes <pat::PackedCandidateCollection> (edm::InputTag(std::string("packedPFCandidates")));
 
@@ -332,7 +334,7 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
 
   miniAODhelper.SetUp(era, insample_, iAnalysisType, isData);
 
-  miniAODhelper.SetJetCorrectorUncertainty();
+  //miniAODhelper.SetJetCorrectorUncertainty();
   SetFactorizedJetCorrector();
 
 }
@@ -915,6 +917,9 @@ cout<<"f";
 
   edm::Handle<pat::METCollection> puppimet;
   iEvent.getByToken(puppiMetToken,puppimet);
+ 
+  edm::Handle<reco::GenJetCollection> genjets;
+  iEvent.getByToken(token_genjets, genjets);
 
   edm::Handle<pat::PackedCandidateCollection> packedPFcands;
   iEvent.getByToken(packedpfToken,packedPFcands);
@@ -1121,7 +1126,7 @@ cout<<"f";
   const JetCorrector* corrector = JetCorrector::getJetCorrector( "ak4PFchsL1L2L3", iSetup );   //Get the jet corrector from the event setup
 
   miniAODhelper.SetJetCorrector(corrector);
-
+  miniAODhelper.SetJetCorrectorUncertainty(iSetup);
 
   if( debug_ ) std::cout << " ====> test 11 " << std::endl;
 
@@ -1220,7 +1225,13 @@ cout<<"f";
   std::vector<pat::Jet> pfJets_ID_clean = miniAODhelper.GetDeltaRCleanedJets( pfJets_ID, selectedMuons_loose, selectedElectrons_loose, 0.4);
   std::vector<pat::Jet> rawJets = miniAODhelper.GetUncorrectedJets(pfJets_ID_clean);
   // Use JEC from GT
-  std::vector<pat::Jet> correctedJets_noSys = miniAODhelper.GetCorrectedJets(rawJets, iEvent, iSetup, sysType::NA);
+  int doJER;
+  if(isData_)
+  	doJER = 0;
+  else 
+  	doJER = 1;
+  std::vector<pat::Jet> correctedJets_noSys = GetCorrectedJets(rawJets, rho_event, sysType::NA);
+  std::vector<pat::Jet> correctedJets_noSys = miniAODhelper.GetCorrectedJets(correctedJets_noSys, iEvent, iSetup, sysType::NA, 0, doJER);
   //std::vector<pat::Jet> correctedJets_noSys = GetCorrectedJets(rawJets, rho_event, sysType::NA);
   //std::vector<pat::Jet> correctedJets_noSys = miniAODhelper.GetCorrectedJets(rawJets, sysType::NA);
 
