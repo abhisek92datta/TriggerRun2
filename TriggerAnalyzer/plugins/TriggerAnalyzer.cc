@@ -1225,7 +1225,7 @@ cout<<"f";
   std::vector<pat::Jet> pfJets_ID_clean = miniAODhelper.GetDeltaRCleanedJets( pfJets_ID, selectedMuons_loose, selectedElectrons_loose, 0.4);
   std::vector<pat::Jet> rawJets = miniAODhelper.GetUncorrectedJets(pfJets_ID_clean);
   // Use JEC from GT
-  int doJER;
+  bool doJER;
   if(isData_)
   	doJER = 0;
   else 
