@@ -248,6 +248,7 @@ struct triggerStudyEventVars{
   vint lepton_isSpring15M_;
   vint lepton_isSpring15T_;
   vint lepton_isTrigMVAM_;
+  vint lepton_isTrigCutM_;
   vint lepton_genId_;
   vint lepton_genParentId_;
   vint lepton_genGrandParentId_;
@@ -546,6 +547,7 @@ void triggerStudyEventVars::initialize(){
   lepton_isSpring15M_.clear();
   lepton_isSpring15T_.clear();
   lepton_isTrigMVAM_.clear();
+  lepton_isTrigCutM_.clear();
   lepton_genId_.clear();
   lepton_genParentId_.clear();
   lepton_genGrandParentId_.clear();
