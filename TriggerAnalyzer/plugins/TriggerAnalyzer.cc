@@ -680,7 +680,6 @@ cout<<"f";
   ////
   
   int pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_ = -1;
-  int pass_HLT_Ele23_WPLoose_Gsf_v_ = -1;
   int pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ = -1;
   int pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ = -1;
   int pass_HLT_Ele25_WPTight_Gsf_v_ = -1;
@@ -746,7 +745,6 @@ cout<<"f";
 
 	 
       if( pathName.find("AlCa_SingleEle_WPVeryLoose_Gsf_v")!=std::string::npos )                          pass_AlCa_SingleEle_WPVeryLoose_Gsf_v = (accept) ? 1 : 0;
-	  if( pathName.find("HLT_Ele23_WPLoose_Gsf_v")!=std::string::npos )                          pass_HLT_Ele23_WPLoose_Gsf_v = (accept) ? 1 : 0;
 	  if( pathName.find("HLT_Ele24_eta2p1_WPLoose_Gsf_v")!=std::string::npos )                          pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v = (accept) ? 1 : 0;
       if( pathName.find("HLT_Ele25_eta2p1_WPLoose_Gsf_v")!=std::string::npos )                          pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v = (accept) ? 1 : 0;
       if( pathName.find("HLT_Ele25_WPTight_Gsf_v")!=std::string::npos )                          pass_HLT_Ele25_WPTight_Gsf_v = (accept) ? 1 : 0;
@@ -802,7 +800,6 @@ cout<<"f";
   }
 
   eve->pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_ = pass_AlCa_SingleEle_WPVeryLoose_Gsf_v;
-  eve->pass_HLT_Ele23_WPLoose_Gsf_v_ = pass_HLT_Ele23_WPLoose_Gsf_v;
   eve->pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ = pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v;
   eve->pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ = pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v;
   eve->pass_HLT_Ele25_WPTight_Gsf_v_ = pass_HLT_Ele25_WPTight_Gsf_v;
