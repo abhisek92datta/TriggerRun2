@@ -15,17 +15,14 @@ config.Data.inputDataset = '/ttHTobb_M125_13TeV_powheg_pythia8/RunIISpring16Mini
 config.Data.inputDBS = 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader/' 
 config.Data.allowNonValidInputDataset = True 
 config.Data.splitting = 'FileBased' 
-#config.Data.lumiMask = 'data/Cert_271036-274421_13TeV_PromptReco_Collisions16_JSON.txt'
 config.Data.unitsPerJob = 10
 ##config.Data.totalUnits = 
 config.Data.publication = True 
 config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter/' 
 config.Data.outputDatasetTag = 'triggerTree_MC_80X_tth' 
 #config.Data.outputDatasetTag = 'triggerTree_MC_80X_ttjets'
-#config.Data.outLFNDirBase = '/store/user/sflowers/treeMaker/Summer16_June13_Trigger/'
 config.Data.outLFNDirBase = '/store/user/abdatta/Trigger_Analysis/Ntuples_without_event_sel/' 
 config.Data.ignoreLocality = True
 
 config.section_("Site") 
 config.Site.storageSite = 'T3_US_FNALLPC'
-#config.Site.storageSite = 'T3_US_FNALLPC'
