@@ -679,11 +679,11 @@ cout<<"f";
 
   ////
   
-  int pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_ = -1;
-  int pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ = -1;
-  int pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ = -1;
-  int pass_HLT_Ele25_WPTight_Gsf_v_ = -1;
-  int pass_HLT_Ele25_eta2p1_WPTight_Gsf_v_ = -1;
+  int pass_AlCa_SingleEle_WPVeryLoose_Gsf_v = -1;
+  int pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v = -1;
+  int pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v = -1;
+  int pass_HLT_Ele25_WPTight_Gsf_v = -1;
+  int pass_HLT_Ele25_eta2p1_WPTight_Gsf_v = -1;
   
   int pass_HLT_Ele27_eta2p1_WP75_Gsf_v = -1;
   int pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v = -1;
