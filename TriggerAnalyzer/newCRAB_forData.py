@@ -7,6 +7,7 @@ config.section_("JobType")
 config.JobType.pluginName = 'Analysis' 
 config.JobType.psetName = 'test/trigger_analyzer_data_80x_cfg.py'
 config.JobType.allowUndistributedCMSSW = True
+config.JobType.inputFiles = ['data']
 
 config.section_("Data") 
 config.Data.inputDataset = '/SingleElectron/Run2016B-PromptReco-v2/MINIAOD'
