@@ -679,6 +679,13 @@ cout<<"f";
 
   ////
   
+  int pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_ = -1;
+  int pass_HLT_Ele23_WPLoose_Gsf_v_ = -1;
+  int pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ = -1;
+  int pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ = -1;
+  int pass_HLT_Ele25_WPTight_Gsf_v_ = -1;
+  int pass_HLT_Ele25_eta2p1_WPTight_Gsf_v_ = -1;
+  
   int pass_HLT_Ele27_eta2p1_WP75_Gsf_v = -1;
   int pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v = -1;
   int pass_HLT_Ele27_eta2p1_WP75_Gsf_TriCentralPFJet30_v = -1;
@@ -737,6 +744,13 @@ cout<<"f";
 
       if( accept ) hlt_cppath_[pathNameNoVer]+=1;
 
+	 
+      if( pathName.find("AlCa_SingleEle_WPVeryLoose_Gsf_v")!=std::string::npos )                          pass_AlCa_SingleEle_WPVeryLoose_Gsf_v = (accept) ? 1 : 0;
+	  if( pathName.find("HLT_Ele23_WPLoose_Gsf_v")!=std::string::npos )                          pass_HLT_Ele23_WPLoose_Gsf_v = (accept) ? 1 : 0;
+	  if( pathName.find("HLT_Ele24_eta2p1_WPLoose_Gsf_v")!=std::string::npos )                          pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v = (accept) ? 1 : 0;
+      if( pathName.find("HLT_Ele25_eta2p1_WPLoose_Gsf_v")!=std::string::npos )                          pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v = (accept) ? 1 : 0;
+      if( pathName.find("HLT_Ele25_WPTight_Gsf_v")!=std::string::npos )                          pass_HLT_Ele25_WPTight_Gsf_v = (accept) ? 1 : 0;
+      if( pathName.find("HLT_Ele25_eta2p1_WPTight_Gsf_v")!=std::string::npos )                          pass_HLT_Ele25_eta2p1_WPTight_Gsf_v = (accept) ? 1 : 0;
 
       if( pathName.find("HLT_Ele27_eta2p1_WP75_Gsf_v")!=std::string::npos )                          pass_HLT_Ele27_eta2p1_WP75_Gsf_v = (accept) ? 1 : 0;
       if( pathName.find("HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v")!=std::string::npos ) pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v = (accept) ? 1 : 0;
@@ -787,8 +801,12 @@ cout<<"f";
     std::cout << "Trigger results not valid for tag " << hltTag << std::endl;
   }
 
-
-
+  eve->pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_ = pass_AlCa_SingleEle_WPVeryLoose_Gsf_v;
+  eve->pass_HLT_Ele23_WPLoose_Gsf_v_ = pass_HLT_Ele23_WPLoose_Gsf_v;
+  eve->pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ = pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v;
+  eve->pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ = pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v;
+  eve->pass_HLT_Ele25_WPTight_Gsf_v_ = pass_HLT_Ele25_WPTight_Gsf_v;
+  eve->pass_HLT_Ele25_eta2p1_WPTight_Gsf_v_ = pass_HLT_Ele25_eta2p1_WPTight_Gsf_v;
 
   eve->pass_HLT_Ele27_eta2p1_WP75_Gsf_v_                          = pass_HLT_Ele27_eta2p1_WP75_Gsf_v;
   eve->pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v_ = pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v;
