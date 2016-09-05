@@ -5,7 +5,7 @@ config.General.requestName = 'triggerTree_SingleElectron_Run2016B'
 
 config.section_("JobType") 
 config.JobType.pluginName = 'Analysis' 
-config.JobType.psetName = 'test/trigger_analyzer_data_76x_cfg.py'
+config.JobType.psetName = 'test/trigger_analyzer_data_80x_cfg.py'
 config.JobType.allowUndistributedCMSSW = True
 
 config.section_("Data") 
