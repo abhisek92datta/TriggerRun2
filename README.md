@@ -18,7 +18,7 @@ cd ..
 
 scramv1 b -j 32
 
-scram v1 b -j 32
+scramv1 b -j 32
 
 cd TriggerRun2/TriggerAnalyzer/
 
@@ -66,7 +66,7 @@ To Run on CRAB :
 3. put LUMI file name in : newCRAB_forData.py
 4. in newCRAB_forData.py : config.Data.splitting = 'LumiBased'
 
-                         : config.Data.unitsPerJob = 10  (put desired number)
+                         : config.Data.unitsPerJob = 20  (put desired number)
 
                          : config.Data.outLFNDirBase = '/store/user/abdatta/' (your own storage area)
 
