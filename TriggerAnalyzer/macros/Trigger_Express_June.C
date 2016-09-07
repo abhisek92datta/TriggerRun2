@@ -269,9 +269,10 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
 		vvdouble vvLEPTON;
 		int numLooseEle=0;
-		int numLooseMu=0;
+		int numMu = 0;
+		//int numLooseMu=0;
 		int numTightEle=0;
-		int numTightMu=0;
+		//int numTightMu=0;
 		for(int i=0;i<int(lepton_pt.size());i++){
 			//vdouble vlepton;
 			//vlepton.push_back(lepton_pt[i]);
@@ -291,11 +292,13 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			}
 		*/		
 			 if(is_IDTight[i]==1) {
-				numLooseMu++;			
+				numMu++;			
 			 }
 			
 			else {
-				if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {
+			
+				//if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
+				if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {               // for Triggering MVA electron ID
 					numLooseEle++;
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {
 						numTightEle++;
@@ -328,12 +331,24 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		//Generally speaking for ttH in the lepton+jets H->bb channel we require exactly 1 Tight Lepton + 0 additional Loose Leptons
 		//Since we are only going to look at Electron triggers we require exactly 1 Tight Electron and 0 additional Loose Leptons 
 		
-		if(numLooseMu!=0)continue;
+		if(numMu!=0)continue;
 		if(numTightEle!=1)continue;
 		if(numLooseEle!=1)continue;
 		
-		//Additionally we require 4Jets and 2Btag Jets
+		// Checking control trigger selection
 		
+		//if (eve->pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_ != 1) continue;
+		
+  		if (eve->pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ != 1) continue;
+  		
+  		//if (eve->pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ != 1) continue;
+  		//if (eve->pass_HLT_Ele25_WPTight_Gsf_v_ != 1) continue;
+  		//if (eve->pass_HLT_Ele25_eta2p1_WPTight_Gsf_v_ != 1) continue;
+		
+		
+		//Additionally we require 4Jets and 2Btag Jets
+			
+		if( numJets<4 || numTags<2 ) continue;	
 			
 		int this_category = -1;
   	    if( numJets==4 && numTags==2) this_category=0;
@@ -346,7 +361,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   	    if( numJets==5 && numTags>=4) this_category=7;
   	    if( numJets>=6 && numTags>=4) this_category=8;
 		
-		if(this_category==-1)continue;
+		//if(this_category==-1)continue;
 		
 		h_catyield->Fill(this_category);	
 		
@@ -362,21 +377,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		if(pass_WPTight==1) N_eve_tight++;
 		if(pass_WPLoose_HT200==1) N_eve_loose_ht200++;
 	
-		/*	
-		std::cout<<event_nr<<"\n";
-		if(pass_WPTight == 1){
-			for(int i=0;i<int(jet_pt.size());i++) {
-        	                if ( jet_pt[i]>30 && fabs(jet_eta[i])<2.4 ) {
-                	                std::cout<<jet_pt[i]<<"  ";
-                        	       
-                      	        	   
-                       	 	}
-                	}
-
-		}
-		std::cout<<"\n\n";
-		*/	
-
+		
 		//Using TEfficiency
 		
 		//Eff_var->Fill(bool_pass,variable);
