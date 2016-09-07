@@ -297,8 +297,8 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			
 			else {
 			
-				//if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
-				if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {               // for Triggering MVA electron ID
+				if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
+				//if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {               // for Triggering MVA electron ID
 					numLooseEle++;
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {
 						numTightEle++;
