@@ -95,7 +95,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   stream << jobN;
   str_jobN = stream.str();
 
-  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_old_event_sel_criteria/ttHTobb_M125_13TeV_powheg_pythia8/triggerTree_MC_80X_tth/160722_194424/0000/trigger_analyzer_*.root";
+  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_new_80X_event_sel_criteria/ttHTobb_M125_13TeV_powheg_pythia8/triggerTree_MC_80X_tth/160906_030939/0000/trigger_analyzer_*.root";
   //std::string treefilename2 = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_without_event_sel/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0001/trigger_analyzer_*.root";
   //std::string treefilename3 = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_without_event_sel/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0002/trigger_analyzer_*.root";
   
@@ -164,14 +164,14 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   TEfficiency* Eff_phi_WPLoose = new TEfficiency("Eff_phi_WPLoose","Efficiency vs phi for WPLoose;#phi;(WPLoose + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPLoose = new TEfficiency("Eff_2d_WPLoose","my efficiency;x;#epsilon",150,0,300,30,-3,3);
   TEfficiency* Eff_HT_WPLoose = new TEfficiency("Eff_HT_WPLoose","Efficiency vs HT for WPLoose;HT (GeV);(WPLoose + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",500,0,1000);	
-  TEfficiency* Eff_numPV_WPLoose = new TEfficiency("Eff_numPV_WPLoose","Efficiency vs numPV for WPLoose;numPV;(WPLoose + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",1,0,50);		
+  TEfficiency* Eff_numPV_WPLoose = new TEfficiency("Eff_numPV_WPLoose","Efficiency vs numPV for WPLoose;numPV;(WPLoose + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);		
 	
   TEfficiency* Eff_pt_WPTight = new TEfficiency("Eff_pt_WPTight","Efficiency vs pT for WPTight;pT (GeV);(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
   TEfficiency* Eff_eta_WPTight = new TEfficiency("Eff_eta_WPTight","Efficiency vs eta for WPTight;#eta;(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_phi_WPTight = new TEfficiency("Eff_phi_WPTight","Efficiency vs phi for WPTight;#phi;(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPTight = new TEfficiency("Eff_2d_WPTight","my efficiency;x;#epsilon",150,0,300,30,-3,3);
   TEfficiency* Eff_HT_WPTight = new TEfficiency("Eff_HT_WPTight","Efficiency vs HT for WPTight;HT (GeV);(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",500,0,1000);	
-  TEfficiency* Eff_numPV_WPTight = new TEfficiency("Eff_numPV_WPTight","Efficiency vs numPV for WPTight;numPV;(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",1,0,50);	
+  TEfficiency* Eff_numPV_WPTight = new TEfficiency("Eff_numPV_WPTight","Efficiency vs numPV for WPTight;numPV;(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);	
 	
 	
   TEfficiency* Eff_pt_WPLoose_HT200 = new TEfficiency("Eff_pt_WPLoose_HT200","Efficiency vs pT for WPLoose_HT200;pT (GeV);(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
@@ -179,7 +179,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   TEfficiency* Eff_phi_WPLoose_HT200 = new TEfficiency("Eff_phi_WPLoose_HT200","Efficiency vs phi for WPLoose_HT200;#phi;(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPLoose_HT200 = new TEfficiency("Eff_2d_WPLoose_HT200","my efficiency;x;#epsilon",150,0,300,30,-3,3);
   TEfficiency* Eff_HT_WPLoose_HT200 = new TEfficiency("Eff_HT_WPLoose_HT200","Efficiency vs HT for WPLoose_HT200;HT (GeV);(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",500,0,1000);	
-  TEfficiency* Eff_numPV_WPLoose_HT200 = new TEfficiency("Eff_numPV_WPLoose_HT200","Efficiency vs numPV for WPLoose_HT200;numPV;(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",1,0,50);		
+  TEfficiency* Eff_numPV_WPLoose_HT200 = new TEfficiency("Eff_numPV_WPLoose_HT200","Efficiency vs numPV for WPLoose_HT200;numPV;(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);		
   	
   //Sometimes you are asked to do specific binning for your efficiency plots (in the case of making Trigger Scale Factors)
 	
@@ -263,6 +263,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		vint isLoose = eve->lepton_isLoose_;
 		vint isMuon = eve->lepton_isMuon_; 
 		vint isTrigMVAM = eve->lepton_isTrigMVAM_;
+		vint isTrigCutM = eve->lepton_isTrigCutM_;
 		
 		vdouble jet_pt = eve->jet_pt_;
 		vdouble jet_eta = eve->jet_eta_;
@@ -369,9 +370,8 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		// Checking control trigger selection
 		
 		//if (eve->pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_ != 1) continue;
-		
-  		if (eve->pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ != 1) continue;
-  		
+		if (eve->pass_HLT_Ele23_WPLoose_Gsf_v_ != 1) continue;
+  		//if (eve->pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ != 1) continue;
   		//if (eve->pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ != 1) continue;
   		//if (eve->pass_HLT_Ele25_WPTight_Gsf_v_ != 1) continue;
   		//if (eve->pass_HLT_Ele25_eta2p1_WPTight_Gsf_v_ != 1) continue;
@@ -401,21 +401,21 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		Eff_eta_WPTight->Fill(pass_WPTight,vvLEPTON[0][1]);
 		Eff_phi_WPTight->Fill(pass_WPTight,vvLEPTON[0][2]);
 		Eff_2d_WPTight->Fill(pass_WPTight,vvLEPTON[0][0],vvLEPTON[0][1]);
-		Eff_Ht_WPTight->Fill(pass_WPTight,HT);
+		Eff_HT_WPTight->Fill(pass_WPTight,HT);
 		Eff_numPV_WPTight->Fill(pass_WPTight,numPV);
 		
 		Eff_pt_WPLoose->Fill(pass_WPLoose,vvLEPTON[0][0]);
 		Eff_eta_WPLoose->Fill(pass_WPLoose,vvLEPTON[0][1]);
 		Eff_phi_WPLoose->Fill(pass_WPLoose,vvLEPTON[0][2]);
 		Eff_2d_WPLoose->Fill(pass_WPLoose,vvLEPTON[0][0],vvLEPTON[0][1]);
-		Eff_Ht_WPLoose->Fill(pass_WPLoose,HT);
+		Eff_HT_WPLoose->Fill(pass_WPLoose,HT);
 		Eff_numPV_WPLoose->Fill(pass_WPLoose,numPV);
 		
 		Eff_pt_WPLoose_HT200->Fill(pass_WPLoose_HT200,vvLEPTON[0][0]);
 		Eff_eta_WPLoose_HT200->Fill(pass_WPLoose_HT200,vvLEPTON[0][1]);
 		Eff_phi_WPLoose_HT200->Fill(pass_WPLoose_HT200,vvLEPTON[0][2]);
 		Eff_2d_WPLoose_HT200->Fill(pass_WPLoose_HT200,vvLEPTON[0][0],vvLEPTON[0][1]);
-		Eff_Ht_WPLoose_HT200->Fill(pass_WPLoose_HT200,HT);
+		Eff_HT_WPLoose_HT200->Fill(pass_WPLoose_HT200,HT);
 		Eff_numPV_WPLoose_HT200->Fill(pass_WPLoose_HT200,numPV);
 		
 		//Eff_bin_pt->Fill(passsing,vvLEPTON[0][0]);
