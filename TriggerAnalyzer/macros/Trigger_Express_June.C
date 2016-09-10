@@ -370,7 +370,8 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		// Checking control trigger selection
 		
 		//if (eve->pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_ != 1) continue;
-		if (eve->pass_HLT_Ele23_WPLoose_Gsf_v_ != 1) continue;
+		if (eve->pass_HLT_Ele22_eta2p1_WPLoose_Gsf_v_ != 1) continue;
+		//if (eve->pass_HLT_Ele23_WPLoose_Gsf_v_ != 1) continue;
   		//if (eve->pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ != 1) continue;
   		//if (eve->pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ != 1) continue;
   		//if (eve->pass_HLT_Ele25_WPTight_Gsf_v_ != 1) continue;

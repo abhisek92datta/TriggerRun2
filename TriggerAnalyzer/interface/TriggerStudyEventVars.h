@@ -74,11 +74,12 @@ struct triggerStudyEventVars{
   int pass_L1_SingleMu16_;
 
   int pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_;
+  int pass_HLT_Ele22_eta2p1_WPLoose_Gsf_v_;
   int pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_;
   int pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_;
   int pass_HLT_Ele25_WPTight_Gsf_v_;
   int pass_HLT_Ele25_eta2p1_WPTight_Gsf_v_;
-
+  
 
   int pass_HLT_Ele27_eta2p1_WP75_Gsf_v_;
   int pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v_;
@@ -380,11 +381,12 @@ void triggerStudyEventVars::initialize(){
   pass_L1_SingleMu16_ = -99;
   
   pass_AlCa_SingleEle_WPVeryLoose_Gsf_v_ = -99;
+  pass_HLT_Ele22_eta2p1_WPLoose_Gsf_v_ = -99;
   pass_HLT_Ele24_eta2p1_WPLoose_Gsf_v_ = -99;
   pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ = -99;
   pass_HLT_Ele25_WPTight_Gsf_v_ = -99;
   pass_HLT_Ele25_eta2p1_WPTight_Gsf_v_ = -99;
-    
+  
   pass_HLT_Ele27_eta2p1_WP75_Gsf_v_ = -99;
   pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v_ = -99;
   pass_HLT_Ele27_eta2p1_WP75_Gsf_TriCentralPFJet30_v_ = -99;
