@@ -163,14 +163,14 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   TEfficiency* Eff_eta_WPLoose = new TEfficiency("Eff_eta_WPLoose","Efficiency vs eta for WPLoose;#eta;(WPLoose + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_phi_WPLoose = new TEfficiency("Eff_phi_WPLoose","Efficiency vs phi for WPLoose;#phi;(WPLoose + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPLoose = new TEfficiency("Eff_2d_WPLoose","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPLoose = new TEfficiency("Eff_HT_WPLoose","Efficiency vs HT for WPLoose;HT (GeV);(WPLoose + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",500,0,1000);	
+  TEfficiency* Eff_HT_WPLoose = new TEfficiency("Eff_HT_WPLoose","Efficiency vs HT for WPLoose;HT (GeV);(WPLoose + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
   TEfficiency* Eff_numPV_WPLoose = new TEfficiency("Eff_numPV_WPLoose","Efficiency vs numPV for WPLoose;numPV;(WPLoose + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);		
 	
   TEfficiency* Eff_pt_WPTight = new TEfficiency("Eff_pt_WPTight","Efficiency vs pT for WPTight;pT (GeV);(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
   TEfficiency* Eff_eta_WPTight = new TEfficiency("Eff_eta_WPTight","Efficiency vs eta for WPTight;#eta;(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_phi_WPTight = new TEfficiency("Eff_phi_WPTight","Efficiency vs phi for WPTight;#phi;(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPTight = new TEfficiency("Eff_2d_WPTight","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPTight = new TEfficiency("Eff_HT_WPTight","Efficiency vs HT for WPTight;HT (GeV);(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",500,0,1000);	
+  TEfficiency* Eff_HT_WPTight = new TEfficiency("Eff_HT_WPTight","Efficiency vs HT for WPTight;HT (GeV);(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
   TEfficiency* Eff_numPV_WPTight = new TEfficiency("Eff_numPV_WPTight","Efficiency vs numPV for WPTight;numPV;(WPTight + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);	
 	
 	
@@ -178,7 +178,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   TEfficiency* Eff_eta_WPLoose_HT200 = new TEfficiency("Eff_eta_WPLoose_HT200","Efficiency vs eta for WPLoose_HT200;#eta;(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_phi_WPLoose_HT200 = new TEfficiency("Eff_phi_WPLoose_HT200","Efficiency vs phi for WPLoose_HT200;#phi;(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPLoose_HT200 = new TEfficiency("Eff_2d_WPLoose_HT200","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPLoose_HT200 = new TEfficiency("Eff_HT_WPLoose_HT200","Efficiency vs HT for WPLoose_HT200;HT (GeV);(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",500,0,1000);	
+  TEfficiency* Eff_HT_WPLoose_HT200 = new TEfficiency("Eff_HT_WPLoose_HT200","Efficiency vs HT for WPLoose_HT200;HT (GeV);(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
   TEfficiency* Eff_numPV_WPLoose_HT200 = new TEfficiency("Eff_numPV_WPLoose_HT200","Efficiency vs numPV for WPLoose_HT200;numPV;(WPLoose_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);		
   	
   //Sometimes you are asked to do specific binning for your efficiency plots (in the case of making Trigger Scale Factors)
