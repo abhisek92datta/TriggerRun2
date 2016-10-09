@@ -266,7 +266,8 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   secondaryVertexToken = consumes <reco::VertexCompositePtrCandidateCollection> (edm::InputTag(std::string("slimmedSecondaryVertices")));
   electronToken = consumes <edm::View<pat::Electron> > (edm::InputTag(std::string("slimmedElectrons")));
   muonToken = consumes <pat::MuonCollection> (edm::InputTag(std::string("slimmedMuons")));
-  jetToken = consumes <pat::JetCollection> (edm::InputTag(std::string("slimmedJets")));
+  //jetToken = consumes <pat::JetCollection> (edm::InputTag(std::string("slimmedJets")));
+  jetToken = consumes <pat::JetCollection> (edm::InputTag(std::string("selectedUpdatedPatJets")));
   pfMetToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETs")));
   //pfMetNoHFToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETsNoHF")));
   /// FIXME
@@ -1676,7 +1677,7 @@ cout<<"f";
 
   vint lepton_genId, lepton_genParentId, lepton_genGrandParentId, lepton_trkCharge, lepton_charge, lepton_isMuon, lepton_isTight, lepton_is_IDTight, lepton_isLoose;
   vint lepton_isPhys14L, lepton_isPhys14M, lepton_isPhys14T;
-  vint lepton_isSpring15L, lepton_isSpring15M, lepton_isSpring15T, lepton_isTrigMVAM, lepton_isTrigCutM;
+  vint lepton_isSpring15L, lepton_isSpring15M, lepton_isSpring15T, lepton_isTrigMVAM, lepton_isNonTrigMVAM, lepton_isTrigCutM;
   vdouble lepton_pt;
   vdouble lepton_eta;
   vdouble lepton_phi;
@@ -1761,6 +1762,7 @@ cout<<"f";
     int isSpring15M = false;
     int isSpring15T = false;
     int isTrigMVAM = false;
+    int isNonTrigMVAM = false;
     int isTrigCutM = false;
 
     double d0 = -999;
@@ -1803,6 +1805,7 @@ cout<<"f";
     lepton_isSpring15M.push_back(isSpring15M);
     lepton_isSpring15T.push_back(isSpring15T);
     lepton_isTrigMVAM.push_back(isTrigMVAM);
+    lepton_isNonTrigMVAM.push_back(isNonTrigMVAM);
     lepton_isTrigCutM.push_back(isTrigCutM);
     lepton_genId.push_back(genId);
     lepton_genParentId.push_back(genParentId);
@@ -1895,6 +1898,7 @@ cout<<"f";
     int isSpring15M = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronSpring15M) ) ? 1 : 0;
     int isSpring15T = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronSpring15T) ) ? 1 : 0;
     int isTrigMVAM = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronEndOf15MVA80) ) ? 1 : 0;
+    int isNonTrigMVAM = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronNonTrigMVAid80) ) ? 1 : 0;
 	int isTrigCutM = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electron80XCutBasedM) ) ? 1 : 0;
 
 
@@ -2016,6 +2020,7 @@ cout<<"f";
     lepton_isSpring15M.push_back(isSpring15M);
     lepton_isSpring15T.push_back(isSpring15T);
     lepton_isTrigMVAM.push_back(isTrigMVAM);
+    lepton_isNonTrigMVAM.push_back(isNonTrigMVAM);
     lepton_isTrigCutM.push_back(isTrigCutM);
     lepton_genId.push_back(genId);
     lepton_genParentId.push_back(genParentId);
@@ -2094,6 +2099,7 @@ cout<<"f";
   eve->lepton_isSpring15M_      = lepton_isSpring15M;
   eve->lepton_isSpring15T_      = lepton_isSpring15T;
   eve->lepton_isTrigMVAM_       = lepton_isTrigMVAM;
+  eve->lepton_isNonTrigMVAM_    = lepton_isNonTrigMVAM;
   eve->lepton_isTrigCutM_       = lepton_isTrigCutM;
   eve->lepton_genId_            = lepton_genId;
   eve->lepton_genParentId_      = lepton_genParentId;

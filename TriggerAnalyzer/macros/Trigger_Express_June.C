@@ -263,6 +263,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		vint isLoose = eve->lepton_isLoose_;
 		vint isMuon = eve->lepton_isMuon_; 
 		vint isTrigMVAM = eve->lepton_isTrigMVAM_;
+		vint isNonTrigMVAM = eve->lepton_isNonTrigMVAM_;
 		vint isTrigCutM = eve->lepton_isTrigCutM_;
 		
 		vdouble jet_pt = eve->jet_pt_;
@@ -308,8 +309,8 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			 }
 			
 			else {
-			
-				if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
+			    if (isNonTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Non-Triggering MVA electron ID
+				//if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
 				//if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {               // for Triggering MVA electron ID
 					numLooseEle++;
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {

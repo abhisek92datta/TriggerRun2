@@ -1,8 +1,8 @@
 # Trigger Analysis for Single Electron HLT
 
-cmsrel CMSSW_8_0_12
+cmsrel CMSSW_8_0_20
 
-cd CMSSW_8_0_12/src/
+cd CMSSW_8_0_20/src/
 
 cmsenv
 
@@ -15,6 +15,8 @@ cd MiniAOD
 git checkout CMSSW_8_0_8_ICHEP_Leptons
 
 cd ..
+
+scramv1 b -j 32
 
 scramv1 b -j 32
 
