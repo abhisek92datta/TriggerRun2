@@ -50,24 +50,24 @@ struct triggerStudyEventVars{
   int numTruePVs_;
   int numGenPVs_;
 
-  int additionalJetEventId_;
-  int ttbarDecayMode_;
+  //int additionalJetEventId_;
+  //int ttbarDecayMode_;
 
   bool goodFirstVertex_;
 
   /////
 
   double rho_;
-  double top_pt_;
-  double antitop_pt_;
+  //double top_pt_;
+  //double antitop_pt_;
 
-  double qscale_;
-  double pthat_;
-  double originalXWGTUP_;
+  //double qscale_;
+  //double pthat_;
+  //double originalXWGTUP_;
 
-  vdouble LHEEvent_weights_;
+  //vdouble LHEEvent_weights_;
 
-  double lheHT_;
+  //double lheHT_;
 
   /////
   int pass_L1_SingleEG25_;
@@ -119,7 +119,8 @@ struct triggerStudyEventVars{
 
 
   /////
-
+  
+  /*
   // pfMET
   double pfMET_pt_;
   double pfMET_phi_;
@@ -172,6 +173,8 @@ struct triggerStudyEventVars{
   double L1HTT_bxm1_;
   double L1HTT_bxp1_;
   double L1HTT_bxp2_;
+  */
+
 
   double PV_x_;
   double PV_y_;
@@ -183,10 +186,11 @@ struct triggerStudyEventVars{
   vdouble jet_energy_;
   vdouble jet_csv_;
   vdouble jet_cmva_;
-  vint    jet_partonFlavour_;
-  vint    jet_hadronFlavour_;
-  vdouble jet_pileupJetId_fullDiscriminant_;
+  //vint    jet_partonFlavour_;
+  //vint    jet_hadronFlavour_;
+  //vdouble jet_pileupJetId_fullDiscriminant_;
 
+  /*
   vdouble jet_nocc_pt_;
   vdouble jet_nocc_eta_;
   vdouble jet_nocc_phi_;
@@ -237,36 +241,37 @@ struct triggerStudyEventVars{
   vint    jet_JERdown_partonFlavour_;
   vint    jet_JERdown_hadronFlavour_;
   vdouble jet_JERdown_pileupJetId_fullDiscriminant_;
+  */
 
+  //double mass_leplep_;
+  //double dR_leplep_;
+  //Int_t  oppositeLepCharge_;
 
-  double mass_leplep_;
-  double dR_leplep_;
-  Int_t  oppositeLepCharge_;
-
-  vint lepton_trkCharge_;
+  //vint lepton_trkCharge_;
   vint lepton_charge_;
   vint lepton_isMuon_;
   vint lepton_isTight_;
   vint lepton_isLoose_;
   vint lepton_is_IDTight_;
-  vint lepton_isPhys14L_;
-  vint lepton_isPhys14M_;
-  vint lepton_isPhys14T_;
-  vint lepton_isSpring15L_;
-  vint lepton_isSpring15M_;
-  vint lepton_isSpring15T_;
+  //vint lepton_isPhys14L_;
+  //vint lepton_isPhys14M_;
+  //vint lepton_isPhys14T_;
+  //vint lepton_isSpring15L_;
+  //vint lepton_isSpring15M_;
+  //vint lepton_isSpring15T_;
   vint lepton_isTrigMVAM_;
   vint lepton_isNonTrigMVAM_;
   vint lepton_isTrigCutM_;
   vint lepton_genId_;
-  vint lepton_genParentId_;
-  vint lepton_genGrandParentId_;
+  //vint lepton_genParentId_;
+  //vint lepton_genGrandParentId_;
   vdouble lepton_pt_;
   vdouble lepton_eta_;
   vdouble lepton_phi_;
   vdouble lepton_energy_;
   vdouble lepton_relIso_;
   vdouble lepton_relIsoR04_;
+  /*
   vdouble lepton_iso_sumChargedHadronPt_;
   vdouble lepton_iso_sumNeutralHadronEt_;
   vdouble lepton_iso_sumPhotonEt_;
@@ -303,7 +308,8 @@ struct triggerStudyEventVars{
   vint lepton_numberOfValidPixelHits_;
   vint lepton_trackerLayersWithMeasurement_;
   vint lepton_numberOfMatchedStations_;
-
+  
+  
   vint lepton_ele_matchHLT_hltL1sL1SingleEG25_;
   vint lepton_ele_matchHLT_hltL1EG25Ele27WP85GsfTrackIsoFilter_;
 
@@ -335,10 +341,11 @@ struct triggerStudyEventVars{
   vdouble hltPFHT200Jet30_eta_;
   vdouble hltPFHT200Jet30_phi_;
   vint    hltPFHT200Jet30_id_;
-
+  */
   vint    flt_accept_;
   vstring flt_name_;
-
+  
+  
   void initialize();
 
 };
@@ -361,22 +368,22 @@ void triggerStudyEventVars::initialize(){
   numTruePVs_ = -99;
   numGenPVs_ = -99;
 
-  additionalJetEventId_ = -99;
-  ttbarDecayMode_ = -99;
+  //additionalJetEventId_ = -99;
+  //ttbarDecayMode_ = -99;
   
   goodFirstVertex_ = false;
   
   rho_ = -99;
-  top_pt_ = -99;
-  antitop_pt_ = -99;
+  //top_pt_ = -99;
+  //antitop_pt_ = -99;
   
-  qscale_ = -99;
-  pthat_ = -99;
-  originalXWGTUP_ = -99;
+  //qscale_ = -99;
+  //pthat_ = -99;
+  //originalXWGTUP_ = -99;
 
-  LHEEvent_weights_.clear();
+  //LHEEvent_weights_.clear();
 
-  lheHT_ = -99;
+  //lheHT_ = -99;
 
   pass_L1_SingleEG25_ = -99;
   pass_L1_SingleMu16_ = -99;
@@ -425,7 +432,7 @@ void triggerStudyEventVars::initialize(){
   pass_HLT_PFHT450_SixJet40_PFBTagCSV_v_ = -99;
   pass_HLT_PFHT400_SixJet30_BTagCSV0p5_2PFBTagCSV_v_ = -99;
 
-
+  /*
   pfMET_pt_ = -99;
   pfMET_phi_ = -99;
 
@@ -477,7 +484,8 @@ void triggerStudyEventVars::initialize(){
   L1HTT_bxm1_ = -1;
   L1HTT_bxp1_ = -1;
   L1HTT_bxp2_ = -1;
-
+  */
+  
   PV_x_ = -99;
   PV_y_ = -99;
   PV_z_ = -99;
@@ -488,11 +496,11 @@ void triggerStudyEventVars::initialize(){
   jet_energy_.clear();
   jet_csv_.clear();
   jet_cmva_.clear();
-  jet_partonFlavour_.clear();
-  jet_hadronFlavour_.clear();
-  jet_pileupJetId_fullDiscriminant_.clear();
+  //jet_partonFlavour_.clear();
+  //jet_hadronFlavour_.clear();
+  //jet_pileupJetId_fullDiscriminant_.clear();
 
-
+  /*
   jet_nocc_pt_.clear();
   jet_nocc_eta_.clear();
   jet_nocc_phi_.clear();
@@ -543,37 +551,38 @@ void triggerStudyEventVars::initialize(){
   jet_JERdown_partonFlavour_.clear();
   jet_JERdown_hadronFlavour_.clear();
   jet_JERdown_pileupJetId_fullDiscriminant_.clear();
+  */
+
+  //mass_leplep_ = -99;
+  //dR_leplep_ = -99;
+  //oppositeLepCharge_ = -99;
 
 
-  mass_leplep_ = -99;
-  dR_leplep_ = -99;
-  oppositeLepCharge_ = -99;
-
-
-  lepton_trkCharge_.clear();
+  //lepton_trkCharge_.clear();
   lepton_charge_.clear();
   lepton_isMuon_.clear();
   lepton_isTight_.clear();
   lepton_isLoose_.clear();
   lepton_is_IDTight_.clear();
-  lepton_isPhys14L_.clear();
-  lepton_isPhys14M_.clear();
-  lepton_isPhys14T_.clear();
-  lepton_isSpring15L_.clear();
-  lepton_isSpring15M_.clear();
-  lepton_isSpring15T_.clear();
+  //lepton_isPhys14L_.clear();
+  //lepton_isPhys14M_.clear();
+  //lepton_isPhys14T_.clear();
+  //lepton_isSpring15L_.clear();
+  //lepton_isSpring15M_.clear();
+  //lepton_isSpring15T_.clear();
   lepton_isTrigMVAM_.clear();
   lepton_isNonTrigMVAM_.clear();
   lepton_isTrigCutM_.clear();
   lepton_genId_.clear();
-  lepton_genParentId_.clear();
-  lepton_genGrandParentId_.clear();
+  //lepton_genParentId_.clear();
+  //lepton_genGrandParentId_.clear();
   lepton_pt_.clear();
   lepton_eta_.clear();
   lepton_phi_.clear();
   lepton_energy_.clear();
   lepton_relIso_.clear();
   lepton_relIsoR04_.clear();
+  /*
   lepton_iso_sumChargedHadronPt_.clear();
   lepton_iso_sumNeutralHadronEt_.clear();
   lepton_iso_sumPhotonEt_.clear();
@@ -644,10 +653,10 @@ void triggerStudyEventVars::initialize(){
   hltPFHT200Jet30_eta_.clear();
   hltPFHT200Jet30_phi_.clear();
   hltPFHT200Jet30_id_.clear();
-
+  */
   flt_accept_.clear();
   flt_name_.clear();
-
+  
 
   return;
 }

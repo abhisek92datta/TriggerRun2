@@ -249,6 +249,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		vdouble lepton_rel_Iso = eve->lepton_relIso_;
 		vdouble lepton_rel_IsoR04 = eve->lepton_relIsoR04_;
 		
+		/*
 		vdouble lepton_d0 = eve->lepton_d0_;
   		vdouble lepton_dZ = eve->lepton_dZ_;
   		vint lepton_isPFMuon = eve->lepton_isPFMuon_;
@@ -257,6 +258,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   		vint lepton_numberOfValidPixelHits = eve->lepton_numberOfValidPixelHits_;
   		vint lepton_trackerLayersWithMeasurement = eve->lepton_trackerLayersWithMeasurement_;
 		vint lepton_numberOfMatchedStations = eve->lepton_numberOfMatchedStations_;
+		*/
 		
 		vint is_IDTight = eve->lepton_is_IDTight_;
 		vint isTight = eve->lepton_isTight_;

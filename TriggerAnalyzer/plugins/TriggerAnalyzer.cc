@@ -205,6 +205,7 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
 
 
   // Declare histograms
+  
   TH1D *h_hlt;
   TH1D *h_flt;
 
@@ -214,7 +215,8 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   TH1D* h_numTruePV;
 
   TH1D* h_numSecVtx;
-
+  
+  
   FactorizedJetCorrector* _jetCorrector;
   JetCorrectionUncertainty* _jetCorrectorUnc;
 
@@ -473,12 +475,14 @@ TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 
   if( debug_ ) std::cout << " ====> test 0.1 " << std::endl;
 
+  
   h_hlt->Fill(0.,1);
   if( debug_ ) std::cout << " ====> test 0.2 " << std::endl;
 
   h_flt->Fill(0.,1);
   if( debug_ ) std::cout << " ====> test 0.3 " << std::endl;
-
+  
+  
   edm::Handle<L1GlobalTriggerReadoutRecord> gtReadoutRecord;
   iEvent.getByToken(gtReadoutRecordToken, gtReadoutRecord);
   if( debug_ ) std::cout << " ====> test 0.4 " << std::endl;
@@ -609,7 +613,7 @@ cout<<"f";
   
   //cout<<" *****@#$@#$ 44 ";
 
-
+  /*
   std::vector<double> vec_hltL1SingleEG25_pt;
   std::vector<double> vec_hltL1SingleEG25_eta;
   std::vector<double> vec_hltL1SingleEG25_phi;
@@ -674,7 +678,7 @@ cout<<"f";
   eve->hltPFHT200Jet30_eta_ = vec_hltPFHT200Jet30_eta;
   eve->hltPFHT200Jet30_phi_ = vec_hltPFHT200Jet30_phi;
   eve->hltPFHT200Jet30_id_  = vec_hltPFHT200Jet30_id;
-
+  */
 
   if( debug_ ) std::cout << " ====> test 3 " << std::endl;
 
@@ -788,14 +792,15 @@ cout<<"f";
       if( pathName.find("HLT_PFHT450_SixJet40_PFBTagCSV_v")!=std::string::npos ) pass_HLT_PFHT450_SixJet40_PFBTagCSV_v = (accept) ? 1 : 0;
       if( pathName.find("HLT_PFHT400_SixJet30_BTagCSV0p5_2PFBTagCSV_v")!=std::string::npos ) pass_HLT_PFHT400_SixJet30_BTagCSV0p5_2PFBTagCSV_v = (accept) ? 1 : 0;
 
-
-      if( accept ){
+    
+    if( accept ){
 	TAxis * axis = h_hlt->GetXaxis();
 	if( !axis ) continue;
 	int bin_num = axis->FindBin(pathNameNoVer.c_str());
 	int bn = bin_num - 1;
 	h_hlt->Fill(bn, 1);
-      }
+    }
+     
     }
   }
   else{
@@ -953,7 +958,7 @@ cout<<"f";
   edm::Handle<reco::GenParticleCollection> mcparticles;
   iEvent.getByToken(mcparicleToken,mcparticles);
 
-
+  /*
   double top_pt = -99;
   double antitop_pt = -99;
   if( mcparticles.isValid() ){
@@ -968,7 +973,7 @@ cout<<"f";
 
   eve->top_pt_ = top_pt;
   eve->antitop_pt_ = antitop_pt;
-
+  */
 
   edm::Handle<double> rhoHandle;
   iEvent.getByToken(rhoToken,rhoHandle);
@@ -985,22 +990,24 @@ cout<<"f";
   edm::Handle<GenEventInfoProduct> GenEventInfoHandle;
   iEvent.getByToken(genInfoProductToken,GenEventInfoHandle);
 
+  
   double GenEventInfoWeight = 1.0;
-  double qScale=-99, pthat=-99;
+  //double qScale=-99, pthat=-99;
   if( GenEventInfoHandle.isValid() ){
     GenEventInfoWeight = GenEventInfoHandle.product()->weight();
-    qScale = GenEventInfoHandle->qScale();
-    pthat = ( GenEventInfoHandle->hasBinningValues() ? (GenEventInfoHandle->binningValues())[0] : 0.0);
+    //qScale = GenEventInfoHandle->qScale();
+    //pthat = ( GenEventInfoHandle->hasBinningValues() ? (GenEventInfoHandle->binningValues())[0] : 0.0);
   }
 
-  eve->qscale_ = qScale;
-  eve->pthat_ = pthat;
-
+  //eve->qscale_ = qScale;
+  //eve->pthat_ = pthat;
+  
 
 
   edm::Handle<LHEEventProduct> LHEEventProductHandle;
   iEvent.getByToken(lheEventProductToken,LHEEventProductHandle);
-
+  
+  /*
   double originalXWGTUP=-99;
   vdouble LHEEvent_weights; 
   double lheHT = 0;
@@ -1030,19 +1037,20 @@ cout<<"f";
   eve->originalXWGTUP_ = originalXWGTUP;
   eve->LHEEvent_weights_ = LHEEvent_weights;
   eve->lheHT_ = lheHT;
-
+  */
 
   edm::Handle<int> genTtbarId;
   iEvent.getByToken(genTtbarIdToken_, genTtbarId);
 
+  /*
   int additionalJetEventId = -99;
   if( genTtbarId.isValid() ) additionalJetEventId = *genTtbarId%100;
   eve->additionalJetEventId_ = additionalJetEventId;
-
+  */
 
   //int ttbarDecayMode = -99;
-  MiniAODHelper::TTbarDecayMode ttbarDecayMode = ( isData_ ) ? MiniAODHelper::TTbarDecayMode::ChNotDefined : miniAODhelper.GetTTbarDecay(mcparticles);
-  eve->ttbarDecayMode_ = (int)ttbarDecayMode;
+  //MiniAODHelper::TTbarDecayMode ttbarDecayMode = ( isData_ ) ? MiniAODHelper::TTbarDecayMode::ChNotDefined : miniAODhelper.GetTTbarDecay(mcparticles);
+  //eve->ttbarDecayMode_ = (int)ttbarDecayMode;
 
   edm::Handle<l1extra::L1EtMissParticleCollection> l1HTs;
   iEvent.getByToken(l1HTMissToken,l1HTs);
@@ -1164,12 +1172,13 @@ cout<<"f";
   eve->numTruePVs_ = numTruePV;
   eve->numGenPVs_ = numGenPV;
 
-
+  /*
   double L1HTT = -999;
   double L1HTT_bxm2 = -999;
   double L1HTT_bxm1 = -999;
   double L1HTT_bxp1 = -999;
   double L1HTT_bxp2 = -999;
+  */
   /*
   if( l1HTs.isValid() ){
     //L1HTT = l1HTs->front().etTotal();
@@ -1192,12 +1201,13 @@ cout<<"f";
     std::cout << " l1HTs Handle not valid!! " << std::endl;
   }
   */
+  /*
   eve->L1HTT_ = L1HTT;
   eve->L1HTT_bxm2_ = L1HTT_bxm2;
   eve->L1HTT_bxm1_ = L1HTT_bxm1;
   eve->L1HTT_bxp1_ = L1HTT_bxp1;
   eve->L1HTT_bxp2_ = L1HTT_bxp2;
-
+  */
 
   if( debug_ ) std::cout << " ====> test 12 " << std::endl;
 
@@ -1213,7 +1223,8 @@ cout<<"f";
     
   // std::vector<pat::Electron> selectedElectrons_tight = miniAODhelper.GetSelectedElectrons( *electrons, minTightLeptonPt, electronID::electronSpring15M, 2.1 );
   //std::vector<pat::Electron> selectedElectrons_loose = miniAODhelper.GetSelectedElectrons( *electrons, minLooseLeptonPt, electronID::electronEndOf15MVAmedium, 2.4 );
-  std::vector<pat::Electron> selectedElectrons_loose = miniAODhelper.GetSelectedElectrons( electrons, minLooseLeptonPt, electronID::electronEndOf15MVA80, 2.4 );
+  //std::vector<pat::Electron> selectedElectrons_loose = miniAODhelper.GetSelectedElectrons( electrons, minLooseLeptonPt, electronID::electronEndOf15MVA80, 2.4 );
+  std::vector<pat::Electron> selectedElectrons_loose = miniAODhelper.GetSelectedElectrons( electrons, minLooseLeptonPt, electronID::electronNonTrigMVAid80, 2.4 );
 
   // int numTightElectrons = int(selectedElectrons_tight.size());
   // int numLooseElectrons = int(selectedElectrons_loose.size());// - numTightElectrons;
@@ -1273,7 +1284,7 @@ cout<<"f";
   eve->numJets_ = numJet;
   eve->numTags_ = numTag;
 
-
+  /*
   /// jets without cc
   std::vector<pat::Jet> rawJets_nocc = miniAODhelper.GetUncorrectedJets(pfJets_ID);
   // Use JEC from GT
@@ -1400,7 +1411,7 @@ cout<<"f";
   eve->puppiMET_pt_JERdown_  = newPuppiMETs_JERdown.at(0).pt();
   eve->puppiMET_phi_JERdown_ = newPuppiMETs_JERdown.at(0).phi();
 
-
+  */
 
   if( debug_ ) std::cout << " ====> test 16 " << std::endl;
 
@@ -1419,9 +1430,9 @@ cout<<"f";
   std::vector<double> vec_jet_energy;
   std::vector<double> vec_jet_csv;
   std::vector<double> vec_jet_cmva;
-  std::vector<int>    vec_jet_partonFlavour;
-  std::vector<int>    vec_jet_hadronFlavour;
-  std::vector<double> vec_jet_pileupJetId_fullDiscriminant;
+  //std::vector<int>    vec_jet_partonFlavour;
+  //std::vector<int>    vec_jet_hadronFlavour;
+  //std::vector<double> vec_jet_pileupJetId_fullDiscriminant;
 
   for( std::vector<pat::Jet>::const_iterator iJet = selectedJets.begin(); iJet != selectedJets.end(); iJet++ ){ 
     vec_jet_pt.push_back(iJet->pt());
@@ -1430,9 +1441,9 @@ cout<<"f";
     vec_jet_energy.push_back(iJet->energy());
     vec_jet_csv.push_back(iJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags"));
     vec_jet_cmva.push_back(iJet->bDiscriminator("pfCombinedMVAV2BJetTags"));
-    vec_jet_partonFlavour.push_back(iJet->partonFlavour());
-    vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
-    vec_jet_pileupJetId_fullDiscriminant.push_back(iJet->userFloat("pileupJetId:fullDiscriminant"));
+    //vec_jet_partonFlavour.push_back(iJet->partonFlavour());
+    //vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
+    //vec_jet_pileupJetId_fullDiscriminant.push_back(iJet->userFloat("pileupJetId:fullDiscriminant"));
   } // end loop on jets
 
   eve->jet_pt_  = vec_jet_pt;
@@ -1441,13 +1452,13 @@ cout<<"f";
   eve->jet_energy_ = vec_jet_energy;
   eve->jet_csv_ = vec_jet_csv;
   eve->jet_cmva_ = vec_jet_cmva;
-  eve->jet_partonFlavour_ = vec_jet_partonFlavour;
-  eve->jet_hadronFlavour_ = vec_jet_hadronFlavour;
-  eve->jet_pileupJetId_fullDiscriminant_ = vec_jet_pileupJetId_fullDiscriminant;
+  //eve->jet_partonFlavour_ = vec_jet_partonFlavour;
+  //eve->jet_hadronFlavour_ = vec_jet_hadronFlavour;
+  //eve->jet_pileupJetId_fullDiscriminant_ = vec_jet_pileupJetId_fullDiscriminant;
 
 
   /////
-
+  /*
   // Loop over jets
   std::vector<double> vec_jet_nocc_pt;
   std::vector<double> vec_jet_nocc_eta;
@@ -1666,7 +1677,7 @@ cout<<"f";
   eve->jet_JERdown_hadronFlavour_ = vec_jet_JERdown_hadronFlavour;
   eve->jet_JERdown_pileupJetId_fullDiscriminant_ = vec_jet_JERdown_pileupJetId_fullDiscriminant;
 
-
+  */
 
   ////////////
 
@@ -1675,15 +1686,17 @@ cout<<"f";
 
 
 
-  vint lepton_genId, lepton_genParentId, lepton_genGrandParentId, lepton_trkCharge, lepton_charge, lepton_isMuon, lepton_isTight, lepton_is_IDTight, lepton_isLoose;
-  vint lepton_isPhys14L, lepton_isPhys14M, lepton_isPhys14T;
-  vint lepton_isSpring15L, lepton_isSpring15M, lepton_isSpring15T, lepton_isTrigMVAM, lepton_isNonTrigMVAM, lepton_isTrigCutM;
+  vint lepton_genId, lepton_charge, lepton_isMuon, lepton_isTight, lepton_is_IDTight, lepton_isLoose;
+  //vint lepton_genParentId, lepton_genGrandParentId, lepton_trkCharge;
+  //vint lepton_isPhys14L, lepton_isPhys14M, lepton_isPhys14T, lepton_isSpring15L, lepton_isSpring15M, lepton_isSpring15T;
+  vint lepton_isTrigMVAM, lepton_isNonTrigMVAM, lepton_isTrigCutM;
   vdouble lepton_pt;
   vdouble lepton_eta;
   vdouble lepton_phi;
   vdouble lepton_energy;
   vdouble lepton_relIso;
   vdouble lepton_relIsoR04;
+  /*
   vdouble lepton_iso_sumChargedHadronPt;
   vdouble lepton_iso_sumNeutralHadronEt;
   vdouble lepton_iso_sumPhotonEt;
@@ -1730,6 +1743,7 @@ cout<<"f";
   vint lepton_ele_matchHLT_hltL1sL1EG25erHTT125;
   vint lepton_ele_matchHLT_hltL1EGHttEle27WP85GsfTrackIsoFilter;
   vint lepton_ele_matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter;
+  */
 
   std::vector<TLorentzVector> vec_TLV_lep;
   TLorentzVector sum_lepton_vect;
@@ -1738,22 +1752,24 @@ cout<<"f";
   // Loop over muons
   for( std::vector<pat::Muon>::const_iterator iMu = muons->begin(); iMu != muons->end(); iMu++ ){ 
  
-    int genId=-99, genParentId=-99, genGrandParentId=-99;
+    int genId=-99;
+    //int genParentId=-99, genGrandParentId=-99;
     if( (iMu->genLepton()) ){
       genId = iMu->genLepton()->pdgId();
-      if( iMu->genLepton()->numberOfMothers()>=1 ){
-	genParentId = iMu->genLepton()->mother(0)->pdgId();
-	if( iMu->genLepton()->mother(0)->numberOfMothers()>=1 ) genGrandParentId = iMu->genLepton()->mother(0)->mother(0)->pdgId();
-      }
+      //if( iMu->genLepton()->numberOfMothers()>=1 ){
+	//genParentId = iMu->genLepton()->mother(0)->pdgId();
+	//if( iMu->genLepton()->mother(0)->numberOfMothers()>=1 ) genGrandParentId = iMu->genLepton()->mother(0)->mother(0)->pdgId();
+    //  }
     }
 
-    int trkCharge = -99;
-    if( iMu->muonBestTrack().isAvailable() ) trkCharge = iMu->muonBestTrack()->charge();
+    //int trkCharge = -99;
+    //if( iMu->muonBestTrack().isAvailable() ) trkCharge = iMu->muonBestTrack()->charge();
 
     int isTight = ( miniAODhelper.isGoodMuon(*iMu, minTightLeptonPt, 2.1, muonID::muonTight, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
     int isLoose = ( miniAODhelper.isGoodMuon(*iMu, minLooseLeptonPt, 2.4, muonID::muonLoose, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
 	int is_IDTight = ( miniAODhelper.isGoodMuon(*iMu, minLooseLeptonPt, 2.4, muonID::muonTightDL, coneSize::R04, corrType::deltaBeta) ) ? 1 : 0;
 
+    /*
     int isPhys14L = false;
     int isPhys14M = false;
     int isPhys14T = false;
@@ -1761,17 +1777,19 @@ cout<<"f";
     int isSpring15L = false;
     int isSpring15M = false;
     int isSpring15T = false;
+    */
     int isTrigMVAM = false;
     int isNonTrigMVAM = false;
     int isTrigCutM = false;
 
+    /*
     double d0 = -999;
     double dZ = -999;
     if( iMu->muonBestTrack().isAvailable() ){
       d0 = iMu->muonBestTrack()->dxy(vertex.position());
       dZ = iMu->muonBestTrack()->dz(vertex.position());
     }
-
+    
     double normalizedChi2 = -999;
     int numberOfValidMuonHits = -999;
     if( iMu->globalTrack().isAvailable() ){
@@ -1790,32 +1808,33 @@ cout<<"f";
     }
 
     int numberOfMatchedStations = iMu->numberOfMatchedStations();
+    */
 
-
-    lepton_trkCharge.push_back(trkCharge);
+    //lepton_trkCharge.push_back(trkCharge);
     lepton_charge.push_back(iMu->charge());
     lepton_isMuon.push_back(1);
     lepton_isTight.push_back(isTight);
     lepton_isLoose.push_back(isLoose);
     lepton_is_IDTight.push_back(is_IDTight);
-    lepton_isPhys14L.push_back(isPhys14L);
-    lepton_isPhys14M.push_back(isPhys14M);
-    lepton_isPhys14T.push_back(isPhys14T);
-    lepton_isSpring15L.push_back(isSpring15L);
-    lepton_isSpring15M.push_back(isSpring15M);
-    lepton_isSpring15T.push_back(isSpring15T);
+    //lepton_isPhys14L.push_back(isPhys14L);
+    //lepton_isPhys14M.push_back(isPhys14M);
+    //lepton_isPhys14T.push_back(isPhys14T);
+    //lepton_isSpring15L.push_back(isSpring15L);
+    //lepton_isSpring15M.push_back(isSpring15M);
+    //lepton_isSpring15T.push_back(isSpring15T);
     lepton_isTrigMVAM.push_back(isTrigMVAM);
     lepton_isNonTrigMVAM.push_back(isNonTrigMVAM);
     lepton_isTrigCutM.push_back(isTrigCutM);
     lepton_genId.push_back(genId);
-    lepton_genParentId.push_back(genParentId);
-    lepton_genGrandParentId.push_back(genGrandParentId);
+    //lepton_genParentId.push_back(genParentId);
+    //lepton_genGrandParentId.push_back(genGrandParentId);
     lepton_pt.push_back(iMu->pt());
     lepton_eta.push_back(iMu->eta());
     lepton_phi.push_back(iMu->phi());
     lepton_energy.push_back(iMu->energy());
     lepton_relIso.push_back(miniAODhelper.GetMuonRelIso(*iMu));
     lepton_relIsoR04.push_back(miniAODhelper.GetMuonRelIso(*iMu, coneSize::R04, corrType::deltaBeta));
+    /*   
     lepton_iso_sumChargedHadronPt.push_back(iMu->pfIsolationR03().sumChargedHadronPt);
     lepton_iso_sumNeutralHadronEt.push_back(iMu->pfIsolationR03().sumNeutralHadronEt);
     lepton_iso_sumPhotonEt.push_back(iMu->pfIsolationR03().sumPhotonEt);
@@ -1861,7 +1880,7 @@ cout<<"f";
     lepton_ele_matchHLT_hltL1sL1EG25erHTT125.push_back(-99);
     lepton_ele_matchHLT_hltL1EGHttEle27WP85GsfTrackIsoFilter.push_back(-99);
     lepton_ele_matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter.push_back(-99);
-
+    */
 
     // Get muon 4Vector and add to vecTLorentzVector for muons
     TLorentzVector leptonP4;	  
@@ -1874,38 +1893,39 @@ cout<<"f";
   // Loop over electrons
   for( std::vector<pat::Electron>::const_iterator iEle = electrons.begin(); iEle != electrons.end(); iEle++ ){ 
 
-    int genId=-99, genParentId=-99, genGrandParentId=-99;
+    int genId=-99;
+    //int genParentId=-99, genGrandParentId=-99;
     if( (iEle->genLepton()) ){
       genId = iEle->genLepton()->pdgId();
-      if( iEle->genLepton()->numberOfMothers()>=1 ){
-	genParentId = iEle->genLepton()->mother(0)->pdgId();
-	if( iEle->genLepton()->mother(0)->numberOfMothers()>=1 ) genGrandParentId = iEle->genLepton()->mother(0)->mother(0)->pdgId();
-      }
+    //  if( iEle->genLepton()->numberOfMothers()>=1 ){
+	//genParentId = iEle->genLepton()->mother(0)->pdgId();
+	//if( iEle->genLepton()->mother(0)->numberOfMothers()>=1 ) genGrandParentId = iEle->genLepton()->mother(0)->mother(0)->pdgId();
+    //  }
     }
 
-    int trkCharge = -99;
-    if( iEle->gsfTrack().isAvailable() ) trkCharge = iEle->gsfTrack()->charge();
+    //int trkCharge = -99;
+    //if( iEle->gsfTrack().isAvailable() ) trkCharge = iEle->gsfTrack()->charge();
 
     int isTight = ( miniAODhelper.isGoodElectron(*iEle, minTightLeptonPt, 2.1, electronID::electronTight) ) ? 1 : 0;
     int isLoose = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronLoose) ) ? 1 : 0;
     int is_IDTight = false;
 
-    int isPhys14L = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronPhys14L) ) ? 1 : 0;
-    int isPhys14M = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronPhys14M) ) ? 1 : 0;
-    int isPhys14T = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronPhys14T) ) ? 1 : 0;
+    //int isPhys14L = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronPhys14L) ) ? 1 : 0;
+    //int isPhys14M = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronPhys14M) ) ? 1 : 0;
+    //int isPhys14T = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronPhys14T) ) ? 1 : 0;
 
-    int isSpring15L = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronSpring15L) ) ? 1 : 0;
-    int isSpring15M = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronSpring15M) ) ? 1 : 0;
-    int isSpring15T = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronSpring15T) ) ? 1 : 0;
+    //int isSpring15L = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronSpring15L) ) ? 1 : 0;
+    //int isSpring15M = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronSpring15M) ) ? 1 : 0;
+    //int isSpring15T = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronSpring15T) ) ? 1 : 0;
     int isTrigMVAM = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronEndOf15MVA80) ) ? 1 : 0;
     int isNonTrigMVAM = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electronNonTrigMVAid80) ) ? 1 : 0;
 	int isTrigCutM = ( miniAODhelper.isGoodElectron(*iEle, minLooseLeptonPt, 2.4, electronID::electron80XCutBasedM) ) ? 1 : 0;
 
 
-    double trigMVAOutput = iEle->userFloat("mvaValue");//miniAODhelper.GetElectronMVAIDValue(*iEle);//myMVATrig->mvaValue(*iEle,false);
-    int category = iEle->userInt("mvaCategory");
+    //double trigMVAOutput = iEle->userFloat("mvaValue");//miniAODhelper.GetElectronMVAIDValue(*iEle);//myMVATrig->mvaValue(*iEle,false);
+    //int category = iEle->userInt("mvaCategory");
 
-    
+    /*
     bool myTrigPresel = ( iEle->pt()>15 && 
 			  ( ( abs(iEle->superCluster()->position().eta()) < 1.4442 && 
 			      iEle->full5x5_sigmaIetaIeta() < 0.012 && 
@@ -1981,8 +2001,9 @@ cout<<"f";
 		      );
       }
     }
+    */
 
-
+    /*
     bool matchHLT_hltL1sL1SingleEG25 = false;
     bool matchHLT_hltL1EG25Ele27WP85GsfTrackIsoFilter = false;
     bool matchHLT_hltL1sL1SingleIsoEG22erOrSingleEG25 = false;
@@ -2006,31 +2027,32 @@ cout<<"f";
 	if( name=="hltL1EGHttEle27WPLooseGsfTrackIsoFilter" ) matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter = true;
       }
     }
-
-    lepton_trkCharge.push_back(trkCharge);
+    */
+    //lepton_trkCharge.push_back(trkCharge);
     lepton_charge.push_back(iEle->charge());
     lepton_isMuon.push_back(0);
     lepton_isTight.push_back(isTight);
     lepton_isLoose.push_back(isLoose);
     lepton_is_IDTight.push_back(is_IDTight);
-    lepton_isPhys14L.push_back(isPhys14L);
-    lepton_isPhys14M.push_back(isPhys14M);
-    lepton_isPhys14T.push_back(isPhys14T);
-    lepton_isSpring15L.push_back(isSpring15L);
-    lepton_isSpring15M.push_back(isSpring15M);
-    lepton_isSpring15T.push_back(isSpring15T);
+    //lepton_isPhys14L.push_back(isPhys14L);
+    //lepton_isPhys14M.push_back(isPhys14M);
+    //lepton_isPhys14T.push_back(isPhys14T);
+    //lepton_isSpring15L.push_back(isSpring15L);
+    //lepton_isSpring15M.push_back(isSpring15M);
+    //lepton_isSpring15T.push_back(isSpring15T);
     lepton_isTrigMVAM.push_back(isTrigMVAM);
     lepton_isNonTrigMVAM.push_back(isNonTrigMVAM);
     lepton_isTrigCutM.push_back(isTrigCutM);
     lepton_genId.push_back(genId);
-    lepton_genParentId.push_back(genParentId);
-    lepton_genGrandParentId.push_back(genGrandParentId);
+    //lepton_genParentId.push_back(genParentId);
+    //lepton_genGrandParentId.push_back(genGrandParentId);
     lepton_pt.push_back(iEle->pt());
     lepton_eta.push_back(iEle->eta());
     lepton_phi.push_back(iEle->phi());
     lepton_energy.push_back(iEle->energy());
     lepton_relIso.push_back(miniAODhelper.GetElectronRelIso(*iEle,coneSize::R03,corrType::rhoEA,effAreaType::spring15));
     lepton_relIsoR04.push_back(miniAODhelper.GetElectronRelIso(*iEle));
+    /*
     lepton_iso_sumChargedHadronPt.push_back(iEle->pfIsolationVariables().sumChargedHadronPt);
     lepton_iso_sumNeutralHadronEt.push_back(iEle->pfIsolationVariables().sumNeutralHadronEt);
     lepton_iso_sumPhotonEt.push_back(iEle->pfIsolationVariables().sumPhotonEt);
@@ -2076,7 +2098,7 @@ cout<<"f";
     lepton_ele_matchHLT_hltL1sL1EG25erHTT125.push_back(matchHLT_hltL1sL1EG25erHTT125);
     lepton_ele_matchHLT_hltL1EGHttEle27WP85GsfTrackIsoFilter.push_back(matchHLT_hltL1EGHttEle27WP85GsfTrackIsoFilter);
     lepton_ele_matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter.push_back(matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter);
-
+    */
 
     // Get electron 4Vector and add to vecTLorentzVector for electrons
     TLorentzVector leptonP4;	  
@@ -2086,30 +2108,31 @@ cout<<"f";
     sum_lepton_vect += leptonP4;
   }
 
-  eve->lepton_trkCharge_        = lepton_trkCharge;
+  //eve->lepton_trkCharge_        = lepton_trkCharge;
   eve->lepton_charge_           = lepton_charge;
   eve->lepton_isMuon_           = lepton_isMuon;
   eve->lepton_isTight_          = lepton_isTight;
   eve->lepton_isLoose_          = lepton_isLoose;
   eve->lepton_is_IDTight_		= lepton_is_IDTight;
-  eve->lepton_isPhys14L_        = lepton_isPhys14L;
-  eve->lepton_isPhys14M_        = lepton_isPhys14M;
-  eve->lepton_isPhys14T_        = lepton_isPhys14T;
-  eve->lepton_isSpring15L_      = lepton_isSpring15L;
-  eve->lepton_isSpring15M_      = lepton_isSpring15M;
-  eve->lepton_isSpring15T_      = lepton_isSpring15T;
+  //eve->lepton_isPhys14L_        = lepton_isPhys14L;
+  //eve->lepton_isPhys14M_        = lepton_isPhys14M;
+  //eve->lepton_isPhys14T_        = lepton_isPhys14T;
+  //eve->lepton_isSpring15L_      = lepton_isSpring15L;
+  //eve->lepton_isSpring15M_      = lepton_isSpring15M;
+  //eve->lepton_isSpring15T_      = lepton_isSpring15T;
   eve->lepton_isTrigMVAM_       = lepton_isTrigMVAM;
   eve->lepton_isNonTrigMVAM_    = lepton_isNonTrigMVAM;
   eve->lepton_isTrigCutM_       = lepton_isTrigCutM;
   eve->lepton_genId_            = lepton_genId;
-  eve->lepton_genParentId_      = lepton_genParentId;
-  eve->lepton_genGrandParentId_ = lepton_genGrandParentId;
+  //eve->lepton_genParentId_      = lepton_genParentId;
+  //eve->lepton_genGrandParentId_ = lepton_genGrandParentId;
   eve->lepton_pt_               = lepton_pt;
   eve->lepton_eta_              = lepton_eta;
   eve->lepton_phi_              = lepton_phi;
   eve->lepton_energy_           = lepton_energy;
   eve->lepton_relIso_           = lepton_relIso;
   eve->lepton_relIsoR04_           = lepton_relIsoR04;
+  /*
   eve->lepton_iso_sumChargedHadronPt_ = lepton_iso_sumChargedHadronPt;
   eve->lepton_iso_sumNeutralHadronEt_ = lepton_iso_sumNeutralHadronEt;
   eve->lepton_iso_sumPhotonEt_        = lepton_iso_sumPhotonEt;
@@ -2155,8 +2178,9 @@ cout<<"f";
   eve->lepton_ele_matchHLT_hltL1sL1EG25erHTT125_ = lepton_ele_matchHLT_hltL1sL1EG25erHTT125;
   eve->lepton_ele_matchHLT_hltL1EGHttEle27WP85GsfTrackIsoFilter_ = lepton_ele_matchHLT_hltL1EGHttEle27WP85GsfTrackIsoFilter;
   eve->lepton_ele_matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter_ = lepton_ele_matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter;
+  */
 
-
+  /*
   /// DIL specific, doesn't make sense in current scope
   int oppositeLepCharge = -9;
   if( lepton_charge.size()==2 ){
@@ -2179,7 +2203,7 @@ cout<<"f";
     eve->mass_leplep_ = mass_leplep;
     eve->dR_leplep_ = vec_TLV_lep[0].DeltaR(vec_TLV_lep[1]);
   }
-
+  */
 
 
   if( debug_ ) std::cout << " ====> test 18 " << std::endl;
@@ -2291,7 +2315,7 @@ TriggerAnalyzer::beginRun(edm::Run const& iRun, edm::EventSetup const& iSetup)
 
   h_hlt = fs_->make<TH1D>("h_hlt",";HLT path", numHLT , 0 , numHLT );
   h_flt = fs_->make<TH1D>("h_flt",";Filter path", numFLT , 0 , numFLT );
-
+  
   for( unsigned int iPath=0; iPath<numHLT; iPath++ ){
     std::string pathNameNoVer = hlt_triggerNames_[iPath];
     int jPath = iPath+1;
