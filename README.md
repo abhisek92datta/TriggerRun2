@@ -28,7 +28,7 @@ RUN :
 
 For MC :
 
-Change -- HLTsource = cms.untracked.string("HLT2") 
+Change -- HLTsource = cms.untracked.string("HLT") 
 in test/trigger_analyzer_mc_25ns_cfg.py
 
 To Run Locally:

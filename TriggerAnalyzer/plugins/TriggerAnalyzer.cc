@@ -85,6 +85,7 @@
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "TH1.h"
 #include "TTree.h"
+#include "TRandom3.h"
 
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
 #include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
@@ -216,6 +217,7 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
 
   TH1D* h_numSecVtx;
   
+  TRandom3 *r;
   
   FactorizedJetCorrector* _jetCorrector;
   JetCorrectionUncertainty* _jetCorrectorUnc;
@@ -337,6 +339,8 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
 
   miniAODhelper.SetUp(era, insample_, iAnalysisType, isData);
 
+  r = new TRandom3(1);
+
   //miniAODhelper.SetJetCorrectorUncertainty();
   SetFactorizedJetCorrector();
 
@@ -348,7 +352,7 @@ TriggerAnalyzer::~TriggerAnalyzer()
  
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
-
+   r->SetSeed(0);
 }
 
 
@@ -454,8 +458,6 @@ TriggerAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 {
   using namespace edm;
   
-  //cout<<"ABCDSDFSDFLSDFLKSJDF;LKJSD;LKFJ ;LSKJDF;LAKJSDF; LKJASD;LF KJAS;LDFKJ A;LSKDJF ";
-
   numEvents_++;
 
   int run  = iEvent.id().run();
@@ -1263,7 +1265,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> correctedJets_noSys = GetCorrectedJets(rawJets, rho_event, sysType::NA);
   // JER
-  correctedJets_noSys = miniAODhelper.GetCorrectedJets(correctedJets_noSys, iEvent, iSetup, genjets, sysType::NA, 0, doJER);
+  correctedJets_noSys = miniAODhelper.GetCorrectedJets(correctedJets_noSys, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
   std::vector<pat::Jet> selectedJets_noSys_unsorted = miniAODhelper.GetSelectedJets(correctedJets_noSys, minLooseJetPt, 3.0, jetID::none, '-' );
   std::vector<pat::Jet> selectedJets_tag_noSys_unsorted = miniAODhelper.GetSelectedJets( correctedJets_noSys, minLooseJetPt, 3.0, jetID::none, 'M' );
@@ -1291,7 +1293,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> correctedJets_nocc_noSys = GetCorrectedJets(rawJets_nocc, rho_event, sysType::NA);
   // JER
-  correctedJets_nocc_noSys = miniAODhelper.GetCorrectedJets(correctedJets_nocc_noSys, iEvent, iSetup, genjets, sysType::NA, 0, doJER);
+  correctedJets_nocc_noSys = miniAODhelper.GetCorrectedJets(correctedJets_nocc_noSys, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
   std::vector<pat::Jet> selectedJets_nocc_noSys_unsorted = miniAODhelper.GetSelectedJets(correctedJets_nocc_noSys, minLooseJetPt, 3.0, jetID::none, '-' );
 
@@ -1310,7 +1312,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> newJetsForMET = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::NA);
   // JER
-  newJetsForMET = miniAODhelper.GetCorrectedJets(newJetsForMET, iEvent, iSetup, genjets, sysType::NA, 0, doJER);
+  newJetsForMET = miniAODhelper.GetCorrectedJets(newJetsForMET, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
 
   std::vector<pat::MET> newPfMETs = miniAODhelper.CorrectMET(oldJetsForMET, newJetsForMET, *pfmet);
@@ -1335,7 +1337,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> newJetsForMET_JESup = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::JESup);
   // JER
-  newJetsForMET_JESup = miniAODhelper.GetCorrectedJets(newJetsForMET_JESup, iEvent, iSetup, genjets, sysType::NA, 0, doJER);
+  newJetsForMET_JESup = miniAODhelper.GetCorrectedJets(newJetsForMET_JESup, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
   std::vector<pat::MET> newPfMETs_JESup = miniAODhelper.CorrectMET(oldJetsForMET, newJetsForMET_JESup, *pfmet);
   std::vector<pat::MET> newPfMETsNoHF_JESup = miniAODhelper.CorrectMET(oldJetsForMET, newJetsForMET_JESup, *pfmetnohf);
@@ -1355,7 +1357,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> newJetsForMET_JESdown = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::JESdown);
   // JER
-  newJetsForMET_JESdown = miniAODhelper.GetCorrectedJets(newJetsForMET_JESdown, iEvent, iSetup, genjets, sysType::NA, 0, doJER);
+  newJetsForMET_JESdown = miniAODhelper.GetCorrectedJets(newJetsForMET_JESdown, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
   std::vector<pat::MET> newPfMETs_JESdown = miniAODhelper.CorrectMET(oldJetsForMET, newJetsForMET_JESdown, *pfmet);
   std::vector<pat::MET> newPfMETsNoHF_JESdown = miniAODhelper.CorrectMET(oldJetsForMET, newJetsForMET_JESdown, *pfmetnohf);
@@ -1376,7 +1378,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> newJetsForMET_JERup = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::NA);
   // JER
-  newJetsForMET_JERup = miniAODhelper.GetCorrectedJets(newJetsForMET_JERup, iEvent, iSetup, genjets, sysType::JERup, 0, doJER);
+  newJetsForMET_JERup = miniAODhelper.GetCorrectedJets(newJetsForMET_JERup, iEvent, iSetup, genjets, r, sysType::JERup, 0, doJER);
 
   std::vector<pat::MET> newPfMETs_JERup = miniAODhelper.CorrectMET(oldJetsForMET, newJetsForMET_JERup, *pfmet);
   std::vector<pat::MET> newPfMETsNoHF_JERup = miniAODhelper.CorrectMET(oldJetsForMET, newJetsForMET_JERup, *pfmetnohf);
@@ -1396,7 +1398,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> newJetsForMET_JERdown = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::NA);
   // JER
-  newJetsForMET_JERdown = miniAODhelper.GetCorrectedJets(newJetsForMET_JERdown, iEvent, iSetup, genjets, sysType::JERdown, 0, doJER);
+  newJetsForMET_JERdown = miniAODhelper.GetCorrectedJets(newJetsForMET_JERdown, iEvent, iSetup, genjets, r, sysType::JERdown, 0, doJER);
  
   std::vector<pat::MET> newPfMETs_JERdown = miniAODhelper.CorrectMET(oldJetsForMET, newJetsForMET_JERdown, *pfmet);
   std::vector<pat::MET> newPfMETsNoHF_JERdown = miniAODhelper.CorrectMET(oldJetsForMET, newJetsForMET_JERdown, *pfmetnohf);
@@ -1502,7 +1504,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> correctedJets_JESup = GetCorrectedJets(rawJets, rho_event, sysType::JESup);
   // JER
-  correctedJets_JESup = miniAODhelper.GetCorrectedJets(correctedJets_JESup, iEvent, iSetup, genjets, sysType::NA, 0, doJER);
+  correctedJets_JESup = miniAODhelper.GetCorrectedJets(correctedJets_JESup, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
  
   std::vector<pat::Jet> selectedJets_JESup_unsorted = miniAODhelper.GetSelectedJets(correctedJets_JESup, minLooseJetPt, 3.0, jetID::none, '-' );
   std::vector<pat::Jet> selectedJets_JESup = miniAODhelper.GetSortedByPt( selectedJets_JESup_unsorted );
@@ -1548,7 +1550,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> correctedJets_JESdown = GetCorrectedJets(rawJets, rho_event, sysType::JESdown);
   // JER
-  correctedJets_JESdown = miniAODhelper.GetCorrectedJets(correctedJets_JESdown, iEvent, iSetup, genjets, sysType::NA, 0, doJER);
+  correctedJets_JESdown = miniAODhelper.GetCorrectedJets(correctedJets_JESdown, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
   
   std::vector<pat::Jet> selectedJets_JESdown_unsorted = miniAODhelper.GetSelectedJets(correctedJets_JESdown, minLooseJetPt, 3.0, jetID::none, '-' );
   std::vector<pat::Jet> selectedJets_JESdown = miniAODhelper.GetSortedByPt( selectedJets_JESdown_unsorted );
@@ -1593,7 +1595,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> correctedJets_JERup = GetCorrectedJets(rawJets, rho_event, sysType::NA);
   // JER
-  correctedJets_JERup = miniAODhelper.GetCorrectedJets(correctedJets_JERup, iEvent, iSetup, genjets, sysType::JERup, 0, doJER);
+  correctedJets_JERup = miniAODhelper.GetCorrectedJets(correctedJets_JERup, iEvent, iSetup, genjets, r, sysType::JERup, 0, doJER);
  
   std::vector<pat::Jet> selectedJets_JERup_unsorted = miniAODhelper.GetSelectedJets(correctedJets_JERup, minLooseJetPt, 3.0, jetID::none, '-' );
   std::vector<pat::Jet> selectedJets_JERup = miniAODhelper.GetSortedByPt( selectedJets_JERup_unsorted );
@@ -1639,7 +1641,7 @@ cout<<"f";
   // JEC
   std::vector<pat::Jet> correctedJets_JERdown = GetCorrectedJets(rawJets, rho_event, sysType::NA);
   // JER
-  correctedJets_JERdown = miniAODhelper.GetCorrectedJets(correctedJets_JERdown, iEvent, iSetup, genjets, sysType::JERdown, 0, doJER);
+  correctedJets_JERdown = miniAODhelper.GetCorrectedJets(correctedJets_JERdown, iEvent, iSetup, genjets, r, sysType::JERdown, 0, doJER);
   
   std::vector<pat::Jet> selectedJets_JERdown_unsorted = miniAODhelper.GetSelectedJets(correctedJets_JERdown, minLooseJetPt, 3.0, jetID::none, '-' );
   std::vector<pat::Jet> selectedJets_JERdown = miniAODhelper.GetSortedByPt( selectedJets_JERdown_unsorted );

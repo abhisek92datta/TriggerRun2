@@ -77,7 +77,8 @@ process.source = cms.Source("PoolSource",
 #            'root://xrootd.unl.edu//store/mc/RunIIFall15MiniAODv1/TT_TuneCUETP8M1_13TeV-amcatnlo-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/30000/06984753-98A6-E511-8BC3-0025905A6070.root',
             #'root://xrootd.unl.edu//store/data/Run2015D/SingleElectron/MINIAOD/PromptReco-v3/000/256/630/00000/6E469C2A-165F-E511-9E77-02163E01414D.root',
            #'/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/40000/049593B4-9E38-E611-832B-02163E014930.root' 
-	   '/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/40000/0089CC67-6338-E611-947D-0025904C4E2A.root'
+	   #'/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_13TeV_powheg_pythia8/MINIAODSIM/PUSpring16RAWAODSIM_reHLT_80X_mcRun2_asymptotic_v14-v1/40000/0089CC67-6338-E611-947D-0025904C4E2A.root'
+	   '/store/mc/RunIISpring16MiniAODv2/ttHTobb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/premix_withHLT_80X_mcRun2_asymptotic_v14-v1/100000/086ED46A-1E76-E611-ABE5-180373FF8456.root'
 	   )
 )
 
@@ -97,7 +98,7 @@ process.source = cms.Source("PoolSource",
 process.load("RecoEgamma.ElectronIdentification.ElectronMVAValueMapProducer_cfi")
 
 process.triggeranalyzer = cms.EDAnalyzer('TriggerAnalyzer',
-                                         HLTsource = cms.untracked.string("HLT2"),
+                                         HLTsource = cms.untracked.string("HLT"),
                                          PATsource = cms.untracked.string("PAT"),
                                          genTtbarId = cms.InputTag("categorizeGenTtbar", "genTtbarId"),
                                          isData = cms.bool(False),
