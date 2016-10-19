@@ -1,5 +1,7 @@
 # Trigger Analysis for Single Electron HLT
 
+voms-proxy-init -voms cms
+
 cmsrel CMSSW_8_0_20
 
 cd CMSSW_8_0_20/src/
