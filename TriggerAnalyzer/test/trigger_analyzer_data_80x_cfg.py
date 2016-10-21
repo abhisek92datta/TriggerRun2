@@ -63,6 +63,14 @@ updateJetCollection(
   #btagPrefix = 'new' # optional, in case interested in accessing both the old and new discriminator values
 )
 
+#from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+#runMetCorAndUncFromMiniAOD(process,
+#    isData     = True,
+#    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt",
+#    postfix    = "Recorrected",
+#    jetFlavor  = "AK4PFchs"
+#)
+
 process.source = cms.Source("PoolSource",
         fileNames = cms.untracked.vstring())
 
@@ -92,7 +100,7 @@ process.source = cms.Source("PoolSource",
 #)
 
 import FWCore.PythonUtilities.LumiList as LumiList
-process.source.lumisToProcess = LumiList.LumiList(filename = 'data/Cert_271036-276811_13TeV_PromptReco_Collisions16_JSON_prescale.txt').getVLuminosityBlockRange()
+process.source.lumisToProcess = LumiList.LumiList(filename = 'data/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_unprescaled.txt.txt').getVLuminosityBlockRange()
 
 
 ## override the L1 menu from an Xml file
