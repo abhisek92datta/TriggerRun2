@@ -8,11 +8,7 @@ cd CMSSW_8_0_20/src/
 
 cmsenv
 
-// git cms-init
-
-// echo /PhysicsTools/PatUtils/ >> .git/info/sparse-checkout
-
-// git cms-merge-topic cms-met:metTool80X
+git cms-merge-topic cms-met:METRecipe_8020
 
 git clone https://github.com/abhisek92datta/TriggerRun2.git
 

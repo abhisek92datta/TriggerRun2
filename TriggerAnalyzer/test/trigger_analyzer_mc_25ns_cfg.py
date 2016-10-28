@@ -62,13 +62,11 @@ updateJetCollection(
   #btagPrefix = 'new' # optional, in case interested in accessing both the old and new discriminator values
 )
 
-#from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
-#runMetCorAndUncFromMiniAOD(process,
-#    isData     = False,
-#    jecUncFile = "Analyzers/ttH_analyzer/data/JEC/Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt",
-#    postfix    = "Recorrected",
-#    jetFlavor  = "AK4PFchs"
-#)
+from PhysicsTools.PatUtils.tools.runMETCorrectionsAndUncertainties import runMetCorAndUncFromMiniAOD
+# If you only want to re-correct and get the proper uncertainties
+runMetCorAndUncFromMiniAOD(process,
+  isData=False,
+)
 
 process.source = cms.Source("PoolSource",
         fileNames = cms.untracked.vstring())
@@ -120,4 +118,4 @@ process.TFileService = cms.Service("TFileService",
 	fileName = cms.string('trigger_analyzer.root')
 )
 
-process.p = cms.Path(process.electronMVAValueMapProducer * process.triggeranalyzer)
+process.p = cms.Path(process.electronMVAValueMapProducer * process.fullPatMetSequence * process.triggeranalyzer)
