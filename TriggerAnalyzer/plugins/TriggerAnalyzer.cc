@@ -273,7 +273,7 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   //jetToken = consumes <pat::JetCollection> (edm::InputTag(std::string("slimmedJets")));
   jetToken = consumes <pat::JetCollection> (edm::InputTag(std::string("selectedUpdatedPatJets")));
   //pfMetToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETs")));
-  pfMetToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETs","","MAOD")));
+  pfMetToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETs"),std::string(""),std::string("MAOD")));
   //pfMetNoHFToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETsNoHF")));
   /// FIXME
   pfMetNoHFToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETs")));
