@@ -2183,8 +2183,7 @@ cout<<"f";
   eve->lepton_ele_matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter_ = lepton_ele_matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter;
   */
 
-  /*
-  /// DIL specific, doesn't make sense in current scope
+  
   int oppositeLepCharge = -9;
   if( lepton_charge.size()==2 ){
     int chg0 = lepton_charge[0];
@@ -2198,15 +2197,13 @@ cout<<"f";
   }
   eve->oppositeLepCharge_ = oppositeLepCharge;
 
-
-  /// DIL specific, doesn't make sense in current scope
   double mass_leplep = -99;
   if( vec_TLV_lep.size()==2 ){
     mass_leplep = sum_lepton_vect.M();
     eve->mass_leplep_ = mass_leplep;
     eve->dR_leplep_ = vec_TLV_lep[0].DeltaR(vec_TLV_lep[1]);
   }
-  */
+  
 
 
   if( debug_ ) std::cout << " ====> test 18 " << std::endl;
