@@ -693,6 +693,7 @@ cout<<"f";
   int pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v = -1;
   int pass_HLT_Ele25_WPTight_Gsf_v = -1;
   int pass_HLT_Ele25_eta2p1_WPTight_Gsf_v = -1;
+  int pass_HLT_Ele32_eta2p1_WPTight_Gsf_v = -1;
   
   int pass_HLT_Ele27_eta2p1_WP75_Gsf_v = -1;
   int pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v = -1;
@@ -759,6 +760,7 @@ cout<<"f";
       if( pathName.find("HLT_Ele25_eta2p1_WPLoose_Gsf_v")!=std::string::npos )                          pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v = (accept) ? 1 : 0;
       if( pathName.find("HLT_Ele25_WPTight_Gsf_v")!=std::string::npos )                          pass_HLT_Ele25_WPTight_Gsf_v = (accept) ? 1 : 0;
       if( pathName.find("HLT_Ele25_eta2p1_WPTight_Gsf_v")!=std::string::npos )                          pass_HLT_Ele25_eta2p1_WPTight_Gsf_v = (accept) ? 1 : 0;
+      if( pathName.find("HLT_Ele32_eta2p1_WPTight_Gsf_v")!=std::string::npos )                          pass_HLT_Ele32_eta2p1_WPTight_Gsf_v = (accept) ? 1 : 0;
 
       if( pathName.find("HLT_Ele27_eta2p1_WP75_Gsf_v")!=std::string::npos )                          pass_HLT_Ele27_eta2p1_WP75_Gsf_v = (accept) ? 1 : 0;
       if( pathName.find("HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v")!=std::string::npos ) pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v = (accept) ? 1 : 0;
@@ -816,6 +818,7 @@ cout<<"f";
   eve->pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v_ = pass_HLT_Ele25_eta2p1_WPLoose_Gsf_v;
   eve->pass_HLT_Ele25_WPTight_Gsf_v_ = pass_HLT_Ele25_WPTight_Gsf_v;
   eve->pass_HLT_Ele25_eta2p1_WPTight_Gsf_v_ = pass_HLT_Ele25_eta2p1_WPTight_Gsf_v;
+  eve->pass_HLT_Ele32_eta2p1_WPTight_Gsf_v_ = pass_HLT_Ele32_eta2p1_WPTight_Gsf_v;
 
   eve->pass_HLT_Ele27_eta2p1_WP75_Gsf_v_                          = pass_HLT_Ele27_eta2p1_WP75_Gsf_v;
   eve->pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v_ = pass_HLT_Ele27_eta2p1_WP75_Gsf_CentralPFJet30_BTagCSV07_v;
