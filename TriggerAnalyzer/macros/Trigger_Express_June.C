@@ -95,9 +95,9 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   stream << jobN;
   str_jobN = stream.str();
 
-  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_new_80X_event_sel_criteria/ttHTobb_M125_13TeV_powheg_pythia8/triggerTree_MC_80X_tth/160906_030939/0000/trigger_analyzer_*.root";
-  //std::string treefilename2 = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_without_event_sel/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0001/trigger_analyzer_*.root";
-  //std::string treefilename3 = "/eos/uscms/store/user/adatta/Trigger_Analysis/Ntuples_without_event_sel/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0002/trigger_analyzer_*.root";
+  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/ttHTobb_M125_13TeV_powheg_pythia8/triggerTree_MC_80X_tth/160906_030939/0000/trigger_analyzer_*.root";
+  //std::string treefilename2 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0001/trigger_analyzer_*.root";
+  //std::string treefilename3 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0002/trigger_analyzer_*.root";
   
   std::string s_end = "_" + str_jobN + ".root";
   if( Njobs==1 ) s_end = ".root";
