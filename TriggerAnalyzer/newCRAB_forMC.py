@@ -32,7 +32,7 @@ config.Data.outputDatasetTag = 'triggerTree_MC_80X_tthbb'
 #config.Data.outputDatasetTag = 'triggerTree_MC_80X_ttjets_semilep'
 #config.Data.outputDatasetTag = 'triggerTree_MC_80X_ttjets_dilep'
 #config.Data.outputDatasetTag = 'triggerTree_MC_80X_drell_yan'
-config.Data.outLFNDirBase = '/store/user/abdatta/Trigger_Analysis/Ntuples_without_event_sel/' 
+config.Data.outLFNDirBase = '/store/user/abdatta/Trigger_Analysis/' 
 config.Data.ignoreLocality = True
 
 config.section_("Site") 
