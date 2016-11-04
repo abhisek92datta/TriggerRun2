@@ -20,7 +20,7 @@ config.Data.unitsPerJob = 20
 config.Data.publication = True 
 config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter/' 
 config.Data.outputDatasetTag = 'triggerTree_SingleElectron_Run2016B' 
-config.Data.outLFNDirBase = '/store/user/abdatta/Trigger_Analysis/Ntuples_without_event_sel/' 
+config.Data.outLFNDirBase = '/store/user/abdatta/Trigger_Analysis/' 
 config.Data.ignoreLocality = True
 
 config.section_("Site") 
