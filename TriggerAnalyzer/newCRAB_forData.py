@@ -10,7 +10,10 @@ config.JobType.allowUndistributedCMSSW = True
 config.JobType.inputFiles = ['data']
 
 config.section_("Data") 
+#for B,C,D,E
 config.Data.inputDataset = '/SingleElectron/Run2016B-PromptReco-v2/MINIAOD'
+#for F,G
+#config.Data.inputDataset = '/SingleElectron/Run2016F-PromptReco-v1/MINIAOD'
 config.Data.inputDBS = 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader/' 
 config.Data.allowNonValidInputDataset = True 
 config.Data.splitting = 'LumiBased' 
