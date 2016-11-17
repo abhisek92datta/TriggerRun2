@@ -8,6 +8,7 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'test/trigger_analyzer_data_80x_cfg.py'
 config.JobType.allowUndistributedCMSSW = True
 config.JobType.inputFiles = ['data']
+config.JobType.maxJobRuntimeMin = 3000
 
 config.section_("Data") 
 #for B,C,D,E
