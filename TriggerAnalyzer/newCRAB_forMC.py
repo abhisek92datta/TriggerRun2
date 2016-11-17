@@ -12,6 +12,7 @@ config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'test/trigger_analyzer_mc_25ns_cfg.py'
 config.JobType.allowUndistributedCMSSW = True
 config.JobType.inputFiles = ['data']
+config.JobType.maxJobRuntimeMin = 3000
 
 config.section_("Data") 
 config.Data.inputDataset = '/ttHTobb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/RunIISpring16MiniAODv2-premix_withHLT_80X_mcRun2_asymptotic_v14-v1/MINIAODSIM'
