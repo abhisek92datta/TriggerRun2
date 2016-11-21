@@ -46,7 +46,7 @@ typedef std::vector<double>                    vdouble;
 typedef std::vector<std::vector<double> >      vvdouble;
 typedef std::vector<std::vector<int> >         vvint;
 
-void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
+void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
   clock_t t;
   t = clock();
@@ -323,7 +323,7 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		int pass_WPLoose_27_HT200 = eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v_;
 		int pass_WPTight_27 = eve->pass_HLT_Ele27_eta2p1_WPTight_Gsf_v_;
 		int pass_WPTight_32 = eve->pass_HLT_Ele32_eta2p1_WPTight_Gsf_v_;
-		int pass_WPTight_27_OR_WPLoose_27_HT200;
+		int pass_WPTight_27_OR_WPLoose_27_HT200 = 0;
 		if (pass_WPLoose_27_HT200 ==1 || pass_WPTight_27 ==1 ) 
 			pass_WPTight_27_OR_WPLoose_27_HT200 = 1;
 		
@@ -365,8 +365,8 @@ void Trigger_Express_June( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		Eff_eta_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,vvLEPTON[0][1]);
 		Eff_phi_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,vvLEPTON[0][2]);
 		Eff_2d_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,vvLEPTON[0][0],vvLEPTON[0][1]);
-		Eff_HT_WPTight_27_OR_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,HT);
-		Eff_numPV_WPTight_27_OR_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,numPV);
+		Eff_HT_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,HT);
+		Eff_numPV_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,numPV);
 		
 		//Eff_bin_pt->Fill(passsing,vvLEPTON[0][0]);
 		//Eff_bin_eta->Fill(passsing,vvLEPTON[0][1]);
