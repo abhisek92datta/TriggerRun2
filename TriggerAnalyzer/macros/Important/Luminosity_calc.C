@@ -63,11 +63,15 @@ void Luminosity_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   stream << jobN;
   str_jobN = stream.str();
 
-  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/ttHTobb_M125_13TeV_powheg_pythia8/triggerTree_MC_80X_tth/160906_030939/0000/trigger_analyzer_*.root";
+  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016F/161114_223406/0000/trigger_analyzer_*.root";
+  //std::string treefilename2 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0001/trigger_analyzer_*.root";
+  //std::string treefilename3 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0002/trigger_analyzer_*.root";
   
   TChain *chain = new TChain("triggeranalyzer/triggerTree");
  
   chain->Add(treefilename.c_str());
+  //chain->Add(treefilename2.c_str());
+  //chain->Add(treefilename3.c_str());
    
   triggerStudyEventVars *eve=0;
   chain->SetBranchAddress("eve.", &eve );
@@ -89,6 +93,7 @@ void Luminosity_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   int lumi_old=0;
   int lumi_list[2000];
   int j=0;
+  int check_run = 278308;
  
   std::cout << "========  Starting Event Loop  ========" << std::endl;
   for (Long64_t ievt=0; ievt<chain->GetEntries();ievt++) {    
@@ -113,7 +118,7 @@ void Luminosity_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		//if(ievt<10)
 		//if(ievt>(nentries-10))
 			//std::cout<<"Run : "<<run<<"  Lumi : "<<lumi<<"\n";		
-		if(run==278308) {
+		if(run==check_run) {
 			if (lumi!=lumi_old)	{
 				lumi_list[j++] = lumi;
 				lumi_old=lumi;
@@ -122,9 +127,38 @@ void Luminosity_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
    }
    
    sort(lumi_list, lumi_list+j);
-   for(int i=0; i<j; i++) {
-   		std::cout<<lumi_list[i]<<"\n";
-   }
+   std:cout<<"Run : "<<check_run<<"\n\n";
+   //for(int i=0; i<j; i++) {
+   //		std::cout<<lumi_list[i]<<"\n";
+   
+   // finding missing lumis
+    int i=87;
+    int flag;
+    int count=0;
+    while(i<=1880)
+	{	
+		if(i==217) i=219;
+		else if (i==588) i=589;
+		else if (i==681) i=683;
+		else if (i==1201) i=1217;
+		else if (i==1411) i=1413;
+		else if (i==1849) i=1880;
+	
+		flag=0;
+		for(int k=0; k<j; k++)
+		{
+			if(i==lumi_list[k]) {
+				flag=1;
+				break;
+			}
+		}
+		if(flag==0) {
+			std::cout<<i<<"\n";
+			count++;
+		}
+		i++;
+	}
+   	std::cout<<"\nNo of missing lumis : "<<count<<"\n\n";
    
   t=clock()-t;
 	
