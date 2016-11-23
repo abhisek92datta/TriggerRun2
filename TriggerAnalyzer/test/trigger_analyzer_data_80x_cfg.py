@@ -121,9 +121,9 @@ process.triggeranalyzer = cms.EDAnalyzer('TriggerAnalyzer',
                                          PATsource = cms.untracked.string("RECO"),
                                          genTtbarId = cms.InputTag("categorizeGenTtbar", "genTtbarId"),
                                          isData = cms.bool(True),
-					 electronMVAvalues = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
-					 electronMVAcategories = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),                                         
-)
+                                         electronMVAvalues = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
+					 electronMVAcategories = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"), 
+    )
 
 process.TFileService = cms.Service("TFileService",
 	fileName = cms.string('trigger_analyzer.root')
