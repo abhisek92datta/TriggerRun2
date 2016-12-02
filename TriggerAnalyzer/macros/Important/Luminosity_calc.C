@@ -63,7 +63,7 @@ void Luminosity_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   stream << jobN;
   str_jobN = stream.str();
 
-  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016F/161114_223406/0000/trigger_analyzer_*.root";
+  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016G/161124_192828/0001/trigger_analyzer_*.root";
   //std::string treefilename2 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0001/trigger_analyzer_*.root";
   //std::string treefilename3 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0002/trigger_analyzer_*.root";
   
@@ -90,10 +90,15 @@ void Luminosity_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   if( jobN==Njobs ) lastEvent = -1;
   if( jobN==1 ) firstEvent = 0;
  
-  int lumi_old=0;
-  int lumi_list[2000];
-  int j=0;
-  int check_run = 278308;
+  int lumi_old1=0;
+  int lumi_list1[4000];
+  int j1=0;
+  int lumi_old2=0;
+  int lumi_list2[4000];
+  int j2=0;
+  //int check_run = 278308;
+  int check_run1 = 279841;
+  int check_run2 = 279931;
  
   std::cout << "========  Starting Event Loop  ========" << std::endl;
   for (Long64_t ievt=0; ievt<chain->GetEntries();ievt++) {    
@@ -117,37 +122,71 @@ void Luminosity_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 	
 		//if(ievt<10)
 		//if(ievt>(nentries-10))
-			//std::cout<<"Run : "<<run<<"  Lumi : "<<lumi<<"\n";		
-		if(run==check_run) {
-			if (lumi!=lumi_old)	{
-				lumi_list[j++] = lumi;
-				lumi_old=lumi;
+		//	std::cout<<"Run : "<<run<<"  Lumi : "<<lumi<<"\n";	
+			
+		if(run==check_run1) {
+			if (lumi!=lumi_old1)	{
+				lumi_list1[j1++] = lumi;
+				lumi_old1=lumi;
+			}
+		}
+		
+		if(run==check_run2) {
+			if (lumi!=lumi_old2)	{
+				lumi_list2[j2++] = lumi;
+				lumi_old2=lumi;
 			}
 		}		
+		
    }
    
-   sort(lumi_list, lumi_list+j);
-   std:cout<<"Run : "<<check_run<<"\n\n";
+   
+   sort(lumi_list1, lumi_list1+j1);
+   sort(lumi_list2, lumi_list2+j2);
+   
+   std::cout<<"Run : "<<check_run1<<"\n\n";
    //for(int i=0; i<j; i++) {
    //		std::cout<<lumi_list[i]<<"\n";
    
    // finding missing lumis
-    int i=87;
+    int i=75;
     int flag;
     int count=0;
-    while(i<=1880)
+    while(i<=2122)
 	{	
-		if(i==217) i=219;
-		else if (i==588) i=589;
-		else if (i==681) i=683;
-		else if (i==1201) i=1217;
-		else if (i==1411) i=1413;
-		else if (i==1849) i=1880;
+		if(i==399) i=407;
+			
+		flag=0;
+		for(int k=0; k<j1; k++)
+		{
+			if(i==lumi_list1[k]) {
+				flag=1;
+				break;
+			}
+		}
+		if(flag==0) {
+			std::cout<<i<<"\n";
+			count++;
+		}
+		i++;
+	}
+   	std::cout<<"\nNo of missing lumis : "<<count<<"\n\n\n";
+   	
+   	
+  	std::cout<<"Run : "<<check_run2<<"\n\n";
+    i=84;
+    count=0;
+    while(i<=3022)
+	{	
+		if(i==629) i=630;
+		else if (i==744) i=746;
+		else if (i==802) i=803;
+		else if (i==1044) i=1045;
 	
 		flag=0;
-		for(int k=0; k<j; k++)
+		for(int k=0; k<j2; k++)
 		{
-			if(i==lumi_list[k]) {
+			if(i==lumi_list2[k]) {
 				flag=1;
 				break;
 			}
@@ -159,7 +198,8 @@ void Luminosity_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		i++;
 	}
    	std::cout<<"\nNo of missing lumis : "<<count<<"\n\n";
-   
+   	
+    
   t=clock()-t;
 	
   std::cout << " Done! " <<((float)t)/CLOCKS_PER_SEC<< std::endl;

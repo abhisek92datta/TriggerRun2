@@ -68,7 +68,7 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   stream << jobN;
   str_jobN = stream.str();
 
-  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/ttHTobb_M125_13TeV_powheg_pythia8/triggerTree_MC_80X_tth/160906_030939/0000/trigger_analyzer_*.root";
+  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/ttHTobb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/triggerTree_MC_80X_tthbb/161104_195458/0000/trigger_analyzer_*.root";
   //std::string treefilename2 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0001/trigger_analyzer_*.root";
   //std::string treefilename3 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0002/trigger_analyzer_*.root";
   
@@ -132,33 +132,89 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   //TEfficiency things!
   //So the idea for TEfficiency is you are creating a histogram that looks bin by bin like (Passed Events)/(All Events) 
 	
-  TEfficiency* Eff_pt_WPTight_27 = new TEfficiency("Eff_pt_WPTight_27","Efficiency vs pT for WPTight_27;pT (GeV);(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
+  int n_ptBins;
+  double x_ptBins[200];	
+  int s=0;
+  int n_bin=0;
+  while(s<100){
+  	x_ptBins[n_bin++]=s;
+  	s=s+2;
+  }
+  while(s<150){
+  	x_ptBins[n_bin++]=s;
+  	s=s+5;
+  }
+  while(s<200){
+  	x_ptBins[n_bin++]=s;
+  	s=s+10;
+  }
+  while(s<260){
+  	x_ptBins[n_bin++]=s;
+  	s=s+15;
+  }
+  while(s<=300){
+  	x_ptBins[n_bin++]=s;
+  	s=s+20;
+  }
+  n_ptBins = n_bin-1;
+  
+  s=n_bin=0;
+  int n_htBins;
+  double x_htBins[200];	
+  while(s<200){
+  	x_htBins[n_bin++]=s;
+  	s=s+20;
+  }
+  while(s<600){
+  	x_htBins[n_bin++]=s;
+  	s=s+5;
+  }
+  while(s<700){
+  	x_htBins[n_bin++]=s;
+  	s=s+6;
+  }
+  while(s<800){
+  	x_htBins[n_bin++]=s;
+  	s=s+7;
+  }
+  while(s<900){
+  	x_htBins[n_bin++]=s;
+  	s=s+8;
+  }
+  while(s<=1000){
+  	x_htBins[n_bin++]=s;
+  	s=s+9;
+  }
+  n_htBins = n_bin-1;
+	
+  //TEfficiency* Eff_pt_WPTight_27 = new TEfficiency("Eff_pt_WPTight_27","Efficiency vs pT for WPTight_27;pT (GeV);(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
+  TEfficiency* Eff_pt_WPTight_27 = new TEfficiency("Eff_pt_WPTight_27","Efficiency vs pT for WPTight_27;pT (GeV);(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",n_ptBins,x_ptBins);
   TEfficiency* Eff_eta_WPTight_27 = new TEfficiency("Eff_eta_WPTight_27","Efficiency vs eta for WPTight_27;#eta;(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_phi_WPTight_27 = new TEfficiency("Eff_phi_WPTight_27","Efficiency vs phi for WPTight_27;#phi;(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPTight_27 = new TEfficiency("Eff_2d_WPTight_27","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPTight_27 = new TEfficiency("Eff_HT_WPTight_27","Efficiency vs HT for WPTight_27;HT (GeV);(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
+  //TEfficiency* Eff_HT_WPTight_27 = new TEfficiency("Eff_HT_WPTight_27","Efficiency vs HT for WPTight_27;HT (GeV);(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);
+  TEfficiency* Eff_HT_WPTight_27 = new TEfficiency("Eff_HT_WPTight_27","Efficiency vs HT for WPTight_27;HT (GeV);(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",n_htBins,x_htBins);	
   TEfficiency* Eff_numPV_WPTight_27 = new TEfficiency("Eff_numPV_WPTight_27","Efficiency vs numPV for WPTight_27;numPV;(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);		
 	
-  TEfficiency* Eff_pt_WPTight_32 = new TEfficiency("Eff_pt_WPTight_32","Efficiency vs pT for WPTight_32;pT (GeV);(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
+  TEfficiency* Eff_pt_WPTight_32 = new TEfficiency("Eff_pt_WPTight_32","Efficiency vs pT for WPTight_32;pT (GeV);(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",n_ptBins,x_ptBins);
   TEfficiency* Eff_eta_WPTight_32 = new TEfficiency("Eff_eta_WPTight_32","Efficiency vs eta for WPTight_32;#eta;(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_phi_WPTight_32 = new TEfficiency("Eff_phi_WPTight_32","Efficiency vs phi for WPTight_32;#phi;(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPTight_32 = new TEfficiency("Eff_2d_WPTight_32","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPTight_32 = new TEfficiency("Eff_HT_WPTight_32","Efficiency vs HT for WPTight_32;HT (GeV);(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
+  TEfficiency* Eff_HT_WPTight_32 = new TEfficiency("Eff_HT_WPTight_32","Efficiency vs HT for WPTight_32;HT (GeV);(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",n_htBins,x_htBins);	
   TEfficiency* Eff_numPV_WPTight_32 = new TEfficiency("Eff_numPV_WPTight_32","Efficiency vs numPV for WPTight_32;numPV;(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);	
 	
-	
-  TEfficiency* Eff_pt_WPLoose_27_HT200 = new TEfficiency("Eff_pt_WPLoose_27_HT200","Efficiency vs pT for WPLoose_27_HT200;pT (GeV);(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
+  TEfficiency* Eff_pt_WPLoose_27_HT200 = new TEfficiency("Eff_pt_WPLoose_27_HT200","Efficiency vs pT for WPLoose_27_HT200;pT (GeV);(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",n_ptBins,x_ptBins);
   TEfficiency* Eff_eta_WPLoose_27_HT200 = new TEfficiency("Eff_eta_WPLoose_27_HT200","Efficiency vs eta for WPLoose_27_HT200;#eta;(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_phi_WPLoose_27_HT200 = new TEfficiency("Eff_phi_WPLoose_27_HT200","Efficiency vs phi for WPLoose_27_HT200;#phi;(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPLoose_27_HT200 = new TEfficiency("Eff_2d_WPLoose_27_HT200","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPLoose_27_HT200 = new TEfficiency("Eff_HT_WPLoose_27_HT200","Efficiency vs HT for WPLoose_27_HT200;HT (GeV);(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
+  TEfficiency* Eff_HT_WPLoose_27_HT200 = new TEfficiency("Eff_HT_WPLoose_27_HT200","Efficiency vs HT for WPLoose_27_HT200;HT (GeV);(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",n_htBins,x_htBins);	
   TEfficiency* Eff_numPV_WPLoose_27_HT200 = new TEfficiency("Eff_numPV_WPLoose_27_HT200","Efficiency vs numPV for WPLoose_27_HT200;numPV;(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);	
   
-  TEfficiency* Eff_pt_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_pt_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs pT for WPTight_27_OR_WPLoose_27_HT200;pT (GeV);(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
+  TEfficiency* Eff_pt_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_pt_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs pT for WPTight_27_OR_WPLoose_27_HT200;pT (GeV);(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",n_ptBins,x_ptBins);
   TEfficiency* Eff_eta_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_eta_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs eta for WPTight_27_OR_WPLoose_27_HT200;#eta;(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_phi_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_phi_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs phi for WPTight_27_OR_WPLoose_27_HT200;#phi;(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
   TEfficiency* Eff_2d_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_2d_WPTight_27_OR_WPLoose_27_HT200","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_HT_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs HT for WPTight_27_OR_WPLoose_27_HT200;HT (GeV);(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
+  TEfficiency* Eff_HT_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_HT_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs HT for WPTight_27_OR_WPLoose_27_HT200;HT (GeV);(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",n_htBins,x_htBins);	
   TEfficiency* Eff_numPV_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_numPV_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs numPV for WPTight_27_OR_WPLoose_27_HT200;numPV;(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);		
   	
   //Sometimes you are asked to do specific binning for your efficiency plots (in the case of making Trigger Scale Factors)

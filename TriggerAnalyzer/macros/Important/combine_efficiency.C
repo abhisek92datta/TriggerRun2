@@ -28,9 +28,11 @@
 #include "TEfficiency.h"
 
 
-void combine_plots() {
+void combine_efficiency() {
+
+	TH1::SetDefaultSumw2();
 	
-	TFile *f1 = new TFile("Trigger_efficiency_single_ele_tth.root");
+	TFile *f1 = new TFile("Efficiency_mc_tthbb.root");
 	TEfficiency *tth_h1 = (TEfficiency*)f1->Get("Eff_pt_WPTight_27");
 	TEfficiency *tth_h2 = (TEfficiency*)f1->Get("Eff_eta_WPTight_27");
 	TEfficiency *tth_h3 = (TEfficiency*)f1->Get("Eff_phi_WPTight_27");
@@ -49,7 +51,7 @@ void combine_plots() {
 	TEfficiency *tth_ho4 = (TEfficiency*)f1->Get("Eff_HT_WPTight_27_OR_WPLoose_27_HT200");
 	delete f1;
 	
-	TFile *f2 = new TFile("Trigger_efficiency_single_ele_bkgd.root");
+	TFile *f2 = new TFile("Efficiency_mc_ttjets_sl.root");
 	TEfficiency *tth_h11 = (TEfficiency*)f2->Get("Eff_pt_WPTight_27");
 	TEfficiency *tth_h12 = (TEfficiency*)f2->Get("Eff_eta_WPTight_27");
 	TEfficiency *tth_h13 = (TEfficiency*)f2->Get("Eff_phi_WPTight_27");
@@ -68,7 +70,7 @@ void combine_plots() {
 	TEfficiency *tth_ho14 = (TEfficiency*)f2->Get("Eff_HT_WPTight_27_OR_WPLoose_27_HT200");
 	delete f2;
 	
-	TFile *f3 = new TFile("Trigger_efficiency_single_ele_data.root");
+	TFile *f3 = new TFile("Efficiency_data_2016.root");
 	TEfficiency *tth_h21 = (TEfficiency*)f3->Get("Eff_pt_WPTight_27");
 	TEfficiency *tth_h22 = (TEfficiency*)f3->Get("Eff_eta_WPTight_27");
 	TEfficiency *tth_h23 = (TEfficiency*)f3->Get("Eff_phi_WPTight_27");

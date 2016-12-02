@@ -26,7 +26,7 @@
 #include "TVector.h"
 #include "TLorentzVector.h"
 #include "Math/Interpolator.h"
-#include "TEfficiency.h"
+#include "TH1D.h"
 
 #include <time.h>
 
@@ -46,7 +46,7 @@ typedef std::vector<double>                    vdouble;
 typedef std::vector<std::vector<double> >      vvdouble;
 typedef std::vector<std::vector<int> >         vvint;
 
-void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
+void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
   clock_t t;
   t = clock();
@@ -68,14 +68,14 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   stream << jobN;
   str_jobN = stream.str();
 
-  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/ttHTobb_M125_13TeV_powheg_pythia8/triggerTree_MC_80X_tth/160906_030939/0000/trigger_analyzer_*.root";
+  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/ttHTobb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/triggerTree_MC_80X_tthbb/161104_195458/0000/trigger_analyzer_*.root";
   //std::string treefilename2 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0001/trigger_analyzer_*.root";
   //std::string treefilename3 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0002/trigger_analyzer_*.root";
   
   std::string s_end = "_" + str_jobN + ".root";
   if( Njobs==1 ) s_end = ".root";
 
-  std::string histofilename = "Efficiency_Trigger_histos" + s_end;
+  std::string histofilename = "Distribution_histos" + s_end;
  
   std::cout << "  treefilename  = " << treefilename.c_str() << std::endl;
   std::cout << "  histofilename = " << histofilename.c_str() << std::endl;
@@ -88,21 +88,6 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   
   ////////////////////////////////////
    
-  std::vector<std::string> cat_labels;
-  cat_labels.push_back("4j2t"); //0
-  cat_labels.push_back("5j2t"); //1
-  cat_labels.push_back("6j2t"); //2
-  cat_labels.push_back("4j3t"); //3
-  cat_labels.push_back("5j3t"); //4
-  cat_labels.push_back("6j3t"); //5
-  cat_labels.push_back("4j4t"); //6
-  cat_labels.push_back("5j4t"); //7
-  cat_labels.push_back("6j4t"); //8
-  
-  int NumCat = int(cat_labels.size());
-
-  /////////////
-   
   triggerStudyEventVars *eve=0;
   chain->SetBranchAddress("eve.", &eve );
 
@@ -112,71 +97,46 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   //Histograms
 	 
   TH1::SetDefaultSumw2();
-
-  //Basic Category Yields//
-	 
-  TH1D* h_catyield;
-  TH1D* h_catyield_CrossEleTrig;
-  TH1D* h_catyield_SingleEleTrig;	
-	 
-  h_catyield = new TH1D((std::string("h_catyield")).c_str(), "Category Yield", NumCat, 0, NumCat );
-  h_catyield_SingleEleTrig = new TH1D((std::string("h_catyield_SingleEleTrig")).c_str(), "Category Yield Single", NumCat, 0, NumCat );
-  h_catyield_CrossEleTrig = new TH1D((std::string("h_catyield_CrossEleTrig")).c_str(), "Category Yield Cross", NumCat, 0, NumCat );
 	
-  for(int b=0; b<NumCat; b++){
-		h_catyield->GetXaxis()->SetBinLabel(b+1,cat_labels[b].c_str());
-		h_catyield_SingleEleTrig->GetXaxis()->SetBinLabel(b+1,cat_labels[b].c_str());
-		h_catyield_CrossEleTrig->GetXaxis()->SetBinLabel(b+1,cat_labels[b].c_str());
-  }
+  TH1D* pt_WPTight_27 = new TH1D("Pt_WPTight_27","Pt Distribution for WPTight_27;pT (GeV);Nr. of Events",150,0,300);
+  TH1D* eta_WPTight_27 = new TH1D("Eta_WPTight_27","Eta Distribution for WPTight_27;#eta;Nr. of Events",30,-3,3);
+  TH1D* phi_WPTight_27 = new TH1D("Phi_WPTight_27","Phi Distribution for WPTight_27;#phi;Nr. of Events",30,-3,3);
+  TH1D* HT_WPTight_27 = new TH1D("HT_WPTight_27","HT Distribution for WPTight_27;HT (GeV);Nr. of Events",200,0,1000);	
+  TH1D* numPV_WPTight_27 = new TH1D("NumPV_WPTight_27","NumPV Distribution for WPTight_27;numPV;Nr. of Events",50,0,50);		
+  TH1D* jet1_pt_WPTight_27 = new TH1D("Jet1_pt_WPTight_27","Jet1 pT Distribution for WPTight_27;pT (GeV);Nr. of Events",250,0,500);
+  TH1D* jet1_csv_WPTight_27 = new TH1D("Jet1_csv_WPTight_27","Jet1 csv Distribution for WPTight_27;csv;Nr. of Events",50,0,1);
+  TH1D* njets_WPTight_27 = new TH1D("Njets_WPTight_27","N_jets Distribution for WPTight_27;Nr. of jets;Nr. of Events",9,4,13);
+  TH1D* nbtags_WPTight_27 = new TH1D("Nbtags_WPTight_27","N_btags Distribution for WPTight_27;Nr. of btags;Nr. of Events",7,2,9);	
 	
-  //TEfficiency things!
-  //So the idea for TEfficiency is you are creating a histogram that looks bin by bin like (Passed Events)/(All Events) 
-	
-  TEfficiency* Eff_pt_WPTight_27 = new TEfficiency("Eff_pt_WPTight_27","Efficiency vs pT for WPTight_27;pT (GeV);(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
-  TEfficiency* Eff_eta_WPTight_27 = new TEfficiency("Eff_eta_WPTight_27","Efficiency vs eta for WPTight_27;#eta;(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
-  TEfficiency* Eff_phi_WPTight_27 = new TEfficiency("Eff_phi_WPTight_27","Efficiency vs phi for WPTight_27;#phi;(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
-  TEfficiency* Eff_2d_WPTight_27 = new TEfficiency("Eff_2d_WPTight_27","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPTight_27 = new TEfficiency("Eff_HT_WPTight_27","Efficiency vs HT for WPTight_27;HT (GeV);(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
-  TEfficiency* Eff_numPV_WPTight_27 = new TEfficiency("Eff_numPV_WPTight_27","Efficiency vs numPV for WPTight_27;numPV;(WPTight_27 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);		
-	
-  TEfficiency* Eff_pt_WPTight_32 = new TEfficiency("Eff_pt_WPTight_32","Efficiency vs pT for WPTight_32;pT (GeV);(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
-  TEfficiency* Eff_eta_WPTight_32 = new TEfficiency("Eff_eta_WPTight_32","Efficiency vs eta for WPTight_32;#eta;(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
-  TEfficiency* Eff_phi_WPTight_32 = new TEfficiency("Eff_phi_WPTight_32","Efficiency vs phi for WPTight_32;#phi;(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
-  TEfficiency* Eff_2d_WPTight_32 = new TEfficiency("Eff_2d_WPTight_32","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPTight_32 = new TEfficiency("Eff_HT_WPTight_32","Efficiency vs HT for WPTight_32;HT (GeV);(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
-  TEfficiency* Eff_numPV_WPTight_32 = new TEfficiency("Eff_numPV_WPTight_32","Efficiency vs numPV for WPTight_32;numPV;(WPTight_32 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);	
-	
-	
-  TEfficiency* Eff_pt_WPLoose_27_HT200 = new TEfficiency("Eff_pt_WPLoose_27_HT200","Efficiency vs pT for WPLoose_27_HT200;pT (GeV);(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
-  TEfficiency* Eff_eta_WPLoose_27_HT200 = new TEfficiency("Eff_eta_WPLoose_27_HT200","Efficiency vs eta for WPLoose_27_HT200;#eta;(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
-  TEfficiency* Eff_phi_WPLoose_27_HT200 = new TEfficiency("Eff_phi_WPLoose_27_HT200","Efficiency vs phi for WPLoose_27_HT200;#phi;(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
-  TEfficiency* Eff_2d_WPLoose_27_HT200 = new TEfficiency("Eff_2d_WPLoose_27_HT200","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPLoose_27_HT200 = new TEfficiency("Eff_HT_WPLoose_27_HT200","Efficiency vs HT for WPLoose_27_HT200;HT (GeV);(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
-  TEfficiency* Eff_numPV_WPLoose_27_HT200 = new TEfficiency("Eff_numPV_WPLoose_27_HT200","Efficiency vs numPV for WPLoose_27_HT200;numPV;(WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);	
+  TH1D* pt_WPTight_32 = new TH1D("Pt_WPTight_32","Pt Distribution for WPTight_32;pT (GeV);Nr. of Events",150,0,300);
+  TH1D* eta_WPTight_32 = new TH1D("Eta_WPTight_32","Eta Distribution for WPTight_32;#eta;Nr. of Events",30,-3,3);
+  TH1D* phi_WPTight_32 = new TH1D("Phi_WPTight_32","Phi Distribution for WPTight_32;#phi;Nr. of Events",30,-3,3);
+  TH1D* HT_WPTight_32 = new TH1D("HT_WPTight_32","HT Distribution for WPTight_32;HT (GeV);Nr. of Events",200,0,1000);	
+  TH1D* numPV_WPTight_32 = new TH1D("NumPV_WPTight_32","NumPV Distribution for WPTight_32;numPV;Nr. of Events",50,0,50);
+  TH1D* jet1_pt_WPTight_32 = new TH1D("Jet1_pt_WPTight_32","Jet1 pT Distribution for WPTight_32;pT (GeV);Nr. of Events",250,0,500);
+  TH1D* jet1_csv_WPTight_32 = new TH1D("Jet1_csv_WPTight_32","Jet1 csv Distribution for WPTight_32;csv;Nr. of Events",50,0,1);	
+  TH1D* njets_WPTight_32 = new TH1D("Njets_WPTight_32","N_jets Distribution for WPTight_32;Nr. of jets;Nr. of Events",9,4,13);
+  TH1D* nbtags_WPTight_32 = new TH1D("Nbtags_WPTight_32","N_btags Distribution for WPTight_32;Nr. of btags;Nr. of Events",7,2,9);	
   
-  TEfficiency* Eff_pt_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_pt_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs pT for WPTight_27_OR_WPLoose_27_HT200;pT (GeV);(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",150,0,300);
-  TEfficiency* Eff_eta_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_eta_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs eta for WPTight_27_OR_WPLoose_27_HT200;#eta;(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
-  TEfficiency* Eff_phi_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_phi_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs phi for WPTight_27_OR_WPLoose_27_HT200;#phi;(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",30,-3,3);
-  TEfficiency* Eff_2d_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_2d_WPTight_27_OR_WPLoose_27_HT200","my efficiency;x;#epsilon",150,0,300,30,-3,3);
-  TEfficiency* Eff_HT_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_HT_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs HT for WPTight_27_OR_WPLoose_27_HT200;HT (GeV);(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",200,0,1000);	
-  TEfficiency* Eff_numPV_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_numPV_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs numPV for WPTight_27_OR_WPLoose_27_HT200;numPV;(WPTight_27_OR_WPLoose_27_HT200 + Control Trigger + Event_sel)/(Control Trigger + Event_sel)",50,0,50);		
-  	
-  //Sometimes you are asked to do specific binning for your efficiency plots (in the case of making Trigger Scale Factors)
-	
-  //int n_ptBins = 5;
-  //double x_ptBins[6] = {15.0, 25.0, 35.0, 45.0, 55.0, 200.0};
-	
-  //int n_etaBins = 10;
-  //double x_etaBins[11] = {-2.5,-2.1, -1.5660, -1.4442, -0.8, 0, 0.8, 1.4442, 1.5660, 2.1, 2.5};
-	
-  //TEfficiency* Eff_bin_pt = new TEfficiency("Eff_bin_pt","my efficiency;x;#epsilon",n_ptBins,x_ptBins);
-  //TEfficiency* Eff_bin_eta = new TEfficiency("Eff_bin_eta","my efficiency;x;#epsilon",n_etaBins,x_etaBins);
-  //TEfficiency* Eff_bin_2d = new TEfficiency("Eff_bin_2d","my efficiency;x;#epsilon",n_ptBins,x_ptBins,n_etaBins,x_etaBins);
-	
-	
-  //Something interesting you can do when viewing the root file is if you want to investigate the indvidual numerator and denominator
-  //TEfficiency actually has these saved so you can just type in the command line
-  //TH1* numerator_name = Eff_pt->GetCopyPassedHistogram() or TH1* denominator_name = Eff_pt->GetCopyTotalHistogram()
+  TH1D* pt_WPLoose_27_HT200 = new TH1D("Pt_WPLoose_27_HT200","Pt Distribution for WPLoose_27_HT200;pT (GeV);Nr. of Events",150,0,300);
+  TH1D* eta_WPLoose_27_HT200 = new TH1D("Eta_WPLoose_27_HT200","Eta Distribution for WPLoose_27_HT200;#eta;Nr. of Events",30,-3,3);
+  TH1D* phi_WPLoose_27_HT200 = new TH1D("Phi_WPLoose_27_HT200","Phi Distribution for WPLoose_27_HT200;#phi;Nr. of Events",30,-3,3);
+  TH1D* HT_WPLoose_27_HT200 = new TH1D("HT_WPLoose_27_HT200","HT Distribution for WPLoose_27_HT200;HT (GeV);Nr. of Events",200,0,1000);	
+  TH1D* numPV_WPLoose_27_HT200 = new TH1D("NumPV_WPLoose_27_HT200","NumPV Distribution for WPLoose_27_HT200;numPV;Nr. of Events",50,0,50);
+  TH1D* jet1_pt_WPLoose_27_HT200 = new TH1D("Jet1_pt_WPLoose_27_HT200","Jet1 pT Distribution for WPLoose_27_HT200;pT (GeV);Nr. of Events",250,0,500);
+  TH1D* jet1_csv_WPLoose_27_HT200 = new TH1D("Jet1_csv_WPLoose_27_HT200","Jet1 csv Distribution for WPLoose_27_HT200;csv;Nr. of Events",50,0,1);		
+  TH1D* njets_WPLoose_27_HT200 = new TH1D("Njets_WPLoose_27_HT200","N_jets Distribution for WPLoose_27_HT200;Nr. of jets;Nr. of Events",9,4,13);
+  TH1D* nbtags_WPLoose_27_HT200 = new TH1D("Nbtags_WPLoose_27_HT200","N_btags Distribution for WPLoose_27_HT200;Nr. of btags;Nr. of Events",7,2,9);	
+  
+  TH1D* pt_WPTight_27_OR_WPLoose_27_HT200 = new TH1D("Pt_WPTight_27_OR_WPLoose_27_HT200","Pt Distribution for WPTight_27_OR_WPLoose_27_HT200;pT (GeV);Nr. of Events",150,0,300);
+  TH1D* eta_WPTight_27_OR_WPLoose_27_HT200 = new TH1D("Eta_WPTight_27_OR_WPLoose_27_HT200","Eta Distribution for WPTight_27_OR_WPLoose_27_HT200;#eta;Nr. of Events",30,-3,3);
+  TH1D* phi_WPTight_27_OR_WPLoose_27_HT200 = new TH1D("Phi_WPTight_27_OR_WPLoose_27_HT200","Phi Distribution for WPTight_27_OR_WPLoose_27_HT200;#phi;Nr. of Events",30,-3,3);
+  TH1D* HT_WPTight_27_OR_WPLoose_27_HT200 = new TH1D("HT_WPTight_27_OR_WPLoose_27_HT200","HT Distribution for WPTight_27_OR_WPLoose_27_HT200;HT (GeV);Nr. of Events",200,0,1000);	
+  TH1D* numPV_WPTight_27_OR_WPLoose_27_HT200 = new TH1D("NumPV_WPTight_27_OR_WPLoose_27_HT200","NumPV Distribution for WPTight_27_OR_WPLoose_27_HT200;numPV;Nr. of Events",50,0,50);
+  TH1D* jet1_pt_WPTight_27_OR_WPLoose_27_HT200 = new TH1D("Jet1_pt_WPTight_27_OR_WPLoose_27_HT200","Jet1 pT Distribution for WPTight_27_OR_WPLoose_27_HT200;pT (GeV);Nr. of Events",250,0,500);
+  TH1D* jet1_csv_WPTight_27_OR_WPLoose_27_HT200 = new TH1D("Jet1_csv_WPTight_27_OR_WPLoose_27_HT200","Jet1 csv Distribution for WPTight_27_OR_WPLoose_27_HT200;csv;Nr. of Events",50,0,1);			
+  TH1D* njets_WPTight_27_OR_WPLoose_27_HT200 = new TH1D("Njets_WPTight_27_OR_WPLoose_27_HT200","N_jets Distribution for WPTight_27_OR_WPLoose_27_HT200;Nr. of jets;Nr. of Events",9,4,13);
+  TH1D* nbtags_WPTight_27_OR_WPLoose_27_HT200 = new TH1D("Nbtags_WPTight_27_OR_WPLoose_27_HT200","N_btags Distribution for WPTight_27_OR_WPLoose_27_HT200;Nr. of btags;Nr. of Events",7,2,9);
 
   //////////////////////////////////////////////////////////////////////////
   ///  Weights
@@ -277,10 +237,17 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			}	
 		}
 		
+		double jet1_pt, jet1_csv;
+		jet1_pt = jet1_csv = -9999;
+		
 		for(int i=0;i<int(jet_pt.size());i++) {
 			if ( jet_pt[i]>30 && fabs(jet_eta[i])<2.4 ) {
 				numJets++;
 				HT = HT + jet_pt[i];
+				if(jet_pt[i]>=jet1_pt) {
+					jet1_pt = jet_pt[i];
+					jet1_csv = jet_csv[i];
+				}						
 				if ( jet_csv[i] > 0.8 )
 					numTags++;
 			}
@@ -298,27 +265,12 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		//Additionally we require 4Jets and 2Btag Jets
 			
 		if( numJets<4 || numTags<2 ) continue;	
-			
-		int this_category = -1;
-  	    if( numJets==4 && numTags==2) this_category=0;
-  	  	if( numJets==5 && numTags==2) this_category=1;
-  	    if( numJets>=6 && numTags==2) this_category=2;	
-  	    if( numJets==4 && numTags==3) this_category=3;
-  	    if( numJets==5 && numTags==3) this_category=4;
-  	    if( numJets>=6 && numTags==3) this_category=5;
-  	    if( numJets==4 && numTags>=4) this_category=6;
-  	    if( numJets==5 && numTags>=4) this_category=7;
-  	    if( numJets>=6 && numTags>=4) this_category=8;
-		
-		//if(this_category==-1)continue;
 		
 		N_eve++;
 		
 		// Checking control trigger selection
 		
-		if (eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_v_ != 1) continue;		
-		
-		h_catyield->Fill(this_category);	
+		if (eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_v_ == 1) N_eve_control++;		
 		
 		int pass_WPLoose_27_HT200 = eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v_;
 		int pass_WPTight_27 = eve->pass_HLT_Ele27_eta2p1_WPTight_Gsf_v_;
@@ -326,51 +278,68 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		int pass_WPTight_27_OR_WPLoose_27_HT200 = 0;
 		if (pass_WPLoose_27_HT200 ==1 || pass_WPTight_27 ==1 ) 
 			pass_WPTight_27_OR_WPLoose_27_HT200 = 1;
-		
-		
-		if(pass_WPLoose_27_HT200==1)h_catyield_CrossEleTrig->Fill(this_category);
-		if(pass_WPTight_27==1)h_catyield_SingleEleTrig->Fill(this_category);
-		
-		N_eve_control++;
-		if(pass_WPTight_27==1) N_eve_tight_27++;
-		if(pass_WPTight_32==1) N_eve_tight_32++;
-		if(pass_WPLoose_27_HT200==1) N_eve_loose_27_ht200++;
-		if(pass_WPTight_27_OR_WPLoose_27_HT200==1) N_eve_tight_27_OR_loose_27_ht200++;
 	
+		// Fill Histograms
+			
+		if(pass_WPTight_27==1) {
 		
-		//Using TEfficiency
+			pt_WPTight_27->Fill(vvLEPTON[0][0]);
+			eta_WPTight_27->Fill(vvLEPTON[0][1]);
+			phi_WPTight_27->Fill(vvLEPTON[0][2]);
+			HT_WPTight_27->Fill(HT);
+			numPV_WPTight_27->Fill(numPV);
+			jet1_pt_WPTight_27->Fill(jet1_pt);
+			jet1_csv_WPTight_27->Fill(jet1_csv);
+			njets_WPTight_27->Fill(numJets);
+			nbtags_WPTight_27->Fill(numTags);
+			
+			N_eve_tight_27++;
+		}
 		
-		Eff_pt_WPTight_27->Fill(pass_WPTight_27,vvLEPTON[0][0]);
-		Eff_eta_WPTight_27->Fill(pass_WPTight_27,vvLEPTON[0][1]);
-		Eff_phi_WPTight_27->Fill(pass_WPTight_27,vvLEPTON[0][2]);
-		Eff_2d_WPTight_27->Fill(pass_WPTight_27,vvLEPTON[0][0],vvLEPTON[0][1]);
-		Eff_HT_WPTight_27->Fill(pass_WPTight_27,HT);
-		Eff_numPV_WPTight_27->Fill(pass_WPTight_27,numPV);
+		if(pass_WPTight_32==1) {
 		
-		Eff_pt_WPTight_32->Fill(pass_WPTight_32,vvLEPTON[0][0]);
-		Eff_eta_WPTight_32->Fill(pass_WPTight_32,vvLEPTON[0][1]);
-		Eff_phi_WPTight_32->Fill(pass_WPTight_32,vvLEPTON[0][2]);
-		Eff_2d_WPTight_32->Fill(pass_WPTight_32,vvLEPTON[0][0],vvLEPTON[0][1]);
-		Eff_HT_WPTight_32->Fill(pass_WPTight_32,HT);
-		Eff_numPV_WPTight_32->Fill(pass_WPTight_32,numPV);
+			pt_WPTight_32->Fill(vvLEPTON[0][0]);
+			eta_WPTight_32->Fill(vvLEPTON[0][1]);
+			phi_WPTight_32->Fill(vvLEPTON[0][2]);
+			HT_WPTight_32->Fill(HT);
+			numPV_WPTight_32->Fill(numPV);
+			jet1_pt_WPTight_32->Fill(jet1_pt);
+			jet1_csv_WPTight_32->Fill(jet1_csv);
+			njets_WPTight_32->Fill(numJets);
+			nbtags_WPTight_32->Fill(numTags);
+			
+			N_eve_tight_32++;
+		}
 		
-		Eff_pt_WPLoose_27_HT200->Fill(pass_WPLoose_27_HT200,vvLEPTON[0][0]);
-		Eff_eta_WPLoose_27_HT200->Fill(pass_WPLoose_27_HT200,vvLEPTON[0][1]);
-		Eff_phi_WPLoose_27_HT200->Fill(pass_WPLoose_27_HT200,vvLEPTON[0][2]);
-		Eff_2d_WPLoose_27_HT200->Fill(pass_WPLoose_27_HT200,vvLEPTON[0][0],vvLEPTON[0][1]);
-		Eff_HT_WPLoose_27_HT200->Fill(pass_WPLoose_27_HT200,HT);
-		Eff_numPV_WPLoose_27_HT200->Fill(pass_WPLoose_27_HT200,numPV);
+		if(pass_WPLoose_27_HT200==1) {
 		
-		Eff_pt_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,vvLEPTON[0][0]);
-		Eff_eta_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,vvLEPTON[0][1]);
-		Eff_phi_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,vvLEPTON[0][2]);
-		Eff_2d_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,vvLEPTON[0][0],vvLEPTON[0][1]);
-		Eff_HT_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,HT);
-		Eff_numPV_WPTight_27_OR_WPLoose_27_HT200->Fill(pass_WPTight_27_OR_WPLoose_27_HT200,numPV);
+			pt_WPLoose_27_HT200->Fill(vvLEPTON[0][0]);
+			eta_WPLoose_27_HT200->Fill(vvLEPTON[0][1]);
+			phi_WPLoose_27_HT200->Fill(vvLEPTON[0][2]);
+			HT_WPLoose_27_HT200->Fill(HT);
+			numPV_WPLoose_27_HT200->Fill(numPV);
+			jet1_pt_WPLoose_27_HT200->Fill(jet1_pt);
+			jet1_csv_WPLoose_27_HT200->Fill(jet1_csv);
+			njets_WPLoose_27_HT200->Fill(numJets);
+			nbtags_WPLoose_27_HT200->Fill(numTags);
+			
+			N_eve_loose_27_ht200++;
+		}
 		
-		//Eff_bin_pt->Fill(passsing,vvLEPTON[0][0]);
-		//Eff_bin_eta->Fill(passsing,vvLEPTON[0][1]);
-		//Eff_bin_2d->Fill(passsing,vvLEPTON[0][0],vvLEPTON[0][1]);
+		if(pass_WPTight_27_OR_WPLoose_27_HT200==1) {
+		
+			pt_WPTight_27_OR_WPLoose_27_HT200->Fill(vvLEPTON[0][0]);
+			eta_WPTight_27_OR_WPLoose_27_HT200->Fill(vvLEPTON[0][1]);
+			phi_WPTight_27_OR_WPLoose_27_HT200->Fill(vvLEPTON[0][2]);
+			HT_WPTight_27_OR_WPLoose_27_HT200->Fill(HT);
+			numPV_WPTight_27_OR_WPLoose_27_HT200->Fill(numPV);
+			jet1_pt_WPTight_27_OR_WPLoose_27_HT200->Fill(jet1_pt);
+			jet1_csv_WPTight_27_OR_WPLoose_27_HT200->Fill(jet1_csv);
+			njets_WPTight_27_OR_WPLoose_27_HT200->Fill(numJets);
+			nbtags_WPTight_27_OR_WPLoose_27_HT200->Fill(numTags);
+			
+			N_eve_tight_27_OR_loose_27_ht200++;
+		}
 				
    }
    
