@@ -54,6 +54,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   int N_total = 0;
   int N_eve = 0;
   int N_eve_control = 0;
+  int N_eve_loose_27 = 0;
   int N_eve_tight_27 = 0;
   int N_eve_tight_32 = 0;
   int N_eve_loose_27_ht200 = 0;
@@ -97,6 +98,16 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   //Histograms
 	 
   TH1::SetDefaultSumw2();
+
+  TH1D* pt_WPLoose_27 = new TH1D("Pt_WPLoose_27","Pt Distribution for WPLoose_27;pT (GeV);Nr. of Events",150,0,300);
+  TH1D* eta_WPLoose_27 = new TH1D("Eta_WPLoose_27","Eta Distribution for WPLoose_27;#eta;Nr. of Events",30,-3,3);
+  TH1D* phi_WPLoose_27 = new TH1D("Phi_WPLoose_27","Phi Distribution for WPLoose_27;#phi;Nr. of Events",30,-3,3);
+  TH1D* HT_WPLoose_27 = new TH1D("HT_WPLoose_27","HT Distribution for WPLoose_27;HT (GeV);Nr. of Events",200,0,1000);	
+  TH1D* numPV_WPLoose_27 = new TH1D("NumPV_WPLoose_27","NumPV Distribution for WPLoose_27;numPV;Nr. of Events",50,0,50);		
+  TH1D* jet1_pt_WPLoose_27 = new TH1D("Jet1_pt_WPLoose_27","Jet1 pT Distribution for WPLoose_27;pT (GeV);Nr. of Events",250,0,500);
+  TH1D* jet1_csv_WPLoose_27 = new TH1D("Jet1_csv_WPLoose_27","Jet1 csv Distribution for WPLoose_27;csv;Nr. of Events",50,0,1);
+  TH1D* njets_WPLoose_27 = new TH1D("Njets_WPLoose_27","N_jets Distribution for WPLoose_27;Nr. of jets;Nr. of Events",9,4,13);
+  TH1D* nbtags_WPLoose_27 = new TH1D("Nbtags_WPLoose_27","N_btags Distribution for WPLoose_27;Nr. of btags;Nr. of Events",7,2,9);	
 	
   TH1D* pt_WPTight_27 = new TH1D("Pt_WPTight_27","Pt Distribution for WPTight_27;pT (GeV);Nr. of Events",150,0,300);
   TH1D* eta_WPTight_27 = new TH1D("Eta_WPTight_27","Eta Distribution for WPTight_27;#eta;Nr. of Events",30,-3,3);
@@ -272,6 +283,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
 		if (eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_v_ == 1) N_eve_control++;		
 		
+		int pass_WPLoose_27 = eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_v_;
 		int pass_WPLoose_27_HT200 = eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v_;
 		int pass_WPTight_27 = eve->pass_HLT_Ele27_eta2p1_WPTight_Gsf_v_;
 		int pass_WPTight_32 = eve->pass_HLT_Ele32_eta2p1_WPTight_Gsf_v_;
@@ -280,6 +292,21 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			pass_WPTight_27_OR_WPLoose_27_HT200 = 1;
 	
 		// Fill Histograms
+		
+		if(pass_WPLoose_27==1) {
+		
+			pt_WPLoose_27->Fill(vvLEPTON[0][0]);
+			eta_WPLoose_27->Fill(vvLEPTON[0][1]);
+			phi_WPLoose_27->Fill(vvLEPTON[0][2]);
+			HT_WPLoose_27->Fill(HT);
+			numPV_WPLoose_27->Fill(numPV);
+			jet1_pt_WPLoose_27->Fill(jet1_pt);
+			jet1_csv_WPLoose_27->Fill(jet1_csv);
+			njets_WPLoose_27->Fill(numJets);
+			nbtags_WPLoose_27->Fill(numTags);
+			
+			N_eve_loose_27++;
+		}
 			
 		if(pass_WPTight_27==1) {
 		
@@ -350,6 +377,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   std::cout<<"Total No. of events : "<<N_total<<"\n";
   std::cout<<"No. of events passing event selection only : "<<N_eve<<"\n";
   std::cout<<"No. of events passing event selection plus Control Trigger  : "<<N_eve_control<<"\n";
+  std::cout<<"No. of events passing event selection plus WP_Loose_Ele27 Trigger : "<<N_eve_loose_27<<"\n";
   std::cout<<"No. of events passing event selection plus WP_Tight_Ele27 Trigger : "<<N_eve_tight_27<<"\n";
   std::cout<<"No. of events passing event selection plus WP_Tight_Ele32 Trigger : "<<N_eve_tight_32<<"\n";
   std::cout<<"No. of events passing event selection plus WP_Loose_Ele27_HT200 Trigger : "<<N_eve_loose_27_ht200<<"\n";

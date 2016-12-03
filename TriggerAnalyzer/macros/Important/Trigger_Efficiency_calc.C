@@ -148,13 +148,9 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   	x_ptBins[n_bin++]=s;
   	s=s+10;
   }
-  while(s<260){
-  	x_ptBins[n_bin++]=s;
-  	s=s+15;
-  }
   while(s<=300){
   	x_ptBins[n_bin++]=s;
-  	s=s+20;
+  	s=s+25;
   }
   n_ptBins = n_bin-1;
   
@@ -167,23 +163,15 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   }
   while(s<600){
   	x_htBins[n_bin++]=s;
-  	s=s+5;
+  	s=s+10;
   }
   while(s<700){
   	x_htBins[n_bin++]=s;
-  	s=s+6;
-  }
-  while(s<800){
-  	x_htBins[n_bin++]=s;
-  	s=s+7;
-  }
-  while(s<900){
-  	x_htBins[n_bin++]=s;
-  	s=s+8;
+  	s=s+20;
   }
   while(s<=1000){
   	x_htBins[n_bin++]=s;
-  	s=s+9;
+  	s=s+25;
   }
   n_htBins = n_bin-1;
 	
