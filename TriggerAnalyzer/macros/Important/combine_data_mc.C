@@ -732,7 +732,8 @@ void combine_data_mc() {
 	// Scaling and Normlization of mc signal : tthbb
 	///////////////////////////////////////////////////////////
 	
-	double factor_tthbb = 600.0;
+	//double factor_tthbb = 600.0;
+	double factor_tthbb = 1;
 	double sigma_tthbb = 0.5824*0.5071; // pb
 	double N_total_tthbb = 3993304;
 	double norm_tthbb = (L*sigma_tthbb*1000)/N_total_tthbb;
@@ -800,7 +801,7 @@ void combine_data_mc() {
 	double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/N_total_ttjets_sl;
 	double scale_ttjets_sl = factor_ttjets_sl*norm_ttjets_sl;
 	
-	double factor_ttjets_dl = 1;
+	double factor_ttjets_dl = 0;
 	double sigma_ttjets_dl = 87.3; // pb
 	double N_total_ttjets_dl = 75383000;
 	double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/N_total_ttjets_dl;
@@ -953,7 +954,7 @@ void combine_data_mc() {
 	//Not Normalized
 	//////////////////////////////////////////////////
 	
-	
+	/*
 	
 	//Electron pT
 	
@@ -1940,13 +1941,13 @@ void combine_data_mc() {
 	delete c40;
 	delete leg40;
 	
-	
+	*/
 	
 	//////////////////////////////////////////////////
 	//Normalized
 	//////////////////////////////////////////////////
 
-    /*
+
 
 	//Electron pT
 	
@@ -1980,7 +1981,7 @@ void combine_data_mc() {
 	TLegend* leg2 = new TLegend(0.65,0.70,0.85,0.85);
     leg2->SetFillColor(kWhite);
     leg2->SetFillStyle(1001);
-    leg2->AddEntry(tthbb_pt_tight_32,"MC : ttH x 600","L");
+    leg2->AddEntry(tthbb_pt_tight_32,"MC : ttH","L");
     leg2->AddEntry(bkgd_pt_tight_32,"MC : Background","L");
     leg2->AddEntry(data_pt_tight_32,"Data","L");	
 	tthbb_pt_tight_32->SetLineColor(kRed);
@@ -2004,7 +2005,7 @@ void combine_data_mc() {
 	TLegend* leg3 = new TLegend(0.65,0.70,0.85,0.85);
     leg3->SetFillColor(kWhite);
     leg3->SetFillStyle(1001);
-    leg3->AddEntry(tthbb_pt_loose_27_ht200,"MC : ttH x 600","L");
+    leg3->AddEntry(tthbb_pt_loose_27_ht200,"MC : ttH","L");
     leg3->AddEntry(bkgd_pt_loose_27_ht200,"MC : Background","L");
     leg3->AddEntry(data_pt_loose_27_ht200,"Data","L");	
 	tthbb_pt_loose_27_ht200->SetLineColor(kRed);
@@ -2028,7 +2029,7 @@ void combine_data_mc() {
 	TLegend* leg4 = new TLegend(0.65,0.70,0.85,0.85);
     leg4->SetFillColor(kWhite);
     leg4->SetFillStyle(1001);
-    leg4->AddEntry(tthbb_pt_tight_27_or_loose_27_ht200,"MC : ttH x 600","L");
+    leg4->AddEntry(tthbb_pt_tight_27_or_loose_27_ht200,"MC : ttH","L");
     leg4->AddEntry(bkgd_pt_tight_27_or_loose_27_ht200,"MC : Background","L");
     leg4->AddEntry(data_pt_tight_27_or_loose_27_ht200,"Data","L");	
 	tthbb_pt_tight_27_or_loose_27_ht200->SetLineColor(kRed);
@@ -2052,7 +2053,7 @@ void combine_data_mc() {
 	TLegend* leg5 = new TLegend(0.65,0.70,0.85,0.85);
     leg5->SetFillColor(kWhite);
     leg5->SetFillStyle(1001);
-    leg5->AddEntry(tthbb_pt_loose_27,"MC : ttH x 600","L");
+    leg5->AddEntry(tthbb_pt_loose_27,"MC : ttH","L");
     leg5->AddEntry(bkgd_pt_loose_27,"MC : Background","L");
     leg5->AddEntry(data_pt_loose_27,"Data","L");	
 	tthbb_pt_loose_27->SetLineColor(kRed);
@@ -2078,7 +2079,7 @@ void combine_data_mc() {
 	TLegend* leg6 = new TLegend(0.65,0.70,0.85,0.85);
     leg6->SetFillColor(kWhite);
     leg6->SetFillStyle(1001);
-    leg6->AddEntry(tthbb_eta_tight_27,"MC : ttH x 600","L");
+    leg6->AddEntry(tthbb_eta_tight_27,"MC : ttH","L");
     leg6->AddEntry(bkgd_eta_tight_27,"MC : Background","L");
     leg6->AddEntry(data_eta_tight_27,"Data","L");	
 	tthbb_eta_tight_27->SetLineColor(kRed);
@@ -2103,7 +2104,7 @@ void combine_data_mc() {
 	TLegend* leg7 = new TLegend(0.65,0.70,0.85,0.85);
     leg7->SetFillColor(kWhite);
     leg7->SetFillStyle(1001);
-    leg7->AddEntry(tthbb_eta_tight_32,"MC : ttH x 600","L");
+    leg7->AddEntry(tthbb_eta_tight_32,"MC : ttH","L");
     leg7->AddEntry(bkgd_eta_tight_32,"MC : Background","L");
     leg7->AddEntry(data_eta_tight_32,"Data","L");	
 	tthbb_eta_tight_32->SetLineColor(kRed);
@@ -2127,7 +2128,7 @@ void combine_data_mc() {
 	TLegend* leg8 = new TLegend(0.65,0.70,0.85,0.85);
     leg8->SetFillColor(kWhite);
     leg8->SetFillStyle(1001);
-    leg8->AddEntry(tthbb_eta_loose_27_ht200,"MC : ttH x 600","L");
+    leg8->AddEntry(tthbb_eta_loose_27_ht200,"MC : ttH","L");
     leg8->AddEntry(bkgd_eta_loose_27_ht200,"MC : Background","L");
     leg8->AddEntry(data_eta_loose_27_ht200,"Data","L");	
 	tthbb_eta_loose_27_ht200->SetLineColor(kRed);
@@ -2151,7 +2152,7 @@ void combine_data_mc() {
 	TLegend* leg9 = new TLegend(0.65,0.70,0.85,0.85);
     leg9->SetFillColor(kWhite);
     leg9->SetFillStyle(1001);
-    leg9->AddEntry(tthbb_eta_tight_27_or_loose_27_ht200,"MC : ttH x 600","L");
+    leg9->AddEntry(tthbb_eta_tight_27_or_loose_27_ht200,"MC : ttH","L");
     leg9->AddEntry(bkgd_eta_tight_27_or_loose_27_ht200,"MC : Background","L");
     leg9->AddEntry(data_eta_tight_27_or_loose_27_ht200,"Data","L");	
 	tthbb_eta_tight_27_or_loose_27_ht200->SetLineColor(kRed);
@@ -2175,7 +2176,7 @@ void combine_data_mc() {
 	TLegend* leg10 = new TLegend(0.65,0.70,0.85,0.85);
     leg10->SetFillColor(kWhite);
     leg10->SetFillStyle(1001);
-    leg10->AddEntry(tthbb_eta_loose_27,"MC : ttH x 600","L");
+    leg10->AddEntry(tthbb_eta_loose_27,"MC : ttH","L");
     leg10->AddEntry(bkgd_eta_loose_27,"MC : Background","L");
     leg10->AddEntry(data_eta_loose_27,"Data","L");	
 	tthbb_eta_loose_27->SetLineColor(kRed);
@@ -2201,7 +2202,7 @@ void combine_data_mc() {
 	TLegend* leg11 = new TLegend(0.65,0.70,0.85,0.85);
     leg11->SetFillColor(kWhite);
     leg11->SetFillStyle(1001);
-    leg11->AddEntry(tthbb_phi_tight_27,"MC : ttH x 600","L");
+    leg11->AddEntry(tthbb_phi_tight_27,"MC : ttH","L");
     leg11->AddEntry(bkgd_phi_tight_27,"MC : Background","L");
     leg11->AddEntry(data_phi_tight_27,"Data","L");	
 	tthbb_phi_tight_27->SetLineColor(kRed);
@@ -2226,7 +2227,7 @@ void combine_data_mc() {
 	TLegend* leg12 = new TLegend(0.65,0.70,0.85,0.85);
     leg12->SetFillColor(kWhite);
     leg12->SetFillStyle(1001);
-    leg12->AddEntry(tthbb_phi_tight_32,"MC : ttH x 600","L");
+    leg12->AddEntry(tthbb_phi_tight_32,"MC : ttH","L");
     leg12->AddEntry(bkgd_phi_tight_32,"MC : Background","L");
     leg12->AddEntry(data_phi_tight_32,"Data","L");	
 	tthbb_phi_tight_32->SetLineColor(kRed);
@@ -2250,7 +2251,7 @@ void combine_data_mc() {
 	TLegend* leg13 = new TLegend(0.65,0.70,0.85,0.85);
     leg13->SetFillColor(kWhite);
     leg13->SetFillStyle(1001);
-    leg13->AddEntry(tthbb_phi_loose_27_ht200,"MC : ttH x 600","L");
+    leg13->AddEntry(tthbb_phi_loose_27_ht200,"MC : ttH","L");
     leg13->AddEntry(bkgd_phi_loose_27_ht200,"MC : Background","L");
     leg13->AddEntry(data_phi_loose_27_ht200,"Data","L");	
 	tthbb_phi_loose_27_ht200->SetLineColor(kRed);
@@ -2274,7 +2275,7 @@ void combine_data_mc() {
 	TLegend* leg14 = new TLegend(0.65,0.70,0.85,0.85);
     leg14->SetFillColor(kWhite);
     leg14->SetFillStyle(1001);
-    leg14->AddEntry(tthbb_phi_tight_27_or_loose_27_ht200,"MC : ttH x 600","L");
+    leg14->AddEntry(tthbb_phi_tight_27_or_loose_27_ht200,"MC : ttH","L");
     leg14->AddEntry(bkgd_phi_tight_27_or_loose_27_ht200,"MC : Background","L");
     leg14->AddEntry(data_phi_tight_27_or_loose_27_ht200,"Data","L");	
 	tthbb_phi_tight_27_or_loose_27_ht200->SetLineColor(kRed);
@@ -2298,7 +2299,7 @@ void combine_data_mc() {
 	TLegend* leg15 = new TLegend(0.65,0.70,0.85,0.85);
     leg15->SetFillColor(kWhite);
     leg15->SetFillStyle(1001);
-    leg15->AddEntry(tthbb_phi_loose_27,"MC : ttH x 600","L");
+    leg15->AddEntry(tthbb_phi_loose_27,"MC : ttH","L");
     leg15->AddEntry(bkgd_phi_loose_27,"MC : Background","L");
     leg15->AddEntry(data_phi_loose_27,"Data","L");	
 	tthbb_phi_loose_27->SetLineColor(kRed);
@@ -2324,7 +2325,7 @@ void combine_data_mc() {
 	TLegend* leg16 = new TLegend(0.65,0.70,0.85,0.85);
     leg16->SetFillColor(kWhite);
     leg16->SetFillStyle(1001);
-    leg16->AddEntry(tthbb_jet1pt_tight_27,"MC : ttH x 600","L");
+    leg16->AddEntry(tthbb_jet1pt_tight_27,"MC : ttH","L");
     leg16->AddEntry(bkgd_jet1pt_tight_27,"MC : Background","L");
     leg16->AddEntry(data_jet1pt_tight_27,"Data","L");	
 	tthbb_jet1pt_tight_27->SetLineColor(kRed);
@@ -2349,7 +2350,7 @@ void combine_data_mc() {
 	TLegend* leg17 = new TLegend(0.65,0.70,0.85,0.85);
     leg17->SetFillColor(kWhite);
     leg17->SetFillStyle(1001);
-    leg17->AddEntry(tthbb_jet1pt_tight_32,"MC : ttH x 600","L");
+    leg17->AddEntry(tthbb_jet1pt_tight_32,"MC : ttH","L");
     leg17->AddEntry(bkgd_jet1pt_tight_32,"MC : Background","L");
     leg17->AddEntry(data_jet1pt_tight_32,"Data","L");	
 	tthbb_jet1pt_tight_32->SetLineColor(kRed);
@@ -2373,7 +2374,7 @@ void combine_data_mc() {
 	TLegend* leg18 = new TLegend(0.65,0.70,0.85,0.85);
     leg18->SetFillColor(kWhite);
     leg18->SetFillStyle(1001);
-    leg18->AddEntry(tthbb_jet1pt_loose_27_ht200,"MC : ttH x 600","L");
+    leg18->AddEntry(tthbb_jet1pt_loose_27_ht200,"MC : ttH","L");
     leg18->AddEntry(bkgd_jet1pt_loose_27_ht200,"MC : Background","L");
     leg18->AddEntry(data_jet1pt_loose_27_ht200,"Data","L");	
 	tthbb_jet1pt_loose_27_ht200->SetLineColor(kRed);
@@ -2397,7 +2398,7 @@ void combine_data_mc() {
 	TLegend* leg19 = new TLegend(0.65,0.70,0.85,0.85);
     leg19->SetFillColor(kWhite);
     leg19->SetFillStyle(1001);
-    leg19->AddEntry(tthbb_jet1pt_tight_27_or_loose_27_ht200,"MC : ttH x 600","L");
+    leg19->AddEntry(tthbb_jet1pt_tight_27_or_loose_27_ht200,"MC : ttH","L");
     leg19->AddEntry(bkgd_jet1pt_tight_27_or_loose_27_ht200,"MC : Background","L");
     leg19->AddEntry(data_jet1pt_tight_27_or_loose_27_ht200,"Data","L");	
 	tthbb_jet1pt_tight_27_or_loose_27_ht200->SetLineColor(kRed);
@@ -2421,7 +2422,7 @@ void combine_data_mc() {
 	TLegend* leg20 = new TLegend(0.65,0.70,0.85,0.85);
     leg20->SetFillColor(kWhite);
     leg20->SetFillStyle(1001);
-    leg20->AddEntry(tthbb_jet1pt_loose_27,"MC : ttH x 600","L");
+    leg20->AddEntry(tthbb_jet1pt_loose_27,"MC : ttH","L");
     leg20->AddEntry(bkgd_jet1pt_loose_27,"MC : Background","L");
     leg20->AddEntry(data_jet1pt_loose_27,"Data","L");	
 	tthbb_jet1pt_loose_27->SetLineColor(kRed);
@@ -2447,7 +2448,7 @@ void combine_data_mc() {
 	TLegend* leg21 = new TLegend(0.65,0.70,0.85,0.85);
     leg21->SetFillColor(kWhite);
     leg21->SetFillStyle(1001);
-    leg21->AddEntry(tthbb_jet1csv_tight_27,"MC : ttH x 600","L");
+    leg21->AddEntry(tthbb_jet1csv_tight_27,"MC : ttH","L");
     leg21->AddEntry(bkgd_jet1csv_tight_27,"MC : Background","L");
     leg21->AddEntry(data_jet1csv_tight_27,"Data","L");	
 	tthbb_jet1csv_tight_27->SetLineColor(kRed);
@@ -2472,7 +2473,7 @@ void combine_data_mc() {
 	TLegend* leg22 = new TLegend(0.65,0.70,0.85,0.85);
     leg22->SetFillColor(kWhite);
     leg22->SetFillStyle(1001);
-    leg22->AddEntry(tthbb_jet1csv_tight_32,"MC : ttH x 600","L");
+    leg22->AddEntry(tthbb_jet1csv_tight_32,"MC : ttH","L");
     leg22->AddEntry(bkgd_jet1csv_tight_32,"MC : Background","L");
     leg22->AddEntry(data_jet1csv_tight_32,"Data","L");	
 	tthbb_jet1csv_tight_32->SetLineColor(kRed);
@@ -2496,7 +2497,7 @@ void combine_data_mc() {
 	TLegend* leg23 = new TLegend(0.65,0.70,0.85,0.85);
     leg23->SetFillColor(kWhite);
     leg23->SetFillStyle(1001);
-    leg23->AddEntry(tthbb_jet1csv_loose_27_ht200,"MC : ttH x 600","L");
+    leg23->AddEntry(tthbb_jet1csv_loose_27_ht200,"MC : ttH","L");
     leg23->AddEntry(bkgd_jet1csv_loose_27_ht200,"MC : Background","L");
     leg23->AddEntry(data_jet1csv_loose_27_ht200,"Data","L");	
 	tthbb_jet1csv_loose_27_ht200->SetLineColor(kRed);
@@ -2520,7 +2521,7 @@ void combine_data_mc() {
 	TLegend* leg24 = new TLegend(0.65,0.70,0.85,0.85);
     leg24->SetFillColor(kWhite);
     leg24->SetFillStyle(1001);
-    leg24->AddEntry(tthbb_jet1csv_tight_27_or_loose_27_ht200,"MC : ttH x 600","L");
+    leg24->AddEntry(tthbb_jet1csv_tight_27_or_loose_27_ht200,"MC : ttH","L");
     leg24->AddEntry(bkgd_jet1csv_tight_27_or_loose_27_ht200,"MC : Background","L");
     leg24->AddEntry(data_jet1csv_tight_27_or_loose_27_ht200,"Data","L");	
 	tthbb_jet1csv_tight_27_or_loose_27_ht200->SetLineColor(kRed);
@@ -2544,7 +2545,7 @@ void combine_data_mc() {
 	TLegend* leg25 = new TLegend(0.65,0.70,0.85,0.85);
     leg25->SetFillColor(kWhite);
     leg25->SetFillStyle(1001);
-    leg25->AddEntry(tthbb_jet1csv_loose_27,"MC : ttH x 600","L");
+    leg25->AddEntry(tthbb_jet1csv_loose_27,"MC : ttH","L");
     leg25->AddEntry(bkgd_jet1csv_loose_27,"MC : Background","L");
     leg25->AddEntry(data_jet1csv_loose_27,"Data","L");	
 	tthbb_jet1csv_loose_27->SetLineColor(kRed);
@@ -2571,7 +2572,7 @@ void combine_data_mc() {
 	TLegend* leg26 = new TLegend(0.65,0.70,0.85,0.85);
     leg26->SetFillColor(kWhite);
     leg26->SetFillStyle(1001);
-    leg26->AddEntry(tthbb_ht_tight_27,"MC : ttH x 600","L");
+    leg26->AddEntry(tthbb_ht_tight_27,"MC : ttH","L");
     leg26->AddEntry(bkgd_ht_tight_27,"MC : Background","L");
     leg26->AddEntry(data_ht_tight_27,"Data","L");	
 	tthbb_ht_tight_27->SetLineColor(kRed);
@@ -2596,7 +2597,7 @@ void combine_data_mc() {
 	TLegend* leg27 = new TLegend(0.65,0.70,0.85,0.85);
     leg27->SetFillColor(kWhite);
     leg27->SetFillStyle(1001);
-    leg27->AddEntry(tthbb_ht_tight_32,"MC : ttH x 600","L");
+    leg27->AddEntry(tthbb_ht_tight_32,"MC : ttH","L");
     leg27->AddEntry(bkgd_ht_tight_32,"MC : Background","L");
     leg27->AddEntry(data_ht_tight_32,"Data","L");	
 	tthbb_ht_tight_32->SetLineColor(kRed);
@@ -2620,7 +2621,7 @@ void combine_data_mc() {
 	TLegend* leg28 = new TLegend(0.65,0.70,0.85,0.85);
     leg28->SetFillColor(kWhite);
     leg28->SetFillStyle(1001);
-    leg28->AddEntry(tthbb_ht_loose_27_ht200,"MC : ttH x 600","L");
+    leg28->AddEntry(tthbb_ht_loose_27_ht200,"MC : ttH","L");
     leg28->AddEntry(bkgd_ht_loose_27_ht200,"MC : Background","L");
     leg28->AddEntry(data_ht_loose_27_ht200,"Data","L");	
 	tthbb_ht_loose_27_ht200->SetLineColor(kRed);
@@ -2644,7 +2645,7 @@ void combine_data_mc() {
 	TLegend* leg29 = new TLegend(0.65,0.70,0.85,0.85);
     leg29->SetFillColor(kWhite);
     leg29->SetFillStyle(1001);
-    leg29->AddEntry(tthbb_ht_tight_27_or_loose_27_ht200,"MC : ttH x 600","L");
+    leg29->AddEntry(tthbb_ht_tight_27_or_loose_27_ht200,"MC : ttH","L");
     leg29->AddEntry(bkgd_ht_tight_27_or_loose_27_ht200,"MC : Background","L");
     leg29->AddEntry(data_ht_tight_27_or_loose_27_ht200,"Data","L");	
 	tthbb_ht_tight_27_or_loose_27_ht200->SetLineColor(kRed);
@@ -2668,7 +2669,7 @@ void combine_data_mc() {
 	TLegend* leg30 = new TLegend(0.65,0.70,0.85,0.85);
     leg30->SetFillColor(kWhite);
     leg30->SetFillStyle(1001);
-    leg30->AddEntry(tthbb_ht_loose_27,"MC : ttH x 600","L");
+    leg30->AddEntry(tthbb_ht_loose_27,"MC : ttH","L");
     leg30->AddEntry(bkgd_ht_loose_27,"MC : Background","L");
     leg30->AddEntry(data_ht_loose_27,"Data","L");	
 	tthbb_ht_loose_27->SetLineColor(kRed);
@@ -2694,7 +2695,7 @@ void combine_data_mc() {
 	TLegend* leg31 = new TLegend(0.65,0.70,0.85,0.85);
     leg31->SetFillColor(kWhite);
     leg31->SetFillStyle(1001);
-    leg31->AddEntry(tthbb_njets_tight_27,"MC : ttH x 600","L");
+    leg31->AddEntry(tthbb_njets_tight_27,"MC : ttH","L");
     leg31->AddEntry(bkgd_njets_tight_27,"MC : Background","L");
     leg31->AddEntry(data_njets_tight_27,"Data","L");	
 	tthbb_njets_tight_27->SetLineColor(kRed);
@@ -2719,7 +2720,7 @@ void combine_data_mc() {
 	TLegend* leg32 = new TLegend(0.65,0.70,0.85,0.85);
     leg32->SetFillColor(kWhite);
     leg32->SetFillStyle(1001);
-    leg32->AddEntry(tthbb_njets_tight_32,"MC : ttH x 600","L");
+    leg32->AddEntry(tthbb_njets_tight_32,"MC : ttH","L");
     leg32->AddEntry(bkgd_njets_tight_32,"MC : Background","L");
     leg32->AddEntry(data_njets_tight_32,"Data","L");	
 	tthbb_njets_tight_32->SetLineColor(kRed);
@@ -2743,7 +2744,7 @@ void combine_data_mc() {
 	TLegend* leg33 = new TLegend(0.65,0.70,0.85,0.85);
     leg33->SetFillColor(kWhite);
     leg33->SetFillStyle(1001);
-    leg33->AddEntry(tthbb_njets_loose_27_ht200,"MC : ttH x 600","L");
+    leg33->AddEntry(tthbb_njets_loose_27_ht200,"MC : ttH","L");
     leg33->AddEntry(bkgd_njets_loose_27_ht200,"MC : Background","L");
     leg33->AddEntry(data_njets_loose_27_ht200,"Data","L");	
 	tthbb_njets_loose_27_ht200->SetLineColor(kRed);
@@ -2767,7 +2768,7 @@ void combine_data_mc() {
 	TLegend* leg34 = new TLegend(0.65,0.70,0.85,0.85);
     leg34->SetFillColor(kWhite);
     leg34->SetFillStyle(1001);
-    leg34->AddEntry(tthbb_njets_tight_27_or_loose_27_ht200,"MC : ttH x 600","L");
+    leg34->AddEntry(tthbb_njets_tight_27_or_loose_27_ht200,"MC : ttH","L");
     leg34->AddEntry(bkgd_njets_tight_27_or_loose_27_ht200,"MC : Background","L");
     leg34->AddEntry(data_njets_tight_27_or_loose_27_ht200,"Data","L");	
 	tthbb_njets_tight_27_or_loose_27_ht200->SetLineColor(kRed);
@@ -2791,7 +2792,7 @@ void combine_data_mc() {
 	TLegend* leg35 = new TLegend(0.65,0.70,0.85,0.85);
     leg35->SetFillColor(kWhite);
     leg35->SetFillStyle(1001);
-    leg35->AddEntry(tthbb_njets_loose_27,"MC : ttH x 600","L");
+    leg35->AddEntry(tthbb_njets_loose_27,"MC : ttH","L");
     leg35->AddEntry(bkgd_njets_loose_27,"MC : Background","L");
     leg35->AddEntry(data_njets_loose_27,"Data","L");	
 	tthbb_njets_loose_27->SetLineColor(kRed);
@@ -2817,7 +2818,7 @@ void combine_data_mc() {
 	TLegend* leg36 = new TLegend(0.65,0.70,0.85,0.85);
     leg36->SetFillColor(kWhite);
     leg36->SetFillStyle(1001);
-    leg36->AddEntry(tthbb_nbtags_tight_27,"MC : ttH x 600","L");
+    leg36->AddEntry(tthbb_nbtags_tight_27,"MC : ttH","L");
     leg36->AddEntry(bkgd_nbtags_tight_27,"MC : Background","L");
     leg36->AddEntry(data_nbtags_tight_27,"Data","L");	
 	tthbb_nbtags_tight_27->SetLineColor(kRed);
@@ -2842,7 +2843,7 @@ void combine_data_mc() {
 	TLegend* leg37 = new TLegend(0.65,0.70,0.85,0.85);
     leg37->SetFillColor(kWhite);
     leg37->SetFillStyle(1001);
-    leg37->AddEntry(tthbb_nbtags_tight_32,"MC : ttH x 600","L");
+    leg37->AddEntry(tthbb_nbtags_tight_32,"MC : ttH","L");
     leg37->AddEntry(bkgd_nbtags_tight_32,"MC : Background","L");
     leg37->AddEntry(data_nbtags_tight_32,"Data","L");	
 	tthbb_nbtags_tight_32->SetLineColor(kRed);
@@ -2866,7 +2867,7 @@ void combine_data_mc() {
 	TLegend* leg38 = new TLegend(0.65,0.70,0.85,0.85);
     leg38->SetFillColor(kWhite);
     leg38->SetFillStyle(1001);
-    leg38->AddEntry(tthbb_nbtags_loose_27_ht200,"MC : ttH x 600","L");
+    leg38->AddEntry(tthbb_nbtags_loose_27_ht200,"MC : ttH","L");
     leg38->AddEntry(bkgd_nbtags_loose_27_ht200,"MC : Background","L");
     leg38->AddEntry(data_nbtags_loose_27_ht200,"Data","L");	
 	tthbb_nbtags_loose_27_ht200->SetLineColor(kRed);
@@ -2890,7 +2891,7 @@ void combine_data_mc() {
 	TLegend* leg39 = new TLegend(0.65,0.70,0.85,0.85);
     leg39->SetFillColor(kWhite);
     leg39->SetFillStyle(1001);
-    leg39->AddEntry(tthbb_nbtags_tight_27_or_loose_27_ht200,"MC : ttH x 600","L");
+    leg39->AddEntry(tthbb_nbtags_tight_27_or_loose_27_ht200,"MC : ttH","L");
     leg39->AddEntry(bkgd_nbtags_tight_27_or_loose_27_ht200,"MC : Background","L");
     leg39->AddEntry(data_nbtags_tight_27_or_loose_27_ht200,"Data","L");	
 	tthbb_nbtags_tight_27_or_loose_27_ht200->SetLineColor(kRed);
@@ -2914,7 +2915,7 @@ void combine_data_mc() {
 	TLegend* leg40 = new TLegend(0.65,0.70,0.85,0.85);
     leg40->SetFillColor(kWhite);
     leg40->SetFillStyle(1001);
-    leg40->AddEntry(tthbb_nbtags_loose_27,"MC : ttH x 600","L");
+    leg40->AddEntry(tthbb_nbtags_loose_27,"MC : ttH","L");
     leg40->AddEntry(bkgd_nbtags_loose_27,"MC : Background","L");
     leg40->AddEntry(data_nbtags_loose_27,"Data","L");	
 	tthbb_nbtags_loose_27->SetLineColor(kRed);
@@ -2932,7 +2933,7 @@ void combine_data_mc() {
 	c40->Print("nbtags_loose_27_data_mc_norm.png");
 	delete c40;
 	delete leg40;
-	*/
+	
 
 	delete f1;
 	delete f2;

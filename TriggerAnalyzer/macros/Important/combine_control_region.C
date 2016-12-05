@@ -365,6 +365,7 @@ void combine_control_region() {
 	dy_njets_loose_27->Scale(scale_dy);
 	dy_nbtags_loose_27->Scale(scale_dy);
 	dy_pt_tight_27->Scale(scale_dy);
+	dy_pt2_tight_27->Scale(scale_dy);
 	dy_eta_tight_27->Scale(scale_dy);
 	dy_phi_tight_27->Scale(scale_dy);
 	dy_ht_tight_27->Scale(scale_dy);
@@ -374,6 +375,7 @@ void combine_control_region() {
 	dy_njets_tight_27->Scale(scale_dy);
 	dy_nbtags_tight_27->Scale(scale_dy);
 	dy_pt_tight_32->Scale(scale_dy);
+	dy_pt2_tight_32->Scale(scale_dy);
 	dy_eta_tight_32->Scale(scale_dy);
 	dy_phi_tight_32->Scale(scale_dy);
 	dy_ht_tight_32->Scale(scale_dy);
@@ -383,6 +385,7 @@ void combine_control_region() {
 	dy_njets_tight_32->Scale(scale_dy);
 	dy_nbtags_tight_32->Scale(scale_dy);
 	dy_pt_loose_27_ht200->Scale(scale_dy);
+	dy_pt2_loose_27_ht200->Scale(scale_dy);
 	dy_eta_loose_27_ht200->Scale(scale_dy);
 	dy_phi_loose_27_ht200->Scale(scale_dy);
 	dy_ht_loose_27_ht200->Scale(scale_dy);
@@ -392,6 +395,7 @@ void combine_control_region() {
 	dy_njets_loose_27_ht200->Scale(scale_dy);
 	dy_nbtags_loose_27_ht200->Scale(scale_dy);
 	dy_pt_tight_27_or_loose_27_ht200->Scale(scale_dy);
+	dy_pt2_tight_27_or_loose_27_ht200->Scale(scale_dy);
 	dy_eta_tight_27_or_loose_27_ht200->Scale(scale_dy);
 	dy_phi_tight_27_or_loose_27_ht200->Scale(scale_dy);
 	dy_ht_tight_27_or_loose_27_ht200->Scale(scale_dy);
@@ -404,6 +408,8 @@ void combine_control_region() {
 	////////////////////////////////////////////////////////
 	//Plotting
 	////////////////////////////////////////////////////////
+	
+	//Tag Electron pT
 	
 	TCanvas *c1 = new TCanvas("c1","test",1100,650);
 	c1->DrawFrame(0,0,300,300000,"Tight Electron pT (for WPTight_27) ; pT (Electron) [GeV] ; Nr. of Events");
@@ -499,8 +505,195 @@ void combine_control_region() {
 	delete leg5;
 	
 	
+	//Probe Electron pT
+	
+	TCanvas *c6 = new TCanvas("c6","test",1100,650);
+	c6->DrawFrame(0,0,300,300000,"Loose Electron pT (for WPTight_27) ; pT (Electron) [GeV] ; Nr. of Events");
+	TLegend* leg6 = new TLegend(0.65,0.70,0.85,0.85);
+    leg6->SetFillColor(kWhite);
+    leg6->SetFillStyle(1001);
+    leg6->AddEntry(dy_pt2_tight_27,"MC : DY","L");
+    leg6->AddEntry(data_pt2_tight_27,"Data","L");	
+	dy_pt2_tight_27->SetLineColor(kRed);
+	dy_pt2_tight_27->SetLineWidth(2);
+	//dy_pt2_tight_27->SetFillStyle(3004);
+	//dy_pt2_tight_27->SetFillColor(kOrange); 
+	dy_pt2_tight_27->Draw("same");
+	data_pt2_tight_27->SetLineColor(kBlue);
+	data_pt2_tight_27->SetLineWidth(2);
+	data_pt2_tight_27->Draw("same");
+	leg6->Draw("same");
+	c6->Print("looseele_pt_tight_27_control.png");
+	delete c6;
+	delete leg6;
 	
 	
+	TCanvas *c7= new TCanvas("c7","test",1100,650);
+	c7->DrawFrame(0,0,300,300000,"Loose Electron pT (for WPTight_32) ; pT (Electron) [GeV] ; Nr. of Events");
+	TLegend* leg7 = new TLegend(0.65,0.70,0.85,0.85);
+    leg7->SetFillColor(kWhite);
+    leg7->SetFillStyle(1001);
+    leg7->AddEntry(dy_pt2_tight_32,"MC : DY","L");
+    leg7->AddEntry(data_pt2_tight_32,"Data","L");	
+	dy_pt2_tight_32->SetLineColor(kRed);
+	dy_pt2_tight_32->SetLineWidth(2);
+	dy_pt2_tight_32->Draw("same");
+	data_pt2_tight_32->SetLineColor(kBlue);
+	data_pt2_tight_32->SetLineWidth(2);
+	data_pt2_tight_32->Draw("same");
+	leg7->Draw("same");
+	c7->Print("looseele_pt_tight_32_control.png");
+	delete c7;
+	delete leg7;
+	
+	TCanvas *c8 = new TCanvas("c8","test",1100,650);
+	c8->DrawFrame(0,0,300,11000,"Loose Electron pT (for WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
+	TLegend* leg8 = new TLegend(0.65,0.70,0.85,0.85);
+    leg8->SetFillColor(kWhite);
+    leg8->SetFillStyle(1001);
+    leg8->AddEntry(dy_pt2_loose_27_ht200,"MC : DY","L");
+    leg8->AddEntry(data_pt2_loose_27_ht200,"Data","L");	
+	dy_pt2_loose_27_ht200->SetLineColor(kRed);
+	dy_pt2_loose_27_ht200->SetLineWidth(2);
+	dy_pt2_loose_27_ht200->Draw("same");
+	data_pt2_loose_27_ht200->SetLineColor(kBlue);
+	data_pt2_loose_27_ht200->SetLineWidth(2);
+	data_pt2_loose_27_ht200->Draw("same");
+	leg8->Draw("same");
+	c8->Print("looseele_pt_loose_27_ht200_control.png");
+	delete c8;
+	delete leg8;
+	
+	TCanvas *c9= new TCanvas("c9","test",1100,650);
+	c9->DrawFrame(0,0,300,300000,"Loose Electron pT (for WPTight_27_OR_WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
+	TLegend* leg9 = new TLegend(0.65,0.70,0.85,0.85);
+    leg9->SetFillColor(kWhite);
+    leg9->SetFillStyle(1001);
+    leg9->AddEntry(dy_pt2_tight_27_or_loose_27_ht200,"MC : DY","L");
+    leg9->AddEntry(data_pt2_tight_27_or_loose_27_ht200,"Data","L");	
+	dy_pt2_tight_27_or_loose_27_ht200->SetLineColor(kRed);
+	dy_pt2_tight_27_or_loose_27_ht200->SetLineWidth(2);
+	dy_pt2_tight_27_or_loose_27_ht200->Draw("same");
+	data_pt2_tight_27_or_loose_27_ht200->SetLineColor(kBlue);
+	data_pt2_tight_27_or_loose_27_ht200->SetLineWidth(2);
+	data_pt2_tight_27_or_loose_27_ht200->Draw("same");
+	leg9->Draw("same");
+	c9->Print("looseele_pt_tight_27_or_loose_27_ht200_control.png");
+	delete c9;
+	delete leg9;
+	
+	TCanvas *c10= new TCanvas("c10","test",1100,650);
+	c10->DrawFrame(0,0,300,300000,"Loose Electron pT (for WPLoose_27) ; pT (Electron) [GeV] ; Nr. of Events");
+	TLegend* leg10 = new TLegend(0.65,0.70,0.85,0.85);
+    leg10->SetFillColor(kWhite);
+    leg10->SetFillStyle(1001);
+    leg10->AddEntry(dy_pt2_loose_27,"MC : DY","L");
+    leg10->AddEntry(data_pt2_loose_27,"Data","L");	
+	dy_pt2_loose_27->SetLineColor(kRed);
+	dy_pt2_loose_27->SetLineWidth(2);
+	dy_pt2_loose_27->Draw("same");
+	data_pt2_loose_27->SetLineColor(kBlue);
+	data_pt2_loose_27->SetLineWidth(2);
+	data_pt2_loose_27->Draw("same");
+	leg10->Draw("same");
+	c10->Print("looseele_pt_loose_27_control.png");
+	delete c10;
+	delete leg10;
+	
+	//HT
+	
+	TCanvas *c11 = new TCanvas("c11","test",1100,650);
+	c11->DrawFrame(0,0,200,1600000,"HT (for WPTight_27) ; HT [GeV] ; Nr. of Events");
+	TLegend* leg11 = new TLegend(0.65,0.70,0.85,0.85);
+    leg11->SetFillColor(kWhite);
+    leg11->SetFillStyle(1001);
+    leg11->AddEntry(dy_ht_tight_27,"MC : DY","L");
+    leg11->AddEntry(data_ht_tight_27,"Data","L");	
+	dy_ht_tight_27->SetLineColor(kRed);
+	dy_ht_tight_27->SetLineWidth(2);
+	//dy_ht_tight_27->SetFillStyle(3004);
+	//dy_ht_tight_27->SetFillColor(kOrange); 
+	dy_ht_tight_27->Draw("same");
+	data_ht_tight_27->SetLineColor(kBlue);
+	data_ht_tight_27->SetLineWidth(2);
+	data_ht_tight_27->Draw("same");
+	leg11->Draw("same");
+	c11->Print("ht_tight_27_control.png");
+	delete c11;
+	delete leg11;
+	
+	
+	TCanvas *c12= new TCanvas("c12","test",1100,650);
+	c12->DrawFrame(0,0,200,1600000,"HT (for WPTight_32) ; HT [GeV] ; Nr. of Events");
+	TLegend* leg12 = new TLegend(0.65,0.70,0.85,0.85);
+    leg12->SetFillColor(kWhite);
+    leg12->SetFillStyle(1001);
+    leg12->AddEntry(dy_ht_tight_32,"MC : DY","L");
+    leg12->AddEntry(data_ht_tight_32,"Data","L");	
+	dy_ht_tight_32->SetLineColor(kRed);
+	dy_ht_tight_32->SetLineWidth(2);
+	dy_ht_tight_32->Draw("same");
+	data_ht_tight_32->SetLineColor(kBlue);
+	data_ht_tight_32->SetLineWidth(2);
+	data_ht_tight_32->Draw("same");
+	leg12->Draw("same");
+	c12->Print("ht_tight_32_control.png");
+	delete c12;
+	delete leg12;
+	
+	TCanvas *c13 = new TCanvas("c13","test",1100,650);
+	c13->DrawFrame(0,0,200,11000,"HT (for WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
+	TLegend* leg13 = new TLegend(0.65,0.70,0.85,0.85);
+    leg13->SetFillColor(kWhite);
+    leg13->SetFillStyle(1001);
+    leg13->AddEntry(dy_ht_loose_27_ht200,"MC : DY","L");
+    leg13->AddEntry(data_ht_loose_27_ht200,"Data","L");	
+	dy_ht_loose_27_ht200->SetLineColor(kRed);
+	dy_ht_loose_27_ht200->SetLineWidth(2);
+	dy_ht_loose_27_ht200->Draw("same");
+	data_ht_loose_27_ht200->SetLineColor(kBlue);
+	data_ht_loose_27_ht200->SetLineWidth(2);
+	data_ht_loose_27_ht200->Draw("same");
+	leg13->Draw("same");
+	c13->Print("ht_loose_27_ht200_control.png");
+	delete c13;
+	delete leg13;
+	
+	TCanvas *c14= new TCanvas("c14","test",1100,650);
+	c14->DrawFrame(0,0,200,1600000,"HT (for WPTight_27_OR_WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
+	TLegend* leg14 = new TLegend(0.65,0.70,0.85,0.85);
+    leg14->SetFillColor(kWhite);
+    leg14->SetFillStyle(1001);
+    leg14->AddEntry(dy_ht_tight_27_or_loose_27_ht200,"MC : DY","L");
+    leg14->AddEntry(data_ht_tight_27_or_loose_27_ht200,"Data","L");	
+	dy_ht_tight_27_or_loose_27_ht200->SetLineColor(kRed);
+	dy_ht_tight_27_or_loose_27_ht200->SetLineWidth(2);
+	dy_ht_tight_27_or_loose_27_ht200->Draw("same");
+	data_ht_tight_27_or_loose_27_ht200->SetLineColor(kBlue);
+	data_ht_tight_27_or_loose_27_ht200->SetLineWidth(2);
+	data_ht_tight_27_or_loose_27_ht200->Draw("same");
+	leg14->Draw("same");
+	c14->Print("ht_tight_27_or_loose_27_ht200_control.png");
+	delete c14;
+	delete leg14;
+	
+	TCanvas *c15= new TCanvas("c15","test",1100,650);
+	c15->DrawFrame(0,0,200,1600000,"HT (for WPLoose_27) ; HT [GeV] ; Nr. of Events");
+	TLegend* leg15 = new TLegend(0.65,0.70,0.85,0.85);
+    leg15->SetFillColor(kWhite);
+    leg15->SetFillStyle(1001);
+    leg15->AddEntry(dy_ht_loose_27,"MC : DY","L");
+    leg15->AddEntry(data_ht_loose_27,"Data","L");	
+	dy_ht_loose_27->SetLineColor(kRed);
+	dy_ht_loose_27->SetLineWidth(2);
+	dy_ht_loose_27->Draw("same");
+	data_ht_loose_27->SetLineColor(kBlue);
+	data_ht_loose_27->SetLineWidth(2);
+	data_ht_loose_27->Draw("same");
+	leg15->Draw("same");
+	c15->Print("ht_loose_27_control.png");
+	delete c15;
+	delete leg15;
 	
 	
 	
