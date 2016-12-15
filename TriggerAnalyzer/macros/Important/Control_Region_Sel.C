@@ -198,7 +198,11 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		//Grab Specific Lepton information from trees
 		
 		int event_nr = eve->evt_;
-		vdouble lepton_pt = eve->lepton_pt_;
+		vdouble lepton_charge = eve->lepton_charge_;
+	        vdouble lepton_pt = eve->lepton_pt_;
+	        vdouble lepton_px = eve->lepton_px_;
+	        vdouble lepton_py = eve->lepton_py_;
+	        vdouble lepton_pz = eve->lepton_pz_;
 		vdouble lepton_eta = eve->lepton_eta_;
 		vdouble lepton_phi = eve->lepton_phi_;
 		vdouble lepton_energy = eve->lepton_energy_;
@@ -213,9 +217,11 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		vint isNonTrigMVAM = eve->lepton_isNonTrigMVAM_;
 		vint isTrigCutM = eve->lepton_isTrigCutM_;
 		
-		int opp_charge = eve->oppositeLepCharge_;
-		double mass_leplep = eve->mass_leplep_;
-		
+		//int opp_charge = eve->oppositeLepCharge_;
+		//double mass_leplep = eve->mass_leplep_;
+	        int opp_charge= 0;	
+	        double mass_leplep = 0;     
+	   
 		vdouble jet_pt = eve->jet_pt_;
 		vdouble jet_eta = eve->jet_eta_;
 		vdouble jet_csv = eve->jet_csv_;
@@ -248,6 +254,10 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 					vlepton.push_back(lepton_eta[i]);
 					vlepton.push_back(lepton_phi[i]);
 					vlepton.push_back(lepton_energy[i]);
+				        vlepton.push_back(lepton_charge[i]);
+				        vlepton.push_back(lepton_px[i]);
+				        vlepton.push_back(lepton_py[i]);
+				        vlepton.push_back(lepton_pz[i]);
 					vvLEPTON.push_back(vlepton);
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {
 						numTightEle++;
@@ -279,6 +289,14 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		if(numLooseEle!=2)continue;
 		if(numTightEle<1)continue;
 		
+	        if((vvLEPTON[0][4]*vvLEPTON[1][4]) == -1))
+	          opp_charge = 1;
+	        double E = vvLEPTON[0][3] + vvLEPTON[1][3];  
+	        double px = vvLEPTON[0][5] + vvLEPTON[1][5];
+	        double py = vvLEPTON[0][6] + vvLEPTON[1][6];  
+	        double pz = vvLEPTON[0][7] + vvLEPTON[1][7];
+	        mass_leplep = sqrt( E*E - px*px - py*py - pz*pz );  
+	  
 		// Opposite charge and dilepton mass window
 		if(opp_charge!=1) continue;
 		//if( mass_leplep < 88.7 || mass_leplep > 93.7) continue;   // 5 GeV window
