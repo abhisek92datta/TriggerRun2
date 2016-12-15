@@ -267,6 +267,9 @@ struct triggerStudyEventVars{
   //vint lepton_genParentId_;
   //vint lepton_genGrandParentId_;
   vdouble lepton_pt_;
+  vdouble lepton_px_;
+  vdouble lepton_py_;
+  vdouble lepton_pz_;
   vdouble lepton_eta_;
   vdouble lepton_phi_;
   vdouble lepton_energy_;
@@ -346,7 +349,18 @@ struct triggerStudyEventVars{
   vint    flt_accept_;
   vstring flt_name_;
   
-  
+  // Event weights and Scale Factors
+  double gen_weight_;
+  double csv_weight_;
+  double PU_weight_;
+  double PDF_weight_;
+  double Q2_weight_;
+  vdouble lepton_id_sf_;
+  vdouble lepton_iso_sf_;
+  vdouble lepton_gsf_sf_;
+  vdouble lepton_trig_sf_;
+  vdouble lepton_hip_sf_;
+ 
   void initialize();
 
 };
@@ -579,6 +593,9 @@ void triggerStudyEventVars::initialize(){
   //lepton_genParentId_.clear();
   //lepton_genGrandParentId_.clear();
   lepton_pt_.clear();
+  lepton_px_.clear();
+  lepton_py_.clear();
+  lepton_pz_.clear();
   lepton_eta_.clear();
   lepton_phi_.clear();
   lepton_energy_.clear();
@@ -658,6 +675,17 @@ void triggerStudyEventVars::initialize(){
   */
   flt_accept_.clear();
   flt_name_.clear();
+  
+  gen_weight_ = 0;
+  csv_weight_ = 0;
+  PU_weight_ = 0;
+  PDF_weight_ = 0;
+  Q2_weight_ = 0;
+  lepton_id_sf_.clear();
+  lepton_iso_sf_.clear();
+  lepton_gsf_sf_.clear();
+  lepton_trig_sf_.clear();
+  lepton_hip_sf_.clear();
   
 
   return;
