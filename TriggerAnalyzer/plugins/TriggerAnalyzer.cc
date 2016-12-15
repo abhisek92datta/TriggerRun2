@@ -1697,6 +1697,9 @@ cout<<"f";
   //vint lepton_isPhys14L, lepton_isPhys14M, lepton_isPhys14T, lepton_isSpring15L, lepton_isSpring15M, lepton_isSpring15T;
   vint lepton_isTrigMVAM, lepton_isNonTrigMVAM, lepton_isTrigCutM;
   vdouble lepton_pt;
+  vdouble lepton_px;
+  vdouble lepton_py;
+  vdouble lepton_pz;
   vdouble lepton_eta;
   vdouble lepton_phi;
   vdouble lepton_energy;
@@ -1835,6 +1838,9 @@ cout<<"f";
     //lepton_genParentId.push_back(genParentId);
     //lepton_genGrandParentId.push_back(genGrandParentId);
     lepton_pt.push_back(iMu->pt());
+    lepton_px.push_back(iMu->px());
+    lepton_py.push_back(iMu->py()); 
+    lepton_pz.push_back(iMu->pz());	  	  
     lepton_eta.push_back(iMu->eta());
     lepton_phi.push_back(iMu->phi());
     lepton_energy.push_back(iMu->energy());
@@ -2053,6 +2059,9 @@ cout<<"f";
     //lepton_genParentId.push_back(genParentId);
     //lepton_genGrandParentId.push_back(genGrandParentId);
     lepton_pt.push_back(iEle->pt());
+    lepton_px.push_back(iEle->px());
+    lepton_py.push_back(iEle->py());
+    lepton_pz.push_back(iEle->pz());
     lepton_eta.push_back(iEle->eta());
     lepton_phi.push_back(iEle->phi());
     lepton_energy.push_back(iEle->energy());
@@ -2133,6 +2142,9 @@ cout<<"f";
   //eve->lepton_genParentId_      = lepton_genParentId;
   //eve->lepton_genGrandParentId_ = lepton_genGrandParentId;
   eve->lepton_pt_               = lepton_pt;
+  eve->lepton_px_               = lepton_px;
+  eve->lepton_py_               = lepton_py;
+  eve->lepton_pz_               = lepton_pz;
   eve->lepton_eta_              = lepton_eta;
   eve->lepton_phi_              = lepton_phi;
   eve->lepton_energy_           = lepton_energy;
@@ -2186,7 +2198,7 @@ cout<<"f";
   eve->lepton_ele_matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter_ = lepton_ele_matchHLT_hltL1EGHttEle27WPLooseGsfTrackIsoFilter;
   */
 
-  
+  /*
   int oppositeLepCharge = -9;
   if( lepton_charge.size()==2 ){
     int chg0 = lepton_charge[0];
@@ -2206,8 +2218,7 @@ cout<<"f";
     eve->mass_leplep_ = mass_leplep;
     eve->dR_leplep_ = vec_TLV_lep[0].DeltaR(vec_TLV_lep[1]);
   }
-  
-
+  */
 
   if( debug_ ) std::cout << " ====> test 18 " << std::endl;
 
