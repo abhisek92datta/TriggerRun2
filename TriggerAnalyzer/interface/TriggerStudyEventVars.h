@@ -244,9 +244,9 @@ struct triggerStudyEventVars{
   vdouble jet_JERdown_pileupJetId_fullDiscriminant_;
   */
 
-  double mass_leplep_;
-  double dR_leplep_;
-  Int_t  oppositeLepCharge_;
+  //double mass_leplep_;
+  //double dR_leplep_;
+  //Int_t  oppositeLepCharge_;
 
   //vint lepton_trkCharge_;
   vint lepton_charge_;
@@ -572,7 +572,6 @@ void triggerStudyEventVars::initialize(){
   //mass_leplep_ = -99;
   //dR_leplep_ = -99;
   //oppositeLepCharge_ = -99;
-
 
   //lepton_trkCharge_.clear();
   lepton_charge_.clear();
