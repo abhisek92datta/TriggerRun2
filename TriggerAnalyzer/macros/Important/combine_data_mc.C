@@ -801,7 +801,7 @@ void combine_data_mc() {
 	double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/N_total_ttjets_sl;
 	double scale_ttjets_sl = factor_ttjets_sl*norm_ttjets_sl;
 	
-	double factor_ttjets_dl = 0;
+	double factor_ttjets_dl = 1;
 	double sigma_ttjets_dl = 87.3; // pb
 	double N_total_ttjets_dl = 75383000;
 	double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/N_total_ttjets_dl;

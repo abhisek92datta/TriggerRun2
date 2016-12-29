@@ -212,6 +212,19 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		vdouble jet_eta = eve->jet_eta_;
 		vdouble jet_csv = eve->jet_csv_;
 		
+		double gen_weight = eve->gen_weight_;
+  		double csv_weight = eve->csv_weight_;
+  		double PU_weight = eve->PU_weight_ ;
+  		double PDF_weight = eve->PDF_weight_;
+  		double Q2_weight = eve->Q2_weight_;
+  		vdouble lepton_id_sf = eve->lepton_id_sf_;
+  		vdouble lepton_iso_sf = eve->lepton_iso_sf_;
+  		vdouble lepton_gsf_sf = eve->lepton_gsf_sf_;
+  		vdouble lepton_trig_sf = eve->lepton_trig_sf_;
+  		vdouble lepton_hip_sf = eve->lepton_hip_sf_;
+  		
+  		double tot_weight = 1;
+		
 		double HT = 0;
 		int numPV = eve->numPVs_;
 		
@@ -242,6 +255,8 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 						vlepton.push_back(lepton_eta[i]);
 						vlepton.push_back(lepton_phi[i]);
 						vlepton.push_back(lepton_energy[i]);
+						//Trigger SF not applied
+						vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
 						vvLEPTON.push_back(vlepton);
 					}
 				}
@@ -291,79 +306,81 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		if (pass_WPLoose_27_HT200 ==1 || pass_WPTight_27 ==1 ) 
 			pass_WPTight_27_OR_WPLoose_27_HT200 = 1;
 	
+	    tot_weight = vvLEPTON[0][4]*gen_weight*csv_weight*PDF_weight*PU_weight*Q2_weight;
+	
 		// Fill Histograms
 		
 		if(pass_WPLoose_27==1) {
 		
-			pt_WPLoose_27->Fill(vvLEPTON[0][0]);
-			eta_WPLoose_27->Fill(vvLEPTON[0][1]);
-			phi_WPLoose_27->Fill(vvLEPTON[0][2]);
-			HT_WPLoose_27->Fill(HT);
-			numPV_WPLoose_27->Fill(numPV);
-			jet1_pt_WPLoose_27->Fill(jet1_pt);
-			jet1_csv_WPLoose_27->Fill(jet1_csv);
-			njets_WPLoose_27->Fill(numJets);
-			nbtags_WPLoose_27->Fill(numTags);
+			pt_WPLoose_27->Fill(vvLEPTON[0][0], tot_weight);
+			eta_WPLoose_27->Fill(vvLEPTON[0][1], tot_weight);
+			phi_WPLoose_27->Fill(vvLEPTON[0][2], tot_weight);
+			HT_WPLoose_27->Fill(HT, tot_weight);
+			numPV_WPLoose_27->Fill(numPV, tot_weight );
+			jet1_pt_WPLoose_27->Fill(jet1_pt, tot_weight );
+			jet1_csv_WPLoose_27->Fill(jet1_csv, tot_weight );
+			njets_WPLoose_27->Fill(numJets, tot_weight );
+			nbtags_WPLoose_27->Fill(numTags, tot_weight );
 			
 			N_eve_loose_27++;
 		}
 			
 		if(pass_WPTight_27==1) {
 		
-			pt_WPTight_27->Fill(vvLEPTON[0][0]);
-			eta_WPTight_27->Fill(vvLEPTON[0][1]);
-			phi_WPTight_27->Fill(vvLEPTON[0][2]);
-			HT_WPTight_27->Fill(HT);
-			numPV_WPTight_27->Fill(numPV);
-			jet1_pt_WPTight_27->Fill(jet1_pt);
-			jet1_csv_WPTight_27->Fill(jet1_csv);
-			njets_WPTight_27->Fill(numJets);
-			nbtags_WPTight_27->Fill(numTags);
+			pt_WPTight_27->Fill(vvLEPTON[0][0], tot_weight );
+			eta_WPTight_27->Fill(vvLEPTON[0][1], tot_weight );
+			phi_WPTight_27->Fill(vvLEPTON[0][2], tot_weight );
+			HT_WPTight_27->Fill(HT, tot_weight );
+			numPV_WPTight_27->Fill(numPV, tot_weight );
+			jet1_pt_WPTight_27->Fill(jet1_pt, tot_weight );
+			jet1_csv_WPTight_27->Fill(jet1_csv, tot_weight );
+			njets_WPTight_27->Fill(numJets, tot_weight );
+			nbtags_WPTight_27->Fill(numTags, tot_weight );
 			
 			N_eve_tight_27++;
 		}
 		
 		if(pass_WPTight_32==1) {
 		
-			pt_WPTight_32->Fill(vvLEPTON[0][0]);
-			eta_WPTight_32->Fill(vvLEPTON[0][1]);
-			phi_WPTight_32->Fill(vvLEPTON[0][2]);
-			HT_WPTight_32->Fill(HT);
-			numPV_WPTight_32->Fill(numPV);
-			jet1_pt_WPTight_32->Fill(jet1_pt);
-			jet1_csv_WPTight_32->Fill(jet1_csv);
-			njets_WPTight_32->Fill(numJets);
-			nbtags_WPTight_32->Fill(numTags);
+			pt_WPTight_32->Fill(vvLEPTON[0][0], tot_weight );
+			eta_WPTight_32->Fill(vvLEPTON[0][1], tot_weight );
+			phi_WPTight_32->Fill(vvLEPTON[0][2], tot_weight );
+			HT_WPTight_32->Fill(HT, tot_weight );
+			numPV_WPTight_32->Fill(numPV, tot_weight );
+			jet1_pt_WPTight_32->Fill(jet1_pt, tot_weight );
+			jet1_csv_WPTight_32->Fill(jet1_csv, tot_weight );
+			njets_WPTight_32->Fill(numJets, tot_weight );
+			nbtags_WPTight_32->Fill(numTags, tot_weight );
 			
 			N_eve_tight_32++;
 		}
 		
 		if(pass_WPLoose_27_HT200==1) {
 		
-			pt_WPLoose_27_HT200->Fill(vvLEPTON[0][0]);
-			eta_WPLoose_27_HT200->Fill(vvLEPTON[0][1]);
-			phi_WPLoose_27_HT200->Fill(vvLEPTON[0][2]);
-			HT_WPLoose_27_HT200->Fill(HT);
-			numPV_WPLoose_27_HT200->Fill(numPV);
-			jet1_pt_WPLoose_27_HT200->Fill(jet1_pt);
-			jet1_csv_WPLoose_27_HT200->Fill(jet1_csv);
-			njets_WPLoose_27_HT200->Fill(numJets);
-			nbtags_WPLoose_27_HT200->Fill(numTags);
+			pt_WPLoose_27_HT200->Fill(vvLEPTON[0][0], tot_weight );
+			eta_WPLoose_27_HT200->Fill(vvLEPTON[0][1], tot_weight );
+			phi_WPLoose_27_HT200->Fill(vvLEPTON[0][2], tot_weight );
+			HT_WPLoose_27_HT200->Fill(HT, tot_weight );
+			numPV_WPLoose_27_HT200->Fill(numPV, tot_weight );
+			jet1_pt_WPLoose_27_HT200->Fill(jet1_pt, tot_weight );
+			jet1_csv_WPLoose_27_HT200->Fill(jet1_csv, tot_weight );
+			njets_WPLoose_27_HT200->Fill(numJets, tot_weight );
+			nbtags_WPLoose_27_HT200->Fill(numTags, tot_weight );
 			
 			N_eve_loose_27_ht200++;
 		}
 		
 		if(pass_WPTight_27_OR_WPLoose_27_HT200==1) {
 		
-			pt_WPTight_27_OR_WPLoose_27_HT200->Fill(vvLEPTON[0][0]);
-			eta_WPTight_27_OR_WPLoose_27_HT200->Fill(vvLEPTON[0][1]);
-			phi_WPTight_27_OR_WPLoose_27_HT200->Fill(vvLEPTON[0][2]);
-			HT_WPTight_27_OR_WPLoose_27_HT200->Fill(HT);
-			numPV_WPTight_27_OR_WPLoose_27_HT200->Fill(numPV);
-			jet1_pt_WPTight_27_OR_WPLoose_27_HT200->Fill(jet1_pt);
-			jet1_csv_WPTight_27_OR_WPLoose_27_HT200->Fill(jet1_csv);
-			njets_WPTight_27_OR_WPLoose_27_HT200->Fill(numJets);
-			nbtags_WPTight_27_OR_WPLoose_27_HT200->Fill(numTags);
+			pt_WPTight_27_OR_WPLoose_27_HT200->Fill(vvLEPTON[0][0], tot_weight );
+			eta_WPTight_27_OR_WPLoose_27_HT200->Fill(vvLEPTON[0][1], tot_weight );
+			phi_WPTight_27_OR_WPLoose_27_HT200->Fill(vvLEPTON[0][2], tot_weight );
+			HT_WPTight_27_OR_WPLoose_27_HT200->Fill(HT, tot_weight );
+			numPV_WPTight_27_OR_WPLoose_27_HT200->Fill(numPV, tot_weight );
+			jet1_pt_WPTight_27_OR_WPLoose_27_HT200->Fill(jet1_pt, tot_weight );
+			jet1_csv_WPTight_27_OR_WPLoose_27_HT200->Fill(jet1_csv, tot_weight );
+			njets_WPTight_27_OR_WPLoose_27_HT200->Fill(numJets, tot_weight );
+			nbtags_WPTight_27_OR_WPLoose_27_HT200->Fill(numTags, tot_weight );
 			
 			N_eve_tight_27_OR_loose_27_ht200++;
 		}

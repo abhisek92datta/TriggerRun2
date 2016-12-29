@@ -90,7 +90,10 @@
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
 #include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
 
+#include "LHAPDF/LHAPDF.h"
+
 #include "MiniAOD/MiniAODHelper/interface/MiniAODHelper.h"
+#include "MiniAOD/MiniAODHelper/interface/LeptonSFHelper.h"
 
 #include "TriggerRun2/TriggerAnalyzer/interface/TriggerStudyEventVars.h"
 
@@ -142,7 +145,7 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT <reco::ConversionCollection> EDMConversionCollectionToken;
   edm::EDGetTokenT <double> rhoToken;
   edm::EDGetTokenT <reco::GenParticleCollection> mcparicleToken;
-  edm::EDGetTokenT <std::vector< PileupSummaryInfo > > puInfoToken;
+  //edm::EDGetTokenT <std::vector< PileupSummaryInfo > > puInfoToken;
 
   edm::EDGetTokenT <GenEventInfoProduct> genInfoProductToken;
   edm::EDGetTokenT <LHEEventProduct> lheEventProductToken;
@@ -151,6 +154,10 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
 
   edm::EDGetTokenT<edm::ValueMap<float> > eleMVAvaluesToken; // values of electron mva
   edm::EDGetTokenT<edm::ValueMap<int> >   eleMVAcategoriesToken;  // category of electron mva
+  
+  edm::EDGetTokenT<std::vector<PileupSummaryInfo>> PU_info_Token;
+  edm::EDGetTokenT<double> srcRho_Token;
+  edm::EDGetTokenT<LHEEventProduct> lhep_Token;
   
   const edm::EDGetTokenT<int> genTtbarIdToken_;
 
@@ -223,6 +230,21 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   JetCorrectionUncertainty* _jetCorrectorUnc;
 
   MiniAODHelper miniAODhelper;
+  LeptonSFHelper leptonSFhelper;
+  
+  // for PDF weight
+  LHAPDF::PDFSet *NNPDF30_nlo_as_0118_PDFSet;
+  std::vector<LHAPDF::PDF *> _systPDFs;
+  
+  // for b-weights
+  std::string inputFileHF;
+  std::string inputFileLF;
+  TFile *f_CSVwgt_HF;
+  TFile *f_CSVwgt_LF;
+  TH1D *h_csv_wgt_hf[9][6];
+  TH1D *c_csv_wgt_hf[9][6];
+  TH1D *h_csv_wgt_lf[9][4][3];
+  
   void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
   std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const double &, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
 
@@ -285,7 +307,7 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   beamspotToken = consumes <reco::BeamSpot> (edm::InputTag(std::string("offlineBeamSpot")));
   rhoToken = consumes <double> (edm::InputTag(std::string("fixedGridRhoFastjetAll")));
   mcparicleToken = consumes <reco::GenParticleCollection> (edm::InputTag(std::string("prunedGenParticles")));
-  puInfoToken = consumes <std::vector< PileupSummaryInfo > > (edm::InputTag(std::string("slimmedAddPileupInfo")));
+  //puInfoToken = consumes <std::vector< PileupSummaryInfo > > (edm::InputTag(std::string("slimmedAddPileupInfo")));
   EDMConversionCollectionToken = consumes <reco::ConversionCollection > (edm::InputTag("reducedEgamma","reducedConversions",""));
 
   genInfoProductToken = consumes <GenEventInfoProduct> (edm::InputTag(std::string("generator")));
@@ -296,7 +318,10 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
 
   eleMVAvaluesToken = consumes<edm::ValueMap<float> >(iConfig.getParameter<edm::InputTag>("electronMVAvalues"));
   eleMVAcategoriesToken = consumes<edm::ValueMap<int> >(iConfig.getParameter<edm::InputTag>("electronMVAcategories"));
-
+  
+  PU_info_Token = consumes<std::vector<PileupSummaryInfo>>(iConfig.getParameter<edm::InputTag>("pileup"));
+  srcRho_Token = consumes<double>(iConfig.getParameter<edm::InputTag>("rho"));
+  lhep_Token = consumes<LHEEventProduct>(iConfig.getParameter<edm::InputTag>("lhepprod"));
 
   ptmax = 500.;
   NptBins = int( ptmax/1. + 0.0001 );
@@ -354,6 +379,7 @@ TriggerAnalyzer::~TriggerAnalyzer()
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
    r->SetSeed(0);
+   delete NNPDF30_nlo_as_0118_PDFSet;
 }
 
 
@@ -363,7 +389,7 @@ TriggerAnalyzer::~TriggerAnalyzer()
 
 // for JEC
 
-void TriggerAnalyzer::SetFactorizedJetCorrector(const sysType::sysType iSysType){
+inline void TriggerAnalyzer::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
     std::vector<JetCorrectorParameters> corrParams;	
     if (isData_) {
@@ -408,7 +434,7 @@ void TriggerAnalyzer::SetFactorizedJetCorrector(const sysType::sysType iSysType)
     }
 }
 
-std::vector<pat::Jet> 
+inline std::vector<pat::Jet> 
 TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const double &rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
 	
   std::vector<pat::Jet> outputJets;
@@ -450,8 +476,376 @@ TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const 
   return outputJets;
 }
 
+inline double getPDFweight(const edm::Handle<GenEventInfoProduct> &genInfos, const int option)
+{
+    auto pdfInfos = genInfos->pdf();
+    double pdfNominal = pdfInfos->xPDF.first * pdfInfos->xPDF.second;
 
+    std::vector<double> pdfs;
+    for (size_t j = 0; j < NNPDF30_nlo_as_0118_PDFSet->size(); ++j) {
+        double xpdf1 = _systPDFs[j]->xfxQ(pdfInfos->id.first, pdfInfos->x.first,
+                                          pdfInfos->scalePDF);
+        double xpdf2 = _systPDFs[j]->xfxQ(
+            pdfInfos->id.second, pdfInfos->x.second, pdfInfos->scalePDF);
+        pdfs.push_back(xpdf1 * xpdf2);
+    }
 
+    const LHAPDF::PDFUncertainty pdfUnc =
+        NNPDF30_nlo_as_0118_PDFSet->uncertainty(pdfs, 68.);
+
+	double weight = 1.0;
+    double weight_up = 1.0;
+    double weight_down = 1.0;
+    if (std::isfinite(1. / pdfNominal)) {
+        weight = (pdfUnc.central) / pdfNominal;
+        weight_up = (pdfUnc.central + pdfUnc.errplus) / pdfNominal;
+        weight_down = (pdfUnc.central - pdfUnc.errminus) / pdfNominal;
+    }
+    if (option == 0)
+    	return weight;
+    else if (option == 1)
+    	return weight_up;
+    else
+    	return weight_down;
+}
+
+inline double
+getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo)
+{
+    double PU_x[100], PU_y[100];
+    ifstream fin;
+    fin.open("data/PU_weight/PU_weights.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_x[i] >> PU_y[i];
+    }
+    fin.close();
+
+    double pu_weight = -1;
+    double numTruePV = -1;
+    if ((PupInfo.isValid())) {
+        for (std::vector<PileupSummaryInfo>::const_iterator PVI =
+                 PupInfo->begin();
+             PVI != PupInfo->end(); ++PVI) {
+            int BX = PVI->getBunchCrossing();
+            if (BX == 0) {
+                numTruePV = PVI->getTrueNumInteractions();
+            }
+        }
+    }
+    for (int i = 0; i < 75; ++i) {
+        if (numTruePV < (PU_x[i] + 1)) {
+            pu_weight = PU_y[i];
+            break;
+        }
+    }
+    return pu_weight;
+}
+
+inline double
+getQ2weight(const edm::Handle<GenEventInfoProduct> &event_gen_info,
+                        const edm::Handle<LHEEventProduct> &EvtHandle,
+                        const string &ud)
+{
+    double theWeight;
+    theWeight = event_gen_info->weight();
+    unsigned int i;
+    for (i = 0; i < EvtHandle->weights().size(); ++i) {
+        if (!(ud.compare(EvtHandle->weights()[i].id)))
+            theWeight *=
+                EvtHandle->weights()[i].wgt / EvtHandle->originalXWGTUP();
+    }
+    return theWeight;
+}
+
+inline double getbweight( std::vector<pat::Jet> selectedJets  )
+{
+    inputFileHF =
+    	  "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_09_7test.root";
+    inputFileLF =
+    	  "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_09_7test.root";
+    f_CSVwgt_HF = new TFile((inputFileHF).c_str());
+    f_CSVwgt_LF = new TFile((inputFileLF).c_str());
+    fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
+
+    double csvWgtHF, csvWgtLF, csvWgtCF;
+	double bweight = 1;
+
+    std::vector<double> vec_jet_pt;
+    std::vector<double> vec_jet_eta;
+    std::vector<double> vec_jet_csv;
+    std::vector<int> vec_jet_hadronFlavour;
+    int iSys = 0;
+
+        for (std::vector<pat::Jet>::const_iterator iJet =
+                 selectedJets.begin();
+             iJet != selectedJets.end(); ++iJet) {
+            if( (iJet->pt()>30) && (iJet->eta()<2.4)  ){
+            vec_jet_pt.push_back(iJet->pt());
+            vec_jet_eta.push_back(iJet->eta());
+            vec_jet_csv.push_back(miniAODhelper.GetJetCSV(
+                *iJet, "pfCombinedInclusiveSecondaryVertexV2BJetTags"));
+            vec_jet_hadronFlavour.push_back(iJet->hadronFlavour());
+            }
+        }
+
+	csvWgtHF = csvWgtLF = csvWgtCF = 0;
+        bweight = getCSVWeight(vec_jet_pt, vec_jet_eta, vec_jet_csv,
+                         vec_jet_hadronFlavour, iSys, csvWgtHF,
+                         csvWgtLF, csvWgtCF);
+	return bweight;
+}
+
+void fillCSVHistos(TFile *fileHF, TFile *fileLF)
+{
+    for (int iSys = 0; iSys < 9; ++iSys) {
+        for (int iPt = 0; iPt < 5; ++iPt)
+            h_csv_wgt_hf[iSys][iPt] = NULL;
+        for (int iPt = 0; iPt < 3; ++iPt) {
+            for (int iEta = 0; iEta < 3; ++iEta)
+                h_csv_wgt_lf[iSys][iPt][iEta] = NULL;
+        }
+    }
+    for (int iSys = 0; iSys < 5; ++iSys) {
+        for (int iPt = 0; iPt < 5; ++iPt)
+            c_csv_wgt_hf[iSys][iPt] = NULL;
+    }
+
+    // CSV reweighting /// only care about the nominal ones
+    for (int iSys = 0; iSys < 9; ++iSys) {
+        TString syst_csv_suffix_hf = "final";
+        TString syst_csv_suffix_c = "final";
+        TString syst_csv_suffix_lf = "final";
+
+        switch (iSys) {
+        case 0:
+            // this is the nominal case
+            break;
+        case 1:
+            // JESUp
+            syst_csv_suffix_hf = "final_JESUp";
+            syst_csv_suffix_lf = "final_JESUp";
+            syst_csv_suffix_c = "final_cErr1Up";
+            break;
+        case 2:
+            // JESDown
+            syst_csv_suffix_hf = "final_JESDown";
+            syst_csv_suffix_lf = "final_JESDown";
+            syst_csv_suffix_c = "final_cErr1Down";
+            break;
+        case 3:
+            // purity up
+            syst_csv_suffix_hf = "final_LFUp";
+            syst_csv_suffix_lf = "final_HFUp";
+            syst_csv_suffix_c = "final_cErr2Up";
+            break;
+        case 4:
+            // purity down
+            syst_csv_suffix_hf = "final_LFDown";
+            syst_csv_suffix_lf = "final_HFDown";
+            syst_csv_suffix_c = "final_cErr2Down";
+            break;
+        case 5:
+            // stats1 up
+            syst_csv_suffix_hf = "final_Stats1Up";
+            syst_csv_suffix_lf = "final_Stats1Up";
+            break;
+        case 6:
+            // stats1 down
+            syst_csv_suffix_hf = "final_Stats1Down";
+            syst_csv_suffix_lf = "final_Stats1Down";
+            break;
+        case 7:
+            // stats2 up
+            syst_csv_suffix_hf = "final_Stats2Up";
+            syst_csv_suffix_lf = "final_Stats2Up";
+            break;
+        case 8:
+            // stats2 down
+            syst_csv_suffix_hf = "final_Stats2Down";
+            syst_csv_suffix_lf = "final_Stats2Down";
+            break;
+        }
+
+        for (int iPt = 0; iPt < 5; ++iPt)
+            h_csv_wgt_hf[iSys][iPt] = (TH1D *)fileHF->Get(
+                Form("csv_ratio_Pt%i_Eta0_%s", iPt, syst_csv_suffix_hf.Data()));
+
+        if (iSys < 5) {
+            for (int iPt = 0; iPt < 5; ++iPt)
+                c_csv_wgt_hf[iSys][iPt] = (TH1D *)fileHF->Get(Form(
+                    "c_csv_ratio_Pt%i_Eta0_%s", iPt, syst_csv_suffix_c.Data()));
+        }
+
+        for (int iPt = 0; iPt < 4; ++iPt) {
+            for (int iEta = 0; iEta < 3; ++iEta)
+                h_csv_wgt_lf[iSys][iPt][iEta] =
+                    (TH1D *)fileLF->Get(Form("csv_ratio_Pt%i_Eta%i_%s", iPt,
+                                             iEta, syst_csv_suffix_lf.Data()));
+        }
+    }
+
+    return;
+}
+
+double getCSVWeight(std::vector<double> jetPts,
+                                std::vector<double> jetEtas,
+                                std::vector<double> jetCSVs,
+                                std::vector<int> jetFlavors, int iSys,
+                                double &csvWgtHF, double &csvWgtLF,
+                                double &csvWgtCF)
+{
+    int iSysHF = 0;
+    switch (iSys) {
+    case 7:
+        iSysHF = 1;
+        break; // JESUp
+    case 8:
+        iSysHF = 2;
+        break; // JESDown
+    case 9:
+        iSysHF = 3;
+        break; // LFUp
+    case 10:
+        iSysHF = 4;
+        break; // LFDown
+    case 13:
+        iSysHF = 5;
+        break; // Stats1Up
+    case 14:
+        iSysHF = 6;
+        break; // Stats1Down
+    case 15:
+        iSysHF = 7;
+        break; // Stats2Up
+    case 16:
+        iSysHF = 8;
+        break; // Stats2Down
+    default:
+        iSysHF = 0;
+        break; // NoSys
+    }
+
+    int iSysC = 0;
+    switch (iSys) {
+    case 21:
+        iSysC = 1;
+        break;
+    case 22:
+        iSysC = 2;
+        break;
+    case 23:
+        iSysC = 3;
+        break;
+    case 24:
+        iSysC = 4;
+        break;
+    default:
+        iSysC = 0;
+        break;
+    }
+
+    int iSysLF = 0;
+    switch (iSys) {
+    case 7:
+        iSysLF = 1;
+        break; // JESUp
+    case 8:
+        iSysLF = 2;
+        break; // JESDown
+    case 11:
+        iSysLF = 3;
+        break; // HFUp
+    case 12:
+        iSysLF = 4;
+        break; // HFDown
+    case 17:
+        iSysLF = 5;
+        break; // Stats1Up
+    case 18:
+        iSysLF = 6;
+        break; // Stats1Down
+    case 19:
+        iSysLF = 7;
+        break; // Stats2Up
+    case 20:
+        iSysLF = 8;
+        break; // Stats2Down
+    default:
+        iSysLF = 0;
+        break; // NoSys
+    }
+
+    double csvWgthf = 1.;
+    double csvWgtC = 1.;
+    double csvWgtlf = 1.;
+
+    for (int iJet = 0; iJet < int(jetPts.size()); ++iJet) {
+
+        double csv = jetCSVs[iJet];
+        double jetPt = jetPts[iJet];
+        double jetAbsEta = fabs(jetEtas[iJet]);
+        int flavor = jetFlavors[iJet];
+
+        int iPt = -1;
+        int iEta = -1;
+        if (jetPt >= 19.99 && jetPt < 30)
+            iPt = 0;
+        else if (jetPt >= 30 && jetPt < 40)
+            iPt = 1;
+        else if (jetPt >= 40 && jetPt < 60)
+            iPt = 2;
+        else if (jetPt >= 60 && jetPt < 100)
+            iPt = 3;
+        else if (jetPt >= 100)
+            iPt = 4;
+
+        if (jetAbsEta >= 0 && jetAbsEta < 0.8)
+            iEta = 0;
+        else if (jetAbsEta >= 0.8 && jetAbsEta < 1.6)
+            iEta = 1;
+        else if (jetAbsEta >= 1.6 && jetAbsEta < 2.41)
+            iEta = 2;
+
+        if (iPt < 0 || iEta < 0)
+            std::cout << "Error, couldn't find Pt, Eta bins for this b-flavor "
+                         "jet, jetPt = "
+                      << jetPt << ", jetAbsEta = " << jetAbsEta << std::endl;
+
+        if (abs(flavor) == 5) {
+            int useCSVBin =
+                (csv >= 0.) ? h_csv_wgt_hf[iSysHF][iPt]->FindBin(csv) : 1;
+            double iCSVWgtHF =
+                h_csv_wgt_hf[iSysHF][iPt]->GetBinContent(useCSVBin);
+            if (iCSVWgtHF != 0)
+                csvWgthf *= iCSVWgtHF;
+        } else if (abs(flavor) == 4) {
+            int useCSVBin =
+                (csv >= 0.) ? c_csv_wgt_hf[iSysC][iPt]->FindBin(csv) : 1;
+            double iCSVWgtC =
+                c_csv_wgt_hf[iSysC][iPt]->GetBinContent(useCSVBin);
+            if (iCSVWgtC != 0)
+                csvWgtC *= iCSVWgtC;
+        } else {
+            if (iPt >= 3)
+                iPt =
+                    3; /// [30-40], [40-60] and [60-10000] only 3 Pt bins for lf
+            int useCSVBin =
+                (csv >= 0.) ? h_csv_wgt_lf[iSysLF][iPt][iEta]->FindBin(csv) : 1;
+            double iCSVWgtLF =
+                h_csv_wgt_lf[iSysLF][iPt][iEta]->GetBinContent(useCSVBin);
+            if (iCSVWgtLF != 0)
+                csvWgtlf *= iCSVWgtLF;
+        }
+    }
+
+    double csvWgtTotal = csvWgthf * csvWgtC * csvWgtlf;
+
+    csvWgtHF = csvWgthf;
+    csvWgtLF = csvWgtlf;
+    csvWgtCF = csvWgtC;
+
+    return csvWgtTotal;
+}
 
 // ------------ method called for each event  ------------
 void
@@ -989,14 +1383,18 @@ cout<<"f";
 
   eve->rho_ = rho_event;
 
-  edm::Handle<std::vector< PileupSummaryInfo > > PupInfo;
-  iEvent.getByToken(puInfoToken,PupInfo);
-
+  //edm::Handle<std::vector< PileupSummaryInfo > > PupInfo;
+  //iEvent.getByToken(puInfoToken,PupInfo);
+ 
+  edm::Handle<std::vector< PileupSummaryInfo > > PupInfoHandle;
+  iEvent.getByToken(PU_info_Token,PupInfoHandle);
 
   edm::Handle<GenEventInfoProduct> GenEventInfoHandle;
   iEvent.getByToken(genInfoProductToken,GenEventInfoHandle);
 
-  
+  edm::Handle<double> srcRhoHandle;
+  iEvent.getByToken(srcRho_Token, srcRhoHandle);
+
   double GenEventInfoWeight = 1.0;
   //double qScale=-99, pthat=-99;
   if( GenEventInfoHandle.isValid() ){
@@ -1008,10 +1406,11 @@ cout<<"f";
   //eve->qscale_ = qScale;
   //eve->pthat_ = pthat;
   
-
-
   edm::Handle<LHEEventProduct> LHEEventProductHandle;
   iEvent.getByToken(lheEventProductToken,LHEEventProductHandle);
+  
+  edm::Handle<LHEEventProduct> EvtHandle;
+  iEvent.getByToken(lhep_Token,EvtHandle);
   
   /*
   double originalXWGTUP=-99;
@@ -1701,6 +2100,7 @@ cout<<"f";
   vdouble lepton_py;
   vdouble lepton_pz;
   vdouble lepton_eta;
+  vdouble lepton_sc_eta;
   vdouble lepton_phi;
   vdouble lepton_energy;
   vdouble lepton_relIso;
@@ -1842,6 +2242,7 @@ cout<<"f";
     lepton_py.push_back(iMu->py()); 
     lepton_pz.push_back(iMu->pz());	  	  
     lepton_eta.push_back(iMu->eta());
+    lepton_sc_eta.push_back(-999);
     lepton_phi.push_back(iMu->phi());
     lepton_energy.push_back(iMu->energy());
     lepton_relIso.push_back(miniAODhelper.GetMuonRelIso(*iMu));
@@ -2063,6 +2464,7 @@ cout<<"f";
     lepton_py.push_back(iEle->py());
     lepton_pz.push_back(iEle->pz());
     lepton_eta.push_back(iEle->eta());
+    lepton_sc_eta.push_back(iEle->superCluster()->position().eta());
     lepton_phi.push_back(iEle->phi());
     lepton_energy.push_back(iEle->energy());
     lepton_relIso.push_back(miniAODhelper.GetElectronRelIso(*iEle,coneSize::R03,corrType::rhoEA,effAreaType::spring15));
@@ -2146,6 +2548,7 @@ cout<<"f";
   eve->lepton_py_               = lepton_py;
   eve->lepton_pz_               = lepton_pz;
   eve->lepton_eta_              = lepton_eta;
+  eve->lepton_sc_eta_           = lepton_sc_eta;
   eve->lepton_phi_              = lepton_phi;
   eve->lepton_energy_           = lepton_energy;
   eve->lepton_relIso_           = lepton_relIso;
@@ -2221,6 +2624,108 @@ cout<<"f";
   */
 
   if( debug_ ) std::cout << " ====> test 18 " << std::endl;
+  
+  // Event Weights
+  
+  double gen_weight = 1;
+  double csv_weight = 1;
+  double PU_weight = 1;
+  double PDF_weight = 1;
+  double PDF_weight_up = 1;
+  double PDF_weight_down = 1;
+  double Q2_weight = 1;
+  double Q2_weight_up = 1;
+  double Q2_weight_down = 1;
+  vdouble lepton_id_sf;
+  vdouble lepton_iso_sf;
+  vdouble lepton_gsf_sf;
+  vdouble lepton_trig_sf;
+  vdouble lepton_hip_sf;
+  
+  if(!isData_) {
+		
+	//Generator weight
+	gen_weight = GenEventInfoHandle->weight();
+	
+	//CSV weight
+	csv_weight = getbweight(selectedJets);
+  
+    //PDF weight
+    NNPDF30_nlo_as_0118_PDFSet = new LHAPDF::PDFSet("NNPDF30_nlo_as_0118");
+    _systPDFs = NNPDF30_nlo_as_0118_PDFSet->mkPDFs();
+    PDF_weight = getPDFweight(GenEventInfoHandle, 0);
+    PDF_weight_up = getPDFweight(GenEventInfoHandle, 1);
+    PDF_weight_down = getPDFweight(GenEventInfoHandle, -1);
+
+    //PU_weight
+   	PU_weight = getPUweight(PupInfoHandle);
+   		
+    //Q2_weight
+	Q2_weight_up = getQ2weight(GenEventInfoHandle, EvtHandle, "1005");
+	Q2_weight_down = getQ2weight(GenEventInfoHandle, EvtHandle, "1009");
+
+ }
+ 
+ 
+  int N_lep = lepton_pt.size();
+  
+  for(int i=0; i<N_lep; i++) {
+  
+	lepton_id_sf.push_back(1);
+  	lepton_iso_sf.push_back(1);
+  	lepton_gsf_sf.push_back(1);
+  	lepton_trig_sf.push_back(1);
+  	lepton_hip_sf.push_back(1);
+   
+    //ID
+    if(lepton_isMuon[i] == 1)
+   		lepton_id_sf.push_back(leptonSFhelper.GetMuonSF(
+                lepton_pt[i], lepton_eta[i], 0, "ID"));
+    else
+    	lepton_id_sf.push_back(leptonSFhelper.GetElectronSF(
+                lepton_pt[i], lepton_sc_eta[i], 0, "ID")); 
+    //ISO
+    if(lepton_isMuon[i] == 1)
+   		lepton_iso_sf.push_back(leptonSFhelper.GetMuonSF(
+                lepton_pt[i], lepton_eta[i], 0, "Iso"));
+    else
+    	lepton_iso_sf.push_back(leptonSFhelper.GetElectronSF(
+                lepton_pt[i], lepton_sc_eta[i], 0, "Iso")); 
+    //GSF
+    if(lepton_isMuon[i] == 1)
+   		lepton_gsf_sf.push_back(1);
+    else
+    	lepton_gsf_sf.push_back(leptonSFhelper.GetElectronSF(
+                lepton_pt[i], lepton_sc_eta[i], 0, "Gsf")); 
+    //TRIGGER
+    if(lepton_isMuon[i] == 1)
+   		lepton_trig_sf.push_back(leptonSFhelper.GetMuonSF(
+                lepton_pt[i], lepton_eta[i], 0, "Trigger"));
+    else
+    	lepton_trig_sf.push_back(leptonSFhelper.GetElectronSF(
+                lepton_pt[i], lepton_sc_eta[i], 0, "Trigger"));
+    //HIP
+    if(lepton_isMuon[i] == 1)
+   		lepton_hip_sf.push_back(leptonSFhelper.GetMuonSF(
+                lepton_pt[i], lepton_eta[i], 0, "HIP"));
+    else
+    	lepton_hip_sf.push_back(1);
+  }
+   
+  eve->gen_weight_ = gen_weight;
+  eve->csv_weight_ = csv_weight;
+  eve->PU_weight_ = PU_weight;
+  eve->PDF_weight_ = PDF_weight;
+  eve->PDF_weight_up = PDF_weight_up;
+  eve->PDF_weight_down = PDF_weight_down;
+  eve->Q2_weight_ = Q2_weight;
+  eve->Q2_weight_up_ = Q2_weight_up;
+  eve->Q2_weight_down_ = Q2_weight_down;
+  eve->lepton_id_sf_ = lepton_id_sf;
+  eve->lepton_iso_sf_ = lepton_iso_sf;
+  eve->lepton_gsf_sf_ = lepton_gsf_sf;
+  eve->lepton_trig_sf_ = lepton_trig_sf;
+  eve->lepton_hip_sf_ = lepton_hip_sf;
 
   m_ttree->Fill();
 

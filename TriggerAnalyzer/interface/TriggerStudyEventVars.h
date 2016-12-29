@@ -271,6 +271,7 @@ struct triggerStudyEventVars{
   vdouble lepton_py_;
   vdouble lepton_pz_;
   vdouble lepton_eta_;
+  vdouble lepton_sc_eta_;
   vdouble lepton_phi_;
   vdouble lepton_energy_;
   vdouble lepton_relIso_;
@@ -354,7 +355,11 @@ struct triggerStudyEventVars{
   double csv_weight_;
   double PU_weight_;
   double PDF_weight_;
+  double PDF_weight_up_;
+  double PDF_weight_down_;
   double Q2_weight_;
+  double Q2_weight_up_;
+  double Q2_weight_down_;
   vdouble lepton_id_sf_;
   vdouble lepton_iso_sf_;
   vdouble lepton_gsf_sf_;
@@ -596,6 +601,7 @@ void triggerStudyEventVars::initialize(){
   lepton_py_.clear();
   lepton_pz_.clear();
   lepton_eta_.clear();
+  lepton_sc_eta_.clear();
   lepton_phi_.clear();
   lepton_energy_.clear();
   lepton_relIso_.clear();
