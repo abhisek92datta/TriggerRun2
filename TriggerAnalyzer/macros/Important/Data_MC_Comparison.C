@@ -231,6 +231,8 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		int numJets = 0;
 		int numTags = 0;
 		
+		//double pt, trig, id, iso, gsf, hip;
+		
 		//Organize the lepton information into a LorentzVector and Count Tight and Loose Leptons for selection
 		
 		vvdouble vvLEPTON;
@@ -257,6 +259,12 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 						vlepton.push_back(lepton_energy[i]);
 						//Trigger SF not applied
 						vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
+						//pt = lepton_pt[i];
+						//id = lepton_id_sf[i];
+						//iso = lepton_iso_sf[i];
+						//gsf = lepton_gsf_sf[i];
+						//hip = lepton_hip_sf[i];
+						//trig = lepton_trig_sf[i];
 						vvLEPTON.push_back(vlepton);
 					}
 				}
@@ -293,6 +301,8 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		if( numJets<4 || numTags<2 ) continue;	
 		
 		N_eve++;
+		
+		//cout<<event_nr<<"  "<<pt<<"  "<<gen_weight<<"  "<<PU_weight<<"  "<<csv_weight<<"  "<<trig<<"  "<<id<<"  "<<iso<<"  "<<gsf<<"  "<<hip<<"  "<<PDF_weight<<"  "<<Q2_weight<<"\n";
 		
 		// Checking control trigger selection
 		

@@ -1,6 +1,8 @@
 <use name="FWCore/Framework"/>
 <use name="FWCore/PluginManager"/>
 <use name="FWCore/ParameterSet"/>
+<use name = "FWCore/ServiceRegistry" />
+<use name=  "CondFormats/JetMETObjects"/>
 <use name="DataFormats/BeamSpot"/>
 <use name="DataFormats/Candidate"/>
 <use name="DataFormats/HepMCCandidate"/>
@@ -9,6 +11,13 @@
 <use name="DataFormats/VertexReco"/>
 <use name="PhysicsTools/Utilities"/>
 <use name="SimDataFormats/PileupSummaryInfo"/>
+<use name = "SimDataFormats/GeneratorProducts" />
+<use name= "JetMETCorrections/Algorithms"/>
+<use name= "JetMETCorrections/Objects"/>
+<use name= "JetMETCorrections/Modules"/>
 <use name="HLTrigger/HLTcore"/>
 <use name="MiniAOD/MiniAODHelper"/>
+<use name = "TriggerRun2/TriggerAnalyzer" />
+<ise name = "root" />
+<use name = "rootmath" />
 <flags EDM_PLUGIN="1"/>

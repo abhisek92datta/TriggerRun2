@@ -1,7 +1,7 @@
 <use   name="CommonTools/Utils"/>
 <use   name="DataFormats/Common"/>
 <use   name="DataFormats/Candidate"/>
-<use name="DataFormats/PatCandidates"/>
+<use   name="DataFormats/PatCandidates"/>
 <use   name="DataFormats/FWLite"/>
 <use   name="DataFormats/HepMCCandidate"/>
 <use   name="DataFormats/JetReco"/>
@@ -10,15 +10,16 @@
 <use   name="root"/>
 <use   name="roottmva"/>
 <use   name="rootrflx"/>
-<use name="lhapdf"/>
-<use name="JetMETCorrections/Objects"/>
-<use name="JetMETCorrections/Algorithms"/>
-<use name="JetMETCorrections/JetCorrector"/>
-<use name="TrackingTools/TransientTrack"/>
-<use name="TrackingTools/Records"/>	
-<use name="TrackingTools/IPTools"/>
-<use name="RecoBTag/BTagTools"/>
+<use   name="lhapdf"/>
+<use   name="JetMETCorrections/Objects"/>
+<use   name="JetMETCorrections/Algorithms"/>
+<use   name="JetMETCorrections/JetCorrector"/>
+<use   name="TrackingTools/TransientTrack"/>
+<use   name="TrackingTools/Records"/>	
+<use   name="TrackingTools/IPTools"/>
+<use   name="RecoBTag/BTagTools"/>
 <export>
-  <lib   name="1"/>
+  <use name="root"/>
+  <lib name="1"/>
 </export>
 
