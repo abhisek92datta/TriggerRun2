@@ -316,7 +316,8 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		if (pass_WPLoose_27_HT200 ==1 || pass_WPTight_27 ==1 ) 
 			pass_WPTight_27_OR_WPLoose_27_HT200 = 1;
 	
-	    tot_weight = vvLEPTON[0][4]*gen_weight*csv_weight*PDF_weight*PU_weight*Q2_weight;
+	    // Gen Weight not applied
+	    tot_weight = vvLEPTON[0][4]*csv_weight*PDF_weight*PU_weight*Q2_weight;
 	
 		// Fill Histograms
 		
