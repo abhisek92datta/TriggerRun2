@@ -15,10 +15,14 @@ config.section_("Data")
 config.Data.inputDataset = '/SingleElectron/Run2016B-PromptReco-v2/MINIAOD'
 #for F,G
 #config.Data.inputDataset = '/SingleElectron/Run2016F-PromptReco-v1/MINIAOD'
+#for H
+#config.Data.inputDataset = '/SingleElectron/Run2016H-PromptReco-v2/MINIAOD'
+#config.Data.inputDataset = '/SingleElectron/Run2016H-PromptReco-v3/MINIAOD'
 config.Data.inputDBS = 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader/' 
 config.Data.allowNonValidInputDataset = True 
 config.Data.splitting = 'LumiBased' 
-config.Data.lumiMask = 'data/JSON/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_unprescaled.txt'
+#config.Data.lumiMask = 'data/JSON/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_unprescaled.txt'
+config.Data.lumiMask = 'data/JSON/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON_unprescaled.txt'
 config.Data.unitsPerJob = 20
 ##config.Data.totalUnits = 
 config.Data.publication = True 

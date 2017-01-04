@@ -335,8 +335,8 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		int pass_WPTight_27_OR_WPLoose_27_HT200 = 0;
 		if (pass_WPLoose_27_HT200 ==1 || pass_WPTight_27 ==1 ) 
 			pass_WPTight_27_OR_WPLoose_27_HT200 = 1;
-	   
-	    // Gen Weight not applied
+			
+		// Gen Weight not applied
 	    tot_weight = vvLEPTON[0][8]*csv_weight*PDF_weight*PU_weight*Q2_weight;
 	
 		// Fill Histograms

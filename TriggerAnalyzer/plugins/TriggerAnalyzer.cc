@@ -1126,6 +1126,8 @@ cout<<"f";
 
 
   int pass_HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v = -1;
+  int pass_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v = -1;
+  
   int pass_HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v = -1;
   int pass_HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v = -1;
   int pass_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v = -1;
@@ -1191,6 +1193,8 @@ cout<<"f";
       if( pathName.find("HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v")!=std::string::npos ) pass_HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v = (accept) ? 1 : 0;
 
       if( pathName.find("HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")!=std::string::npos ) pass_HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v = (accept) ? 1 : 0;
+      if( pathName.find("HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v")!=std::string::npos ) pass_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v = (accept) ? 1 : 0;
+      
       if( pathName.find("HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v")!=std::string::npos ) pass_HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v = (accept) ? 1 : 0;
       if( pathName.find("HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v")!=std::string::npos ) pass_HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v = (accept) ? 1 : 0;
       if( pathName.find("HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v")!=std::string::npos ) pass_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v = (accept) ? 1 : 0;
@@ -1248,8 +1252,9 @@ cout<<"f";
 
   eve->pass_HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v_ = pass_HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v;
 
-
   eve->pass_HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v_ = pass_HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v;
+  eve->pass_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v_ = pass_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v;
+  
   eve->pass_HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v_ = pass_HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v;
   eve->pass_HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v_ = pass_HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v;
   eve->pass_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v_ = pass_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v;

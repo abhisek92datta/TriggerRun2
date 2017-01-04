@@ -22,7 +22,11 @@ process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_condD
 
 #process.GlobalTag.globaltag = 'MCRUN2_74_V9'
 #process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v8' ##'74X_dataRun2_v2'#'74X_dataRun2_Express_v0'
+
+#for B to G
 process.GlobalTag.globaltag = '80X_dataRun2_Prompt_ICHEP16JEC_v0'
+#for H
+#process.GlobalTag.globaltag = '80X_dataRun2_Prompt_v15'
 
 process.options   = cms.untracked.PSet( wantSummary = cms.untracked.bool(True) )
 process.options.allowUnscheduled = cms.untracked.bool(True)
@@ -98,7 +102,7 @@ process.source = cms.Source("PoolSource",
 #)
 
 import FWCore.PythonUtilities.LumiList as LumiList
-process.source.lumisToProcess = LumiList.LumiList(filename = 'data/JSON/Cert_271036-280385_13TeV_PromptReco_Collisions16_JSON_unprescaled.txt').getVLuminosityBlockRange()
+process.source.lumisToProcess = LumiList.LumiList(filename = 'data/JSON/Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON_unprescaled.txt').getVLuminosityBlockRange()
 
 
 ## override the L1 menu from an Xml file

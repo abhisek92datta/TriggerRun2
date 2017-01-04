@@ -100,6 +100,8 @@ struct triggerStudyEventVars{
   int pass_HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v_;
 
   int pass_HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v_;
+  int pass_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v_;
+  
   int pass_HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v_;
   int pass_HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v_;
   int pass_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v_;
@@ -436,6 +438,8 @@ void triggerStudyEventVars::initialize(){
 
 
   pass_HLT_Ele17_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v_ = -99;
+  pass_HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v_ = -99;
+  
   pass_HLT_Mu17_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_v_ = -99;
   pass_HLT_Mu8_TrkIsoVVL_Ele17_CaloIdL_TrackIdL_IsoVL_v_ = -99;
   pass_HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v_ = -99;
