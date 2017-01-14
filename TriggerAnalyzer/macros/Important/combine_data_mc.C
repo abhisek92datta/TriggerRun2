@@ -34,7 +34,7 @@ void combine_data_mc() {
 	TH1::SetDefaultSumw2();
 	
 	//double L = 26.149; // 1/fb
-	double L = 35.276; // 1/fb
+	double L = 35.273; // 1/fb
 	
 	TFile *f1 = new TFile("Distribution_mc_tthbb.root");
 	TH1D *tthbb_pt_loose_27 = (TH1D*)f1->Get("Pt_WPLoose_27");
@@ -590,7 +590,7 @@ void combine_data_mc() {
 	ttjets_dl_nbtags_tight_27_or_loose_27_ht200->SetTitle("MC ttjets_dl : Nr. of Btags Distribution for WPtight_27_or_loose_27_ht200");
 	
 	
-	TFile *f5 = new TFile("Distribution_data_2016.root");
+	TFile *f5 = new TFile("Distribution_data_2016_B_H.root");
 	TH1D *data_pt_loose_27 = (TH1D*)f5->Get("Pt_WPLoose_27");
 	TH1D *data_eta_loose_27 = (TH1D*)f5->Get("Eta_WPLoose_27");
 	TH1D *data_phi_loose_27 = (TH1D*)f5->Get("Phi_WPLoose_27");
@@ -733,8 +733,8 @@ void combine_data_mc() {
 	// Scaling and Normlization of mc signal : tthbb
 	///////////////////////////////////////////////////////////
 	
-	//double factor_tthbb = 600.0;
-	double factor_tthbb = 1;
+	double factor_tthbb = 600.0;
+	//double factor_tthbb = 1;
 	double sigma_tthbb = 0.5824*0.5071; // pb
 	double N_total_tthbb = 3993304;
 	double norm_tthbb = (L*sigma_tthbb*1000)/N_total_tthbb;
@@ -790,7 +790,7 @@ void combine_data_mc() {
 	//Adding and Normalization of mc background : ttjets_SL + ttjets_DL + tthnonbb
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	
-	double factor_tthnonbb = 0;
+	double factor_tthnonbb = 1;
 	double sigma_tthnonbb = 0.4176*0.5071; // pb
 	double N_total_tthnonbb = 3975854;
 	double norm_tthnonbb = (L*sigma_tthnonbb*1000)/N_total_tthnonbb;
@@ -955,12 +955,12 @@ void combine_data_mc() {
 	//Not Normalized
 	//////////////////////////////////////////////////
 	
-	/*
+	
 	
 	//Electron pT
 	
 	TCanvas *c1 = new TCanvas("c1","test",1100,650);
-	c1->DrawFrame(0,0,300,12000,"Electron pT (for WPTight_27) ; pT (Electron) [GeV] ; Nr. of Events");
+	c1->DrawFrame(0,0,300,13000,"Electron pT (for WPTight_27) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg1 = new TLegend(0.65,0.70,0.85,0.85);
     leg1->SetFillColor(kWhite);
     leg1->SetFillStyle(1001);
@@ -985,7 +985,7 @@ void combine_data_mc() {
 	
 	
 	TCanvas *c2= new TCanvas("c2","test",1100,650);
-	c2->DrawFrame(0,0,300,12000,"Electron pT (for WPTight_32) ; pT (Electron) [GeV] ; Nr. of Events");
+	c2->DrawFrame(0,0,300,13000,"Electron pT (for WPTight_32) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg2 = new TLegend(0.65,0.70,0.85,0.85);
     leg2->SetFillColor(kWhite);
     leg2->SetFillStyle(1001);
@@ -1009,7 +1009,7 @@ void combine_data_mc() {
 	delete leg2;
 	
 	TCanvas *c3 = new TCanvas("c3","test",1100,650);
-	c3->DrawFrame(0,0,300,12000,"Electron pT (for WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
+	c3->DrawFrame(0,0,300,13000,"Electron pT (for WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg3 = new TLegend(0.65,0.70,0.85,0.85);
     leg3->SetFillColor(kWhite);
     leg3->SetFillStyle(1001);
@@ -1033,7 +1033,7 @@ void combine_data_mc() {
 	delete leg3;
 	
 	TCanvas *c4= new TCanvas("c4","test",1100,650);
-	c4->DrawFrame(0,0,300,12000,"Electron pT (for WPTight_27_OR_WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
+	c4->DrawFrame(0,0,300,13000,"Electron pT (for WPTight_27_OR_WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg4 = new TLegend(0.65,0.70,0.85,0.85);
     leg4->SetFillColor(kWhite);
     leg4->SetFillStyle(1001);
@@ -1057,7 +1057,7 @@ void combine_data_mc() {
 	delete leg4;
 	
 	TCanvas *c5= new TCanvas("c5","test",1100,650);
-	c5->DrawFrame(0,0,300,12000,"Electron pT (for WPLoose_27) ; pT (Electron) [GeV] ; Nr. of Events");
+	c5->DrawFrame(0,0,300,13000,"Electron pT (for WPLoose_27) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg5 = new TLegend(0.65,0.70,0.85,0.85);
     leg5->SetFillColor(kWhite);
     leg5->SetFillStyle(1001);
@@ -1206,7 +1206,7 @@ void combine_data_mc() {
 	//Electron phi
 	
 	TCanvas *c11 = new TCanvas("c11","test",1100,650);
-	c11->DrawFrame(-3,4000,3,11000,"Electron phi (for WPTight_27) ; phi (Electron) ; Nr. of Events");
+	c11->DrawFrame(-3,4000,3,12000,"Electron phi (for WPTight_27) ; phi (Electron) ; Nr. of Events");
 	TLegend* leg11 = new TLegend(0.65,0.70,0.85,0.85);
     leg11->SetFillColor(kWhite);
     leg11->SetFillStyle(1001);
@@ -1231,7 +1231,7 @@ void combine_data_mc() {
 	
 	
 	TCanvas *c12= new TCanvas("c12","test",1100,650);
-	c12->DrawFrame(-3,4000,3,11000,"Electron phi (for WPTight_32) ; phi (Electron) ; Nr. of Events");
+	c12->DrawFrame(-3,4000,3,12000,"Electron phi (for WPTight_32) ; phi (Electron) ; Nr. of Events");
 	TLegend* leg12 = new TLegend(0.65,0.70,0.85,0.85);
     leg12->SetFillColor(kWhite);
     leg12->SetFillStyle(1001);
@@ -1255,7 +1255,7 @@ void combine_data_mc() {
 	delete leg12;
 	
 	TCanvas *c13 = new TCanvas("c13","test",1100,650);
-	c13->DrawFrame(-3,4000,3,11000,"Electron phi (for WPLoose_27_HT200) ; phi (Electron) ; Nr. of Events");
+	c13->DrawFrame(-3,4000,3,12000,"Electron phi (for WPLoose_27_HT200) ; phi (Electron) ; Nr. of Events");
 	TLegend* leg13 = new TLegend(0.65,0.70,0.85,0.85);
     leg13->SetFillColor(kWhite);
     leg13->SetFillStyle(1001);
@@ -1279,7 +1279,7 @@ void combine_data_mc() {
 	delete leg13;
 	
 	TCanvas *c14= new TCanvas("c14","test",1100,650);
-	c14->DrawFrame(-3,4000,3,11000,"Electron phi (for WPTight_27_OR_WPLoose_27_HT200) ; phi (Electron) ; Nr. of Events");
+	c14->DrawFrame(-3,4000,3,12000,"Electron phi (for WPTight_27_OR_WPLoose_27_HT200) ; phi (Electron) ; Nr. of Events");
 	TLegend* leg14 = new TLegend(0.65,0.70,0.85,0.85);
     leg14->SetFillColor(kWhite);
     leg14->SetFillStyle(1001);
@@ -1303,7 +1303,7 @@ void combine_data_mc() {
 	delete leg14;
 	
 	TCanvas *c15= new TCanvas("c15","test",1100,650);
-	c15->DrawFrame(-3,4000,3,11000,"Electron phi (for WPLoose_27) ; phi (Electron) ; Nr. of Events");
+	c15->DrawFrame(-3,4000,3,12000,"Electron phi (for WPLoose_27) ; phi (Electron) ; Nr. of Events");
 	TLegend* leg15 = new TLegend(0.65,0.70,0.85,0.85);
     leg15->SetFillColor(kWhite);
     leg15->SetFillStyle(1001);
@@ -1329,7 +1329,7 @@ void combine_data_mc() {
 	//Jet1 pT
 	
 	TCanvas *c16 = new TCanvas("c16","test",1100,650);
-	c16->DrawFrame(0,0,300,6000,"Jet1 pT (for WPTight_27) ; pT (Jet 1) [GeV] ; Nr. of Events");
+	c16->DrawFrame(0,0,300,7000,"Jet1 pT (for WPTight_27) ; pT (Jet 1) [GeV] ; Nr. of Events");
 	TLegend* leg16 = new TLegend(0.65,0.70,0.85,0.85);
     leg16->SetFillColor(kWhite);
     leg16->SetFillStyle(1001);
@@ -1354,7 +1354,7 @@ void combine_data_mc() {
 	
 	
 	TCanvas *c17= new TCanvas("c17","test",1100,650);
-	c17->DrawFrame(0,0,300,6000,"Jet1 pT (for WPTight_32) ; pT (Jet 1) [GeV] ; Nr. of Events");
+	c17->DrawFrame(0,0,300,7000,"Jet1 pT (for WPTight_32) ; pT (Jet 1) [GeV] ; Nr. of Events");
 	TLegend* leg17 = new TLegend(0.65,0.70,0.85,0.85);
     leg17->SetFillColor(kWhite);
     leg17->SetFillStyle(1001);
@@ -1378,7 +1378,7 @@ void combine_data_mc() {
 	delete leg17;
 	
 	TCanvas *c18 = new TCanvas("c18","test",1100,650);
-	c18->DrawFrame(0,0,300,6000,"Jet1 pT (for WPLoose_27_HT200) ; pT (Jet 1) [GeV] ; Nr. of Events");
+	c18->DrawFrame(0,0,300,7000,"Jet1 pT (for WPLoose_27_HT200) ; pT (Jet 1) [GeV] ; Nr. of Events");
 	TLegend* leg18 = new TLegend(0.65,0.70,0.85,0.85);
     leg18->SetFillColor(kWhite);
     leg18->SetFillStyle(1001);
@@ -1402,7 +1402,7 @@ void combine_data_mc() {
 	delete leg18;
 	
 	TCanvas *c19= new TCanvas("c19","test",1100,650);
-	c19->DrawFrame(0,0,300,6000,"Jet1 pT (for WPTight_27_OR_WPLoose_27_HT200) ; pT (Jet 1) [GeV] ; Nr. of Events");
+	c19->DrawFrame(0,0,300,7000,"Jet1 pT (for WPTight_27_OR_WPLoose_27_HT200) ; pT (Jet 1) [GeV] ; Nr. of Events");
 	TLegend* leg19 = new TLegend(0.65,0.70,0.85,0.85);
     leg19->SetFillColor(kWhite);
     leg19->SetFillStyle(1001);
@@ -1426,7 +1426,7 @@ void combine_data_mc() {
 	delete leg19;
 	
 	TCanvas *c20= new TCanvas("c20","test",1100,650);
-	c20->DrawFrame(0,0,300,6000,"Jet1 pT (for WPLoose_27) ; pT (Jet 1) [GeV] ; Nr. of Events");
+	c20->DrawFrame(0,0,300,7000,"Jet1 pT (for WPLoose_27) ; pT (Jet 1) [GeV] ; Nr. of Events");
 	TLegend* leg20 = new TLegend(0.65,0.70,0.85,0.85);
     leg20->SetFillColor(kWhite);
     leg20->SetFillStyle(1001);
@@ -1576,7 +1576,7 @@ void combine_data_mc() {
 	//HT
 	
 	TCanvas *c26 = new TCanvas("c26","test",1100,650);
-	c26->DrawFrame(0,0,1000,6000,"HT (for WPTight_27) ; HT [GeV] ; Nr. of Events");
+	c26->DrawFrame(0,0,1000,7000,"HT (for WPTight_27) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg26 = new TLegend(0.65,0.70,0.85,0.85);
     leg26->SetFillColor(kWhite);
     leg26->SetFillStyle(1001);
@@ -1601,7 +1601,7 @@ void combine_data_mc() {
 	
 	
 	TCanvas *c27= new TCanvas("c27","test",1100,650);
-	c27->DrawFrame(0,0,1000,6000,"HT (for WPTight_32) ; HT [GeV] ; Nr. of Events");
+	c27->DrawFrame(0,0,1000,7000,"HT (for WPTight_32) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg27 = new TLegend(0.65,0.70,0.85,0.85);
     leg27->SetFillColor(kWhite);
     leg27->SetFillStyle(1001);
@@ -1625,7 +1625,7 @@ void combine_data_mc() {
 	delete leg27;
 	
 	TCanvas *c28 = new TCanvas("c28","test",1100,650);
-	c28->DrawFrame(0,0,1000,6000,"HT (for WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
+	c28->DrawFrame(0,0,1000,7000,"HT (for WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg28 = new TLegend(0.65,0.70,0.85,0.85);
     leg28->SetFillColor(kWhite);
     leg28->SetFillStyle(1001);
@@ -1649,7 +1649,7 @@ void combine_data_mc() {
 	delete leg28;
 	
 	TCanvas *c29= new TCanvas("c29","test",1100,650);
-	c29->DrawFrame(0,0,1000,6000,"HT (for WPTight_27_OR_WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
+	c29->DrawFrame(0,0,1000,7000,"HT (for WPTight_27_OR_WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg29 = new TLegend(0.65,0.70,0.85,0.85);
     leg29->SetFillColor(kWhite);
     leg29->SetFillStyle(1001);
@@ -1673,7 +1673,7 @@ void combine_data_mc() {
 	delete leg29;
 	
 	TCanvas *c30= new TCanvas("c30","test",1100,650);
-	c30->DrawFrame(0,0,1000,6000,"HT (for WPLoose_27) ; HT [GeV] ; Nr. of Events");
+	c30->DrawFrame(0,0,1000,7000,"HT (for WPLoose_27) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg30 = new TLegend(0.65,0.70,0.85,0.85);
     leg30->SetFillColor(kWhite);
     leg30->SetFillStyle(1001);
@@ -1822,7 +1822,7 @@ void combine_data_mc() {
 	//Nr of btags
 	
 	TCanvas *c36 = new TCanvas("c36","test",1100,650);
-	c36->DrawFrame(2,0,9,300000,"Nr. of BTags (for WPTight_27) ; Nr. of BTags ; Nr. of Events");
+	c36->DrawFrame(2,0,9,350000,"Nr. of BTags (for WPTight_27) ; Nr. of BTags ; Nr. of Events");
 	TLegend* leg36 = new TLegend(0.65,0.70,0.85,0.85);
     leg36->SetFillColor(kWhite);
     leg36->SetFillStyle(1001);
@@ -1847,7 +1847,7 @@ void combine_data_mc() {
 	
 	
 	TCanvas *c37= new TCanvas("c37","test",1100,650);
-	c37->DrawFrame(2,0,9,300000,"Nr. of BTags (for WPTight_32) ; Nr. of BTags ; Nr. of Events");
+	c37->DrawFrame(2,0,9,350000,"Nr. of BTags (for WPTight_32) ; Nr. of BTags ; Nr. of Events");
 	TLegend* leg37 = new TLegend(0.65,0.70,0.85,0.85);
     leg37->SetFillColor(kWhite);
     leg37->SetFillStyle(1001);
@@ -1871,7 +1871,7 @@ void combine_data_mc() {
 	delete leg37;
 	
 	TCanvas *c38 = new TCanvas("c38","test",1100,650);
-	c38->DrawFrame(2,0,9,300000,"Nr. of BTags (for WPLoose_27_HT200) ; Nr. of BTags ; Nr. of Events");
+	c38->DrawFrame(2,0,9,350000,"Nr. of BTags (for WPLoose_27_HT200) ; Nr. of BTags ; Nr. of Events");
 	TLegend* leg38 = new TLegend(0.65,0.70,0.85,0.85);
     leg38->SetFillColor(kWhite);
     leg38->SetFillStyle(1001);
@@ -1895,7 +1895,7 @@ void combine_data_mc() {
 	delete leg38;
 	
 	TCanvas *c39= new TCanvas("c39","test",1100,650);
-	c39->DrawFrame(2,0,9,300000,"Nr. of BTags (for WPTight_27_OR_WPLoose_27_HT200) ; Nr. of BTags ; Nr. of Events");
+	c39->DrawFrame(2,0,9,350000,"Nr. of BTags (for WPTight_27_OR_WPLoose_27_HT200) ; Nr. of BTags ; Nr. of Events");
 	TLegend* leg39 = new TLegend(0.65,0.70,0.85,0.85);
     leg39->SetFillColor(kWhite);
     leg39->SetFillStyle(1001);
@@ -1919,7 +1919,7 @@ void combine_data_mc() {
 	delete leg39;
 	
 	TCanvas *c40= new TCanvas("c40","test",1100,650);
-	c40->DrawFrame(2,0,9,300000,"Nr. of BTags (for WPLoose_27) ; Nr. of BTags ; Nr. of Events");
+	c40->DrawFrame(2,0,9,350000,"Nr. of BTags (for WPLoose_27) ; Nr. of BTags ; Nr. of Events");
 	TLegend* leg40 = new TLegend(0.65,0.70,0.85,0.85);
     leg40->SetFillColor(kWhite);
     leg40->SetFillStyle(1001);
@@ -1942,13 +1942,13 @@ void combine_data_mc() {
 	delete c40;
 	delete leg40;
 	
-	*/
+	
 	
 	//////////////////////////////////////////////////
 	//Normalized
 	//////////////////////////////////////////////////
 
-
+    /*
 
 	//Electron pT
 	
@@ -2935,6 +2935,7 @@ void combine_data_mc() {
 	delete c40;
 	delete leg40;
 	
+	*/
 
 	delete f1;
 	delete f2;

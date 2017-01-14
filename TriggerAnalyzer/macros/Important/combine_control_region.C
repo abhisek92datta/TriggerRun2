@@ -34,7 +34,7 @@ void combine_control_region() {
 	TH1::SetDefaultSumw2();
 	
 	//double L = 26.149; // 1/fb
-	double L = 35.276; // 1/fb
+	double L = 11.395; // 1/fb
 	
 	TFile *f1 = new TFile("Control_Region_mc_dy.root");
 	TH1D *dy_pt_loose_27 = (TH1D*)f1->Get("Pt_WPLoose_27");
@@ -496,7 +496,7 @@ void combine_control_region() {
 	ttjets_dl_nbtags_tight_27_or_loose_27_ht200->SetTitle("MC ttjets_dl : Nr. of Btags Distribution for WPtight_27_or_loose_27_ht200");
 	
 	
-	TFile *f5 = new TFile("Control_Region_data_2016.root");
+	TFile *f5 = new TFile("Control_Region_data_2016_B_D.root");
 	TH1D *data_pt_loose_27 = (TH1D*)f5->Get("Pt_WPLoose_27");
 	TH1D *data_pt2_loose_27 = (TH1D*)f5->Get("Pt2_WPLoose_27");
 	TH1D *data_eta_loose_27 = (TH1D*)f5->Get("Eta_WPLoose_27");
@@ -663,13 +663,13 @@ void combine_control_region() {
 	
 	double factor_ttjets_sl = 1;
 	double sigma_ttjets_sl = 364.3; // pb
-	double N_total_ttjets_sl =  ; 
+	double N_total_ttjets_sl = 157387260; 
 	double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/N_total_ttjets_sl;
 	double scale_ttjets_sl = factor_ttjets_sl*norm_ttjets_sl;
 	
 	double factor_ttjets_dl = 1;
 	double sigma_ttjets_dl = 87.3; // pb
-	double N_total_ttjets_dl =  ;  
+	double N_total_ttjets_dl = 75383000;  
 	double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/N_total_ttjets_dl;
 	double scale_ttjets_dl = factor_ttjets_dl*norm_ttjets_dl;
 	
@@ -734,8 +734,8 @@ void combine_control_region() {
     TH1D* mc_npv_loose_27 = new TH1D("NumPV_WPLoose_27","NumPV Distribution for WPLoose_27;numPV;Nr. of Events",50,0,50);		
     TH1D* mc_jet1pt_loose_27 = new TH1D("Jet1_pt_WPLoose_27","Jet1 pT Distribution for WPLoose_27;pT (GeV);Nr. of Events",250,0,500);
     TH1D* mc_jet1csv_loose_27 = new TH1D("Jet1_csv_WPLoose_27","Jet1 csv Distribution for WPLoose_27;csv;Nr. of Events",50,0,1);
-    TH1D* mc_njets_loose_27 = new TH1D("Njets_WPLoose_27","N_jets Distribution for WPLoose_27;Nr. of jets;Nr. of Events",9,4,13);
-    TH1D* mc_nbtags_loose_27 = new TH1D("Nbtags_WPLoose_27","N_btags Distribution for WPLoose_27;Nr. of btags;Nr. of Events",7,2,9);	
+    TH1D* mc_njets_loose_27 = new TH1D("Njets_WPLoose_27","N_jets Distribution for WPLoose_27;Nr. of jets;Nr. of Events",10,0,10);
+    TH1D* mc_nbtags_loose_27 = new TH1D("Nbtags_WPLoose_27","N_btags Distribution for WPLoose_27;Nr. of btags;Nr. of Events",5,0,5);	
 	TH1D* mc_pt_tight_27 = new TH1D("Pt_WPTight_27","Tag Electron Pt Distribution for WPTight_27;pT (GeV);Nr. of Events",150,0,300);
 	TH1D* mc_pt2_tight_27 = new TH1D("Pt2_WPTight_27","Probe Electron Pt Distribution for WPTight_27;pT (GeV);Nr. of Events",150,0,300);
     TH1D* mc_eta_tight_27 = new TH1D("Eta_WPTight_27","Eta Distribution for WPTight_27;#eta;Nr. of Events",30,-3,3);
@@ -744,8 +744,8 @@ void combine_control_region() {
     TH1D* mc_npv_tight_27 = new TH1D("NumPV_WPTight_27","NumPV Distribution for WPTight_27;numPV;Nr. of Events",50,0,50);		
     TH1D* mc_jet1pt_tight_27 = new TH1D("Jet1_pt_WPTight_27","Jet1 pT Distribution for WPTight_27;pT (GeV);Nr. of Events",250,0,500);
     TH1D* mc_jet1csv_tight_27 = new TH1D("Jet1_csv_WPTight_27","Jet1 csv Distribution for WPTight_27;csv;Nr. of Events",50,0,1);
-    TH1D* mc_njets_tight_27 = new TH1D("Njets_WPTight_27","N_jets Distribution for WPTight_27;Nr. of jets;Nr. of Events",9,4,13);
-    TH1D* mc_nbtags_tight_27 = new TH1D("Nbtags_WPTight_27","N_btags Distribution for WPTight_27;Nr. of btags;Nr. of Events",7,2,9);	
+    TH1D* mc_njets_tight_27 = new TH1D("Njets_WPTight_27","N_jets Distribution for WPTight_27;Nr. of jets;Nr. of Events",10,0,10);
+    TH1D* mc_nbtags_tight_27 = new TH1D("Nbtags_WPTight_27","N_btags Distribution for WPTight_27;Nr. of btags;Nr. of Events",5,0,5);	
     TH1D* mc_pt_tight_32 = new TH1D("Pt_WPTight_32","Tag Electron Pt Distribution for WPTight_32;pT (GeV);Nr. of Events",150,0,300);
 	TH1D* mc_pt2_tight_32 = new TH1D("Pt2_WPTight_32","Probe Electron Pt Distribution for WPTight_32;pT (GeV);Nr. of Events",150,0,300);
     TH1D* mc_eta_tight_32 = new TH1D("Eta_WPTight_32","Eta Distribution for WPTight_32;#eta;Nr. of Events",30,-3,3);
@@ -754,8 +754,8 @@ void combine_control_region() {
     TH1D* mc_npv_tight_32 = new TH1D("NumPV_WPTight_32","NumPV Distribution for WPTight_32;numPV;Nr. of Events",50,0,50);
     TH1D* mc_jet1pt_tight_32 = new TH1D("Jet1_pt_WPTight_32","Jet1 pT Distribution for WPTight_32;pT (GeV);Nr. of Events",250,0,500);
     TH1D* mc_jet1csv_tight_32 = new TH1D("Jet1_csv_WPTight_32","Jet1 csv Distribution for WPTight_32;csv;Nr. of Events",50,0,1);	
-    TH1D* mc_njets_tight_32 = new TH1D("Njets_WPTight_32","N_jets Distribution for WPTight_32;Nr. of jets;Nr. of Events",9,4,13);
-    TH1D* mc_nbtags_tight_32 = new TH1D("Nbtags_WPTight_32","N_btags Distribution for WPTight_32;Nr. of btags;Nr. of Events",7,2,9);	
+    TH1D* mc_njets_tight_32 = new TH1D("Njets_WPTight_32","N_jets Distribution for WPTight_32;Nr. of jets;Nr. of Events",10,0,10);
+    TH1D* mc_nbtags_tight_32 = new TH1D("Nbtags_WPTight_32","N_btags Distribution for WPTight_32;Nr. of btags;Nr. of Events",5,0,5);	
     TH1D* mc_pt_loose_27_ht200 = new TH1D("Pt_WPLoose_27_HT200","Tag Electron Pt Distribution for WPLoose_27_HT200;pT (GeV);Nr. of Events",150,0,300);
 	TH1D* mc_pt2_loose_27_ht200 = new TH1D("Pt2_WPLoose_27_HT200","Probe Electron Pt Distribution for WPLoose_27_HT200;pT (GeV);Nr. of Events",150,0,300);
     TH1D* mc_eta_loose_27_ht200 = new TH1D("Eta_WPLoose_27_HT200","Eta Distribution for WPLoose_27_HT200;#eta;Nr. of Events",30,-3,3);
@@ -764,8 +764,8 @@ void combine_control_region() {
     TH1D* mc_npv_loose_27_ht200 = new TH1D("NumPV_WPLoose_27_HT200","NumPV Distribution for WPLoose_27_HT200;numPV;Nr. of Events",50,0,50);
     TH1D* mc_jet1pt_loose_27_ht200 = new TH1D("Jet1_pt_WPLoose_27_HT200","Jet1 pT Distribution for WPLoose_27_HT200;pT (GeV);Nr. of Events",250,0,500);
     TH1D* mc_jet1csv_loose_27_ht200 = new TH1D("Jet1_csv_WPLoose_27_HT200","Jet1 csv Distribution for WPLoose_27_HT200;csv;Nr. of Events",50,0,1);		
-    TH1D* mc_njets_loose_27_ht200 = new TH1D("Njets_WPLoose_27_HT200","N_jets Distribution for WPLoose_27_HT200;Nr. of jets;Nr. of Events",9,4,13);
-    TH1D* mc_nbtags_loose_27_ht200 = new TH1D("Nbtags_WPLoose_27_HT200","N_btags Distribution for WPLoose_27_HT200;Nr. of btags;Nr. of Events",7,2,9);	
+    TH1D* mc_njets_loose_27_ht200 = new TH1D("Njets_WPLoose_27_HT200","N_jets Distribution for WPLoose_27_HT200;Nr. of jets;Nr. of Events",10,0,10);
+    TH1D* mc_nbtags_loose_27_ht200 = new TH1D("Nbtags_WPLoose_27_HT200","N_btags Distribution for WPLoose_27_HT200;Nr. of btags;Nr. of Events",5,0,5);	
     TH1D* mc_pt_tight_27_or_loose_27_ht200 = new TH1D("Pt_WPTight_27_OR_WPLoose_27_HT200","Tag Electron Pt Distribution for WPTight_27_OR_WPLoose_27_HT200;pT (GeV);Nr. of Events",150,0,300);
 	TH1D* mc_pt2_tight_27_or_loose_27_ht200 = new TH1D("Pt2_WPTight_27_OR_WPLoose_27_HT200","Probe Electron Pt Distribution for WPTight_27_OR_WPLoose_27_HT200;pT (GeV);Nr. of Events",150,0,300);
     TH1D* mc_eta_tight_27_or_loose_27_ht200 = new TH1D("Eta_WPTight_27_OR_WPLoose_27_HT200","Eta Distribution for WPTight_27_OR_WPLoose_27_HT200;#eta;Nr. of Events",30,-3,3);
@@ -774,8 +774,8 @@ void combine_control_region() {
     TH1D* mc_npv_tight_27_or_loose_27_ht200 = new TH1D("NumPV_WPTight_27_OR_WPLoose_27_HT200","NumPV Distribution for WPTight_27_OR_WPLoose_27_HT200;numPV;Nr. of Events",50,0,50);
     TH1D* mc_jet1pt_tight_27_or_loose_27_ht200 = new TH1D("Jet1_pt_WPTight_27_OR_WPLoose_27_HT200","Jet1 pT Distribution for WPTight_27_OR_WPLoose_27_HT200;pT (GeV);Nr. of Events",250,0,500);
     TH1D* mc_jet1csv_tight_27_or_loose_27_ht200 = new TH1D("Jet1_csv_WPTight_27_OR_WPLoose_27_HT200","Jet1 csv Distribution for WPTight_27_OR_WPLoose_27_HT200;csv;Nr. of Events",50,0,1);			
-    TH1D* mc_njets_tight_27_or_loose_27_ht200 = new TH1D("Njets_WPTight_27_OR_WPLoose_27_HT200","N_jets Distribution for WPTight_27_OR_WPLoose_27_HT200;Nr. of jets;Nr. of Events",9,4,13);
-    TH1D* mc_nbtags_tight_27_or_loose_27_ht200 = new TH1D("Nbtags_WPTight_27_OR_WPLoose_27_HT200","N_btags Distribution for WPTight_27_OR_WPLoose_27_HT200;Nr. of btags;Nr. of Events",7,2,9);
+    TH1D* mc_njets_tight_27_or_loose_27_ht200 = new TH1D("Njets_WPTight_27_OR_WPLoose_27_HT200","N_jets Distribution for WPTight_27_OR_WPLoose_27_HT200;Nr. of jets;Nr. of Events",10,0,10);
+    TH1D* mc_nbtags_tight_27_or_loose_27_ht200 = new TH1D("Nbtags_WPTight_27_OR_WPLoose_27_HT200","N_btags Distribution for WPTight_27_OR_WPLoose_27_HT200;Nr. of btags;Nr. of Events",5,0,5);
 	
 	mc_pt_loose_27->Add(ttjets_sl_pt_loose_27, ttjets_dl_pt_loose_27, scale_ttjets_sl, scale_ttjets_dl);
 	mc_pt2_loose_27->Add(ttjets_sl_pt2_loose_27, ttjets_dl_pt2_loose_27, scale_ttjets_sl, scale_ttjets_dl);
@@ -887,7 +887,7 @@ void combine_control_region() {
 	//Tag Electron pT
 	
 	TCanvas *c1 = new TCanvas("c1","test",1100,650);
-	c1->DrawFrame(0,0,300,300000,"Tight Electron pT (for WPTight_27) ; pT (Electron) [GeV] ; Nr. of Events");
+	c1->DrawFrame(0,0,150,400000,"Tight Electron pT (for WPTight_27) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg1 = new TLegend(0.65,0.70,0.85,0.85);
     leg1->SetFillColor(kWhite);
     leg1->SetFillStyle(1001);
@@ -908,7 +908,7 @@ void combine_control_region() {
 	
 	
 	TCanvas *c2= new TCanvas("c2","test",1100,650);
-	c2->DrawFrame(0,0,300,300000,"Tight Electron pT (for WPTight_32) ; pT (Electron) [GeV] ; Nr. of Events");
+	c2->DrawFrame(0,0,150,400000,"Tight Electron pT (for WPTight_32) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg2 = new TLegend(0.65,0.70,0.85,0.85);
     leg2->SetFillColor(kWhite);
     leg2->SetFillStyle(1001);
@@ -926,7 +926,7 @@ void combine_control_region() {
 	delete leg2;
 	
 	TCanvas *c3 = new TCanvas("c3","test",1100,650);
-	c3->DrawFrame(0,0,300,11000,"Tight Electron pT (for WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
+	c3->DrawFrame(0,0,200,20000,"Tight Electron pT (for WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg3 = new TLegend(0.65,0.70,0.85,0.85);
     leg3->SetFillColor(kWhite);
     leg3->SetFillStyle(1001);
@@ -944,7 +944,7 @@ void combine_control_region() {
 	delete leg3;
 	
 	TCanvas *c4= new TCanvas("c4","test",1100,650);
-	c4->DrawFrame(0,0,300,300000,"Tight Electron pT (for WPTight_27_OR_WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
+	c4->DrawFrame(0,0,150,400000,"Tight Electron pT (for WPTight_27_OR_WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg4 = new TLegend(0.65,0.70,0.85,0.85);
     leg4->SetFillColor(kWhite);
     leg4->SetFillStyle(1001);
@@ -962,7 +962,7 @@ void combine_control_region() {
 	delete leg4;
 	
 	TCanvas *c5= new TCanvas("c5","test",1100,650);
-	c5->DrawFrame(0,0,300,300000,"Tight Electron pT (for WPLoose_27) ; pT (Electron) [GeV] ; Nr. of Events");
+	c5->DrawFrame(0,0,150,400000,"Tight Electron pT (for WPLoose_27) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg5 = new TLegend(0.65,0.70,0.85,0.85);
     leg5->SetFillColor(kWhite);
     leg5->SetFillStyle(1001);
@@ -983,7 +983,7 @@ void combine_control_region() {
 	//Probe Electron pT
 	
 	TCanvas *c6 = new TCanvas("c6","test",1100,650);
-	c6->DrawFrame(0,0,300,300000,"Loose Electron pT (for WPTight_27) ; pT (Electron) [GeV] ; Nr. of Events");
+	c6->DrawFrame(0,0,100,500000,"Loose Electron pT (for WPTight_27) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg6 = new TLegend(0.65,0.70,0.85,0.85);
     leg6->SetFillColor(kWhite);
     leg6->SetFillStyle(1001);
@@ -1004,7 +1004,7 @@ void combine_control_region() {
 	
 	
 	TCanvas *c7= new TCanvas("c7","test",1100,650);
-	c7->DrawFrame(0,0,300,300000,"Loose Electron pT (for WPTight_32) ; pT (Electron) [GeV] ; Nr. of Events");
+	c7->DrawFrame(0,0,100,500000,"Loose Electron pT (for WPTight_32) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg7 = new TLegend(0.65,0.70,0.85,0.85);
     leg7->SetFillColor(kWhite);
     leg7->SetFillStyle(1001);
@@ -1022,7 +1022,7 @@ void combine_control_region() {
 	delete leg7;
 	
 	TCanvas *c8 = new TCanvas("c8","test",1100,650);
-	c8->DrawFrame(0,0,300,11000,"Loose Electron pT (for WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
+	c8->DrawFrame(0,0,150,35000,"Loose Electron pT (for WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg8 = new TLegend(0.65,0.70,0.85,0.85);
     leg8->SetFillColor(kWhite);
     leg8->SetFillStyle(1001);
@@ -1040,7 +1040,7 @@ void combine_control_region() {
 	delete leg8;
 	
 	TCanvas *c9= new TCanvas("c9","test",1100,650);
-	c9->DrawFrame(0,0,300,300000,"Loose Electron pT (for WPTight_27_OR_WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
+	c9->DrawFrame(0,0,100,500000,"Loose Electron pT (for WPTight_27_OR_WPLoose_27_HT200) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg9 = new TLegend(0.65,0.70,0.85,0.85);
     leg9->SetFillColor(kWhite);
     leg9->SetFillStyle(1001);
@@ -1058,7 +1058,7 @@ void combine_control_region() {
 	delete leg9;
 	
 	TCanvas *c10= new TCanvas("c10","test",1100,650);
-	c10->DrawFrame(0,0,300,300000,"Loose Electron pT (for WPLoose_27) ; pT (Electron) [GeV] ; Nr. of Events");
+	c10->DrawFrame(0,0,100,500000,"Loose Electron pT (for WPLoose_27) ; pT (Electron) [GeV] ; Nr. of Events");
 	TLegend* leg10 = new TLegend(0.65,0.70,0.85,0.85);
     leg10->SetFillColor(kWhite);
     leg10->SetFillStyle(1001);
@@ -1078,7 +1078,7 @@ void combine_control_region() {
 	//HT
 	
 	TCanvas *c11 = new TCanvas("c11","test",1100,650);
-	c11->DrawFrame(0,0,200,1600000,"HT (for WPTight_27) ; HT [GeV] ; Nr. of Events");
+	c11->DrawFrame(0,0,200,300000,"HT (for WPTight_27) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg11 = new TLegend(0.65,0.70,0.85,0.85);
     leg11->SetFillColor(kWhite);
     leg11->SetFillStyle(1001);
@@ -1099,7 +1099,7 @@ void combine_control_region() {
 	
 	
 	TCanvas *c12= new TCanvas("c12","test",1100,650);
-	c12->DrawFrame(0,0,200,1600000,"HT (for WPTight_32) ; HT [GeV] ; Nr. of Events");
+	c12->DrawFrame(0,0,200,300000,"HT (for WPTight_32) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg12 = new TLegend(0.65,0.70,0.85,0.85);
     leg12->SetFillColor(kWhite);
     leg12->SetFillStyle(1001);
@@ -1117,7 +1117,7 @@ void combine_control_region() {
 	delete leg12;
 	
 	TCanvas *c13 = new TCanvas("c13","test",1100,650);
-	c13->DrawFrame(0,0,200,11000,"HT (for WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
+	c13->DrawFrame(0,0,500,30000,"HT (for WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg13 = new TLegend(0.65,0.70,0.85,0.85);
     leg13->SetFillColor(kWhite);
     leg13->SetFillStyle(1001);
@@ -1135,7 +1135,7 @@ void combine_control_region() {
 	delete leg13;
 	
 	TCanvas *c14= new TCanvas("c14","test",1100,650);
-	c14->DrawFrame(0,0,200,1600000,"HT (for WPTight_27_OR_WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
+	c14->DrawFrame(0,0,200,300000,"HT (for WPTight_27_OR_WPLoose_27_HT200) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg14 = new TLegend(0.65,0.70,0.85,0.85);
     leg14->SetFillColor(kWhite);
     leg14->SetFillStyle(1001);
@@ -1153,7 +1153,7 @@ void combine_control_region() {
 	delete leg14;
 	
 	TCanvas *c15= new TCanvas("c15","test",1100,650);
-	c15->DrawFrame(0,0,200,1600000,"HT (for WPLoose_27) ; HT [GeV] ; Nr. of Events");
+	c15->DrawFrame(0,0,200,300000,"HT (for WPLoose_27) ; HT [GeV] ; Nr. of Events");
 	TLegend* leg15 = new TLegend(0.65,0.70,0.85,0.85);
     leg15->SetFillColor(kWhite);
     leg15->SetFillStyle(1001);
