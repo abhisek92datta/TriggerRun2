@@ -2,6 +2,7 @@ from WMCore.Configuration import Configuration
 config = Configuration() 
 config.section_("General") 
 config.General.requestName = 'triggerTree_SingleElectron_Run2016B'
+#config.General.requestName = 'triggerTree_DoubleEG_Run2016B'
 
 config.section_("JobType") 
 config.JobType.pluginName = 'Analysis' 
@@ -11,6 +12,7 @@ config.JobType.inputFiles = ['data']
 config.JobType.maxJobRuntimeMin = 3000
 
 config.section_("Data") 
+#Single Electron
 #for B,C,D,E
 config.Data.inputDataset = '/SingleElectron/Run2016B-PromptReco-v2/MINIAOD'
 #for F,G
@@ -18,6 +20,14 @@ config.Data.inputDataset = '/SingleElectron/Run2016B-PromptReco-v2/MINIAOD'
 #for H
 #config.Data.inputDataset = '/SingleElectron/Run2016H-PromptReco-v2/MINIAOD'
 #config.Data.inputDataset = '/SingleElectron/Run2016H-PromptReco-v3/MINIAOD'
+#DoubleEG
+#for B,C,D,E
+#config.Data.inputDataset = '/DoubleEG/Run2016B-PromptReco-v2/MINIAOD'
+#for F,G
+#config.Data.inputDataset = '/DoubleEG/Run2016B-PromptReco-v1/MINIAOD'
+#for H
+#config.Data.inputDataset = '/DoubleEG/Run2016H-PromptReco-v2/MINIAOD'
+#config.Data.inputDataset = '/DoubleEG/Run2016H-PromptReco-v3/MINIAOD'
 config.Data.inputDBS = 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader/' 
 config.Data.allowNonValidInputDataset = True 
 config.Data.splitting = 'LumiBased' 
@@ -28,6 +38,7 @@ config.Data.unitsPerJob = 20
 config.Data.publication = True 
 config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter/' 
 config.Data.outputDatasetTag = 'triggerTree_SingleElectron_Run2016B' 
+#config.Data.outputDatasetTag = 'triggerTree_DoubleEG_Run2016B' 
 config.Data.outLFNDirBase = '/store/user/abdatta/Trigger_Analysis/' 
 config.Data.ignoreLocality = True
 
