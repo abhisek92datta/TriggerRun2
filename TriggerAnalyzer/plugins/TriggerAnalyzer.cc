@@ -2690,7 +2690,9 @@ cout<<"f";
   int N_lep = lepton_pt.size();
   
   for(int i=0; i<N_lep; i++) {
-   
+
+    if(!isData_) {
+
     //ID
     if(lepton_isMuon[i] == 1)
    		lepton_id_sf.push_back(leptonSFhelper.GetMuonSF(
@@ -2724,7 +2726,17 @@ cout<<"f";
                 lepton_pt[i], lepton_eta[i], 0, "HIP"));
     else
     	lepton_hip_sf.push_back(1);
-  }
+    }
+
+    else {
+        lepton_id_sf.push_back(1);
+        lepton_iso_sf.push_back(1);
+        lepton_gsf_sf.push_back(1);
+        lepton_trig_sf.push_back(1);
+        lepton_hip_sf.push_back(1);
+    }
+
+    }
    
   eve->gen_weight_ = gen_weight;
   eve->csv_weight_ = csv_weight;

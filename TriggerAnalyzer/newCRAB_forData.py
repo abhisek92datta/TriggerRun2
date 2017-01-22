@@ -24,7 +24,7 @@ config.Data.inputDataset = '/SingleElectron/Run2016B-PromptReco-v2/MINIAOD'
 #for B,C,D,E
 #config.Data.inputDataset = '/DoubleEG/Run2016B-PromptReco-v2/MINIAOD'
 #for F,G
-#config.Data.inputDataset = '/DoubleEG/Run2016B-PromptReco-v1/MINIAOD'
+#config.Data.inputDataset = '/DoubleEG/Run2016F-PromptReco-v1/MINIAOD'
 #for H
 #config.Data.inputDataset = '/DoubleEG/Run2016H-PromptReco-v2/MINIAOD'
 #config.Data.inputDataset = '/DoubleEG/Run2016H-PromptReco-v3/MINIAOD'
