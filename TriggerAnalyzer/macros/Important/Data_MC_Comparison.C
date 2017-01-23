@@ -226,7 +226,9 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   		vdouble lepton_hip_sf = eve->lepton_hip_sf_;
   		
   		double tot_weight = 1;
-		
+
+        sum_gen_weight = sum_gen_weight + gen_weight;
+
 		double HT = 0;
 		int numPV = eve->numPVs_;
 		
@@ -317,11 +319,12 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		int pass_WPTight_27_OR_WPLoose_27_HT200 = 0;
 		if (pass_WPLoose_27_HT200 ==1 || pass_WPTight_27 ==1 ) 
 			pass_WPTight_27_OR_WPLoose_27_HT200 = 1;
-	
+
+        //vvLEPTON[0][4] = 1; // for Data
+
 	    // Gen Weight, Q2 Weight, PDF Weight not applied
 	    tot_weight = vvLEPTON[0][4]*csv_weight*PU_weight;
 
-        sum_gen_weight = sum_gen_weight + gen_weight;
 
 		// Fill Histograms
 		
@@ -414,7 +417,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   std::cout<<"No. of events passing event selection plus WP_Tight_Ele32 Trigger : "<<N_eve_tight_32<<"\n";
   std::cout<<"No. of events passing event selection plus WP_Loose_Ele27_HT200 Trigger : "<<N_eve_loose_27_ht200<<"\n";
   std::cout<<"No. of events passing event selection plus WP_Tight_Ele27 OR WP_Loose_Ele27_HT200 Trigger : "<<N_eve_tight_27_OR_loose_27_ht200<<"\n";
-  std::cout<<"Sum of Generator Weights for Sample :"<<sum_gen_weight<<"\n";
+  std::cout<<"Sum of Generator Weights for Sample : "<<sum_gen_weight<<"\n";
   std::cout<<"**********************************************************************************************\n";
   histofile.Write();
   histofile.Close();

@@ -737,7 +737,9 @@ void combine_data_mc() {
 	//double factor_tthbb = 1;
 	double sigma_tthbb = 0.5824*0.5071; // pb
 	double N_total_tthbb = 3993304;
-	double norm_tthbb = (L*sigma_tthbb*1000)/N_total_tthbb;
+    //double sum_gen_weight_tthbb = 2.24691e+06;
+    double sum_gen_weight_tthbb = 1;
+	double norm_tthbb = (L*sigma_tthbb*1000)/(N_total_tthbb*sum_gen_weight_tthbb);
 	double scale_tthbb = factor_tthbb*norm_tthbb;
 	
 	tthbb_pt_loose_27->Scale(scale_tthbb);
@@ -793,19 +795,25 @@ void combine_data_mc() {
 	double factor_tthnonbb = 1;
 	double sigma_tthnonbb = 0.4176*0.5071; // pb
 	double N_total_tthnonbb = 3975854;
-	double norm_tthnonbb = (L*sigma_tthnonbb*1000)/N_total_tthnonbb;
+    //double sum_gen_weight_tthnonbb = 2.23766e+06;
+    double sum_gen_weight_tthnonbb = 1;
+	double norm_tthnonbb = (L*sigma_tthnonbb*1000)/(N_total_tthnonbb*sum_gen_weight_tthnonbb);
 	double scale_tthnonbb = factor_tthnonbb*norm_tthnonbb;
 	
 	double factor_ttjets_sl = 1;
 	double sigma_ttjets_sl = 364.3; // pb
 	double N_total_ttjets_sl = 157387260;
-	double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/N_total_ttjets_sl;
+    //double sum_gen_weight_ttjets_sl = 1.57326e+08;
+    double sum_gen_weight_ttjets_sl = 1;
+	double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/(N_total_ttjets_sl*sum_gen_weight_ttjets_sl);
 	double scale_ttjets_sl = factor_ttjets_sl*norm_ttjets_sl;
 	
 	double factor_ttjets_dl = 1;
 	double sigma_ttjets_dl = 87.3; // pb
 	double N_total_ttjets_dl = 75383000;
-	double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/N_total_ttjets_dl;
+    //double sum_gen_weight_ttjets_dl = 7.53348e+07;
+    double sum_gen_weight_ttjets_dl = 1;
+	double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/(N_total_ttjets_dl*sum_gen_weight_ttjets_dl);
 	double scale_ttjets_dl = factor_ttjets_dl*norm_ttjets_dl;
 	
 	TH1D* bkgd_pt_loose_27 = new TH1D("Pt_WPLoose_27","Pt Distribution for WPLoose_27;pT (GeV);Nr. of Events",150,0,300);
