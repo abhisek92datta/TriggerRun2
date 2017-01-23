@@ -322,8 +322,8 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
         //vvLEPTON[0][4] = 1; // for Data
 
-	    // Gen Weight, Q2 Weight, PDF Weight not applied
-	    tot_weight = vvLEPTON[0][4]*csv_weight*PU_weight;
+	    // Q2 Weight, PDF Weight not applied
+	    tot_weight = vvLEPTON[0][4]*csv_weight*PU_weight*gen_weight;
 
 
 		// Fill Histograms

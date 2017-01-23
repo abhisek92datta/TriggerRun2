@@ -737,9 +737,10 @@ void combine_data_mc() {
 	//double factor_tthbb = 1;
 	double sigma_tthbb = 0.5824*0.5071; // pb
 	double N_total_tthbb = 3993304;
-    //double sum_gen_weight_tthbb = 2.24691e+06;
-    double sum_gen_weight_tthbb = 1;
-	double norm_tthbb = (L*sigma_tthbb*1000)/(N_total_tthbb*sum_gen_weight_tthbb);
+    double sum_gen_weight_tthbb = 2.24691e+06;
+    //double sum_gen_weight_tthbb = 1;
+    double norm_tthbb = (L*sigma_tthbb*1000)/(sum_gen_weight_tthbb);
+    //double norm_tthbb = (L*sigma_tthbb*1000)/(N_total_tthbb*sum_gen_weight_tthbb);
 	double scale_tthbb = factor_tthbb*norm_tthbb;
 	
 	tthbb_pt_loose_27->Scale(scale_tthbb);
@@ -795,25 +796,28 @@ void combine_data_mc() {
 	double factor_tthnonbb = 1;
 	double sigma_tthnonbb = 0.4176*0.5071; // pb
 	double N_total_tthnonbb = 3975854;
-    //double sum_gen_weight_tthnonbb = 2.23766e+06;
-    double sum_gen_weight_tthnonbb = 1;
-	double norm_tthnonbb = (L*sigma_tthnonbb*1000)/(N_total_tthnonbb*sum_gen_weight_tthnonbb);
+    double sum_gen_weight_tthnonbb = 2.23766e+06;
+    //double sum_gen_weight_tthnonbb = 1;
+    double norm_tthnonbb = (L*sigma_tthnonbb*1000)/(sum_gen_weight_tthnonbb);
+    //double norm_tthnonbb = (L*sigma_tthnonbb*1000)/(N_total_tthnonbb*sum_gen_weight_tthnonbb);
 	double scale_tthnonbb = factor_tthnonbb*norm_tthnonbb;
 	
 	double factor_ttjets_sl = 1;
 	double sigma_ttjets_sl = 364.3; // pb
 	double N_total_ttjets_sl = 157387260;
-    //double sum_gen_weight_ttjets_sl = 1.57326e+08;
-    double sum_gen_weight_ttjets_sl = 1;
-	double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/(N_total_ttjets_sl*sum_gen_weight_ttjets_sl);
+    double sum_gen_weight_ttjets_sl = 1.57326e+08;
+    //double sum_gen_weight_ttjets_sl = 1;
+    double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/(sum_gen_weight_ttjets_sl);
+    //double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/(N_total_ttjets_sl*sum_gen_weight_ttjets_sl);
 	double scale_ttjets_sl = factor_ttjets_sl*norm_ttjets_sl;
 	
 	double factor_ttjets_dl = 1;
 	double sigma_ttjets_dl = 87.3; // pb
 	double N_total_ttjets_dl = 75383000;
-    //double sum_gen_weight_ttjets_dl = 7.53348e+07;
-    double sum_gen_weight_ttjets_dl = 1;
-	double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/(N_total_ttjets_dl*sum_gen_weight_ttjets_dl);
+    double sum_gen_weight_ttjets_dl = 7.53348e+07;
+    //double sum_gen_weight_ttjets_dl = 1;
+    double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/(sum_gen_weight_ttjets_dl);
+    //double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/(N_total_ttjets_dl*sum_gen_weight_ttjets_dl);
 	double scale_ttjets_dl = factor_ttjets_dl*norm_ttjets_dl;
 	
 	TH1D* bkgd_pt_loose_27 = new TH1D("Pt_WPLoose_27","Pt Distribution for WPLoose_27;pT (GeV);Nr. of Events",150,0,300);
@@ -1949,7 +1953,129 @@ void combine_data_mc() {
 	c40->Print("nbtags_loose_27_data_mc.png");
 	delete c40;
 	delete leg40;
-	
+
+    //Nr of primary vertices
+
+    TCanvas *c41 = new TCanvas("c41","test",1100,650);
+    c41->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPTight_27) ; Nr. of Primary Vertices ; Nr. of Events");
+    TLegend* leg41 = new TLegend(0.65,0.70,0.85,0.85);
+    leg41->SetFillColor(kWhite);
+    leg41->SetFillStyle(1001);
+    leg41->AddEntry(tthbb_npv_tight_27,"MC : ttH x 600","L");
+    leg41->AddEntry(bkgd_npv_tight_27,"MC : Background","L");
+    leg41->AddEntry(data_npv_tight_27,"Data","L");
+    tthbb_npv_tight_27->SetLineColor(kRed);
+    tthbb_npv_tight_27->SetLineWidth(2);
+    tthbb_npv_tight_27->Draw("same");
+    bkgd_npv_tight_27->SetLineColor(kGreen+3);
+    bkgd_npv_tight_27->SetLineWidth(3);
+    //bkgd_npv_tight_27->SetFillStyle(3004);
+    //bkgd_npv_tight_27->SetFillColor(1);
+    bkgd_npv_tight_27->Draw("same");
+    data_npv_tight_27->SetLineColor(kBlue);
+    data_npv_tight_27->SetLineWidth(2);
+    data_npv_tight_27->Draw("same");
+    leg41->Draw("same");
+    c41->Print("npv_tight_27_data_mc.png");
+    delete c41;
+    delete leg41;
+
+
+    TCanvas *c42= new TCanvas("c42","test",1100,650);
+    c42->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPTight_32) ; Nr. of Primary Vertices ; Nr. of Events");
+    TLegend* leg42 = new TLegend(0.65,0.70,0.85,0.85);
+    leg42->SetFillColor(kWhite);
+    leg42->SetFillStyle(1001);
+    leg42->AddEntry(tthbb_npv_tight_32,"MC : ttH x 600","L");
+    leg42->AddEntry(bkgd_npv_tight_32,"MC : Background","L");
+    leg42->AddEntry(data_npv_tight_32,"Data","L");
+    tthbb_npv_tight_32->SetLineColor(kRed);
+    tthbb_npv_tight_32->SetLineWidth(2);
+    tthbb_npv_tight_32->Draw("same");
+    bkgd_npv_tight_32->SetLineColor(kGreen+3);
+    bkgd_npv_tight_32->SetLineWidth(3);
+    //bkgd_npv_tight_32->SetFillStyle(1001);
+    //bkgd_npv_tight_32->SetFillColor(kOrange);
+    bkgd_npv_tight_32->Draw("same");
+    data_npv_tight_32->SetLineColor(kBlue);
+    data_npv_tight_32->SetLineWidth(2);
+    data_npv_tight_32->Draw("same");
+    leg42->Draw("same");
+    c42->Print("npv_tight_32_data_mc.png");
+    delete c42;
+    delete leg42;
+
+    TCanvas *c43 = new TCanvas("c43","test",1100,650);
+    c43->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPLoose_27_HT200) ; Nr. of Primary Vertices ; Nr. of Events");
+    TLegend* leg43 = new TLegend(0.65,0.70,0.85,0.85);
+    leg43->SetFillColor(kWhite);
+    leg43->SetFillStyle(1001);
+    leg43->AddEntry(tthbb_npv_loose_27_ht200,"MC : ttH x 600","L");
+    leg43->AddEntry(bkgd_npv_loose_27_ht200,"MC : Background","L");
+    leg43->AddEntry(data_npv_loose_27_ht200,"Data","L");
+    tthbb_npv_loose_27_ht200->SetLineColor(kRed);
+    tthbb_npv_loose_27_ht200->SetLineWidth(2);
+    tthbb_npv_loose_27_ht200->Draw("same");
+    bkgd_npv_loose_27_ht200->SetLineColor(kGreen+3);
+    bkgd_npv_loose_27_ht200->SetLineWidth(3);
+    //bkgd_npv_loose_27_ht200->SetFillStyle(1001);
+    //bkgd_npv_loose_27_ht200->SetFillColor(kOrange);
+    bkgd_npv_loose_27_ht200->Draw("same");
+    data_npv_loose_27_ht200->SetLineColor(kBlue);
+    data_npv_loose_27_ht200->SetLineWidth(2);
+    data_npv_loose_27_ht200->Draw("same");
+    leg43->Draw("same");
+    c43->Print("npv_loose_27_ht200_data_mc.png");
+    delete c43;
+    delete leg43;
+
+    TCanvas *c44= new TCanvas("c44","test",1100,650);
+    c44->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPTight_27_OR_WPLoose_27_HT200) ; Nr. of Primary Vertices ; Nr. of Events");
+    TLegend* leg44 = new TLegend(0.65,0.70,0.85,0.85);
+    leg44->SetFillColor(kWhite);
+    leg44->SetFillStyle(1001);
+    leg44->AddEntry(tthbb_npv_tight_27_or_loose_27_ht200,"MC : ttH x 600","L");
+    leg44->AddEntry(bkgd_npv_tight_27_or_loose_27_ht200,"MC : Background","L");
+    leg44->AddEntry(data_npv_tight_27_or_loose_27_ht200,"Data","L");
+    tthbb_npv_tight_27_or_loose_27_ht200->SetLineColor(kRed);
+    tthbb_npv_tight_27_or_loose_27_ht200->SetLineWidth(2);
+    tthbb_npv_tight_27_or_loose_27_ht200->Draw("same");
+    bkgd_npv_tight_27_or_loose_27_ht200->SetLineColor(kGreen+3);
+    bkgd_npv_tight_27_or_loose_27_ht200->SetLineWidth(3);
+    //bkgd_npv_tight_27_or_loose_27_ht200->SetFillStyle(1001);
+    //bkgd_npv_tight_27_or_loose_27_ht200->SetFillColor(kOrange);
+    bkgd_npv_tight_27_or_loose_27_ht200->Draw("same");
+    data_npv_tight_27_or_loose_27_ht200->SetLineColor(kBlue);
+    data_npv_tight_27_or_loose_27_ht200->SetLineWidth(2);
+    data_npv_tight_27_or_loose_27_ht200->Draw("same");
+    leg44->Draw("same");
+    c44->Print("npv_tight_27_or_loose_27_ht200_data_mc.png");
+    delete c44;
+    delete leg44;
+
+    TCanvas *c45= new TCanvas("c45","test",1100,650);
+    c45->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPLoose_27) ; Nr. of Primary Vertices ; Nr. of Events");
+    TLegend* leg45 = new TLegend(0.65,0.70,0.85,0.85);
+    leg45->SetFillColor(kWhite);
+    leg45->SetFillStyle(1001);
+    leg45->AddEntry(tthbb_npv_loose_27,"MC : ttH x 600","L");
+    leg45->AddEntry(bkgd_npv_loose_27,"MC : Background","L");
+    leg45->AddEntry(data_npv_loose_27,"Data","L");
+    tthbb_npv_loose_27->SetLineColor(kRed);
+    tthbb_npv_loose_27->SetLineWidth(2);
+    tthbb_npv_loose_27->Draw("same");
+    bkgd_npv_loose_27->SetLineColor(kGreen+3);
+    bkgd_npv_loose_27->SetLineWidth(3);
+    //bkgd_npv_loose_27->SetFillStyle(1001);
+    //bkgd_npv_loose_27->SetFillColor(kOrange);
+    bkgd_npv_loose_27->Draw("same");
+    data_npv_loose_27->SetLineColor(kBlue);
+    data_npv_loose_27->SetLineWidth(2);
+    data_npv_loose_27->Draw("same");
+    leg45->Draw("same");
+    c45->Print("npv_loose_27_data_mc.png");
+    delete c45;
+    delete leg45;
 	
 	
 	//////////////////////////////////////////////////

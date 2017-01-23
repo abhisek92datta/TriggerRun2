@@ -33,8 +33,8 @@ void combine_control_region() {
 	
 	TH1::SetDefaultSumw2();
 	
-	//double L = 26.149; // 1/fb
-	double L = 11.395; // 1/fb
+	double L = 35.273; // 1/fb
+	//double L = 11.395; // 1/fb
 	
 	TFile *f1 = new TFile("Control_Region_mc_dy.root");
 	TH1D *dy_pt_loose_27 = (TH1D*)f1->Get("Pt_WPLoose_27");
@@ -496,7 +496,7 @@ void combine_control_region() {
 	ttjets_dl_nbtags_tight_27_or_loose_27_ht200->SetTitle("MC ttjets_dl : Nr. of Btags Distribution for WPtight_27_or_loose_27_ht200");
 	
 	
-	TFile *f5 = new TFile("Control_Region_data_2016_B_D.root");
+	TFile *f5 = new TFile("Control_Region_data_2016_B_H.root");
 	TH1D *data_pt_loose_27 = (TH1D*)f5->Get("Pt_WPLoose_27");
 	TH1D *data_pt2_loose_27 = (TH1D*)f5->Get("Pt2_WPLoose_27");
 	TH1D *data_eta_loose_27 = (TH1D*)f5->Get("Eta_WPLoose_27");
@@ -658,25 +658,28 @@ void combine_control_region() {
 	//double sigma_dy = 3*2008.4; // pb
 	double sigma_dy = 3*1921.8; // pb
 	double N_total_dy = 104113466;
-    //double sum_gen_weight_dy = 1.62833e+12;
-    double sum_gen_weight_dy = 1;
-	double norm_dy = (L*sigma_dy*1000)/(N_total_dy*sum_gen_weight_dy);
+    double sum_gen_weight_dy = 1.62833e+12;
+    //double sum_gen_weight_dy = 1;
+    double norm_dy = (L*sigma_dy*1000)/(sum_gen_weight_dy);
+    //double norm_dy = (L*sigma_dy*1000)/(N_total_dy*sum_gen_weight_dy);
 	double scale_dy = factor_dy*norm_dy;
 	
 	double factor_ttjets_sl = 1;
 	double sigma_ttjets_sl = 364.3; // pb
 	double N_total_ttjets_sl = 157387260;
-    //double sum_gen_weight_ttjets_sl = 1.57326e+08;
-    double sum_gen_weight_ttjets_sl = 1;
-	double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/(N_total_ttjets_sl*sum_gen_weight_ttjets_sl);
+    double sum_gen_weight_ttjets_sl = 1.57326e+08;
+    //double sum_gen_weight_ttjets_sl = 1;
+    double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/(sum_gen_weight_ttjets_sl);
+	//double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/(N_total_ttjets_sl*sum_gen_weight_ttjets_sl);
 	double scale_ttjets_sl = factor_ttjets_sl*norm_ttjets_sl;
 	
 	double factor_ttjets_dl = 1;
 	double sigma_ttjets_dl = 87.3; // pb
 	double N_total_ttjets_dl = 75383000;
-    //double sum_gen_weight_ttjets_dl = 7.53348e+07;
-    double sum_gen_weight_ttjets_dl = 1;
-	double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/(N_total_ttjets_dl*sum_gen_weight_ttjets_dl);
+    double sum_gen_weight_ttjets_dl = 7.53348e+07;
+    //double sum_gen_weight_ttjets_dl = 1;
+    double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/(sum_gen_weight_ttjets_dl);
+    //double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/(N_total_ttjets_dl*sum_gen_weight_ttjets_dl);
 	double scale_ttjets_dl = factor_ttjets_dl*norm_ttjets_dl;
 	
 	/*

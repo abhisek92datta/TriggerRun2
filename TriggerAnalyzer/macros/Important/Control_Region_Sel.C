@@ -344,8 +344,8 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
         //vvLEPTON[0][8] = 1; // for Data
         //vvLEPTON[1][8] = 1; // for Data
 
-		// Gen Weight, PDF Weight, Q2 Weight not applied
-	    tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*csv_weight*PU_weight;
+		// PDF Weight, Q2 Weight not applied
+	    tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*csv_weight*PU_weight*gen_weight;
 	
 		// Fill Histograms
 		
