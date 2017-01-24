@@ -34,7 +34,7 @@ void combine_data_mc() {
 	TH1::SetDefaultSumw2();
 	
 	//double L = 26.149; // 1/fb
-	double L = 35.273; // 1/fb
+	double L = 35.2733; // 1/fb
 	
 	TFile *f1 = new TFile("Distribution_mc_tthbb.root");
 	TH1D *tthbb_pt_loose_27 = (TH1D*)f1->Get("Pt_WPLoose_27");
@@ -1957,7 +1957,7 @@ void combine_data_mc() {
     //Nr of primary vertices
 
     TCanvas *c41 = new TCanvas("c41","test",1100,650);
-    c41->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPTight_27) ; Nr. of Primary Vertices ; Nr. of Events");
+    c41->DrawFrame(0,0,80,50000,"Nr. of Primary Vertices (for WPTight_27) ; Nr. of Primary Vertices ; Nr. of Events");
     TLegend* leg41 = new TLegend(0.65,0.70,0.85,0.85);
     leg41->SetFillColor(kWhite);
     leg41->SetFillStyle(1001);
@@ -1982,7 +1982,7 @@ void combine_data_mc() {
 
 
     TCanvas *c42= new TCanvas("c42","test",1100,650);
-    c42->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPTight_32) ; Nr. of Primary Vertices ; Nr. of Events");
+    c42->DrawFrame(0,0,80,50000,"Nr. of Primary Vertices (for WPTight_32) ; Nr. of Primary Vertices ; Nr. of Events");
     TLegend* leg42 = new TLegend(0.65,0.70,0.85,0.85);
     leg42->SetFillColor(kWhite);
     leg42->SetFillStyle(1001);
@@ -2006,7 +2006,7 @@ void combine_data_mc() {
     delete leg42;
 
     TCanvas *c43 = new TCanvas("c43","test",1100,650);
-    c43->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPLoose_27_HT200) ; Nr. of Primary Vertices ; Nr. of Events");
+    c43->DrawFrame(0,0,80,50000,"Nr. of Primary Vertices (for WPLoose_27_HT200) ; Nr. of Primary Vertices ; Nr. of Events");
     TLegend* leg43 = new TLegend(0.65,0.70,0.85,0.85);
     leg43->SetFillColor(kWhite);
     leg43->SetFillStyle(1001);
@@ -2030,7 +2030,7 @@ void combine_data_mc() {
     delete leg43;
 
     TCanvas *c44= new TCanvas("c44","test",1100,650);
-    c44->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPTight_27_OR_WPLoose_27_HT200) ; Nr. of Primary Vertices ; Nr. of Events");
+    c44->DrawFrame(0,0,80,50000,"Nr. of Primary Vertices (for WPTight_27_OR_WPLoose_27_HT200) ; Nr. of Primary Vertices ; Nr. of Events");
     TLegend* leg44 = new TLegend(0.65,0.70,0.85,0.85);
     leg44->SetFillColor(kWhite);
     leg44->SetFillStyle(1001);
@@ -2054,7 +2054,7 @@ void combine_data_mc() {
     delete leg44;
 
     TCanvas *c45= new TCanvas("c45","test",1100,650);
-    c45->DrawFrame(0,0,80,350000,"Nr. of Primary Vertices (for WPLoose_27) ; Nr. of Primary Vertices ; Nr. of Events");
+    c45->DrawFrame(0,0,80,50000,"Nr. of Primary Vertices (for WPLoose_27) ; Nr. of Primary Vertices ; Nr. of Events");
     TLegend* leg45 = new TLegend(0.65,0.70,0.85,0.85);
     leg45->SetFillColor(kWhite);
     leg45->SetFillStyle(1001);
