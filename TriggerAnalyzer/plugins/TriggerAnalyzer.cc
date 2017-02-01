@@ -965,7 +965,7 @@ cout<<"f";
   //eve->l1t_name_   = l1t_name;
 
 
-
+  /*
   std::vector<TLorentzVector> triggerObjects_L1SingleEG25;
   std::vector<TLorentzVector> triggerObjects_hltEle;
 
@@ -976,8 +976,13 @@ cout<<"f";
   std::vector<std::string> vec_hltEle27WP85Gsf_filter;
 
   std::vector<int> vec_hltPFHT200Jet30_id;
-  
-  //cout<<" 33333 fsdf ";
+  */
+
+  std::vector<TLorentzVector> triggerObjects_hlt_ele27wploose;
+  std::vector<TLorentzVector> triggerObjects_hlt_ele27wptight;
+  std::vector<TLorentzVector> triggerObjects_hlt_ele32wptight;
+  std::vector<TLorentzVector> triggerObjects_hlt_ele27wplooseht200;
+
 
   if( triggerObjects.isValid() && triggerResults.isValid() ){
     const edm::TriggerNames &names = iEvent.triggerNames(*triggerResults);
@@ -992,8 +997,19 @@ cout<<"f";
       TLorentzVector obj_TLV;
       obj_TLV.SetPxPyPzE( obj.px(), obj.py(), obj.pz(), obj.energy());
 
-      for (unsigned h = 0; h < obj.filterLabels().size(); ++h){
+      //for (unsigned h = 0; h < obj.filterLabels().size(); ++h){
+        for (unsigned h = 0; h < obj.pathNames().size(); ++h){
 
+            if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPLoose_Gsf_v")!=std::string::npos )
+                triggerObjects_hlt_ele27wploose.push_back(obj_TLV);
+            if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPTight_Gsf_v")!=std::string::npos )
+                triggerObjects_hlt_ele27wptight.push_back(obj_TLV);
+            if( obj.pathNames()[h].find("HLT_Ele32_eta2p1_WPTight_Gsf_v")!=std::string::npos )
+                triggerObjects_hlt_ele32wptight.push_back(obj_TLV);
+            if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v")!=std::string::npos )
+                triggerObjects_hlt_ele27wplooseht200.push_back(obj_TLV);
+
+    /*
 	if( obj.filterLabels()[h]=="hltL1sL1SingleEG25" ) triggerObjects_L1SingleEG25.push_back(obj_TLV);
 
 	if( obj.filterLabels()[h]=="hltL1sL1SingleEG25" ||
@@ -1021,11 +1037,59 @@ cout<<"f";
 	if( obj.filterLabels()[h]=="hltCSVFilterSingleTop" ) triggerObjects_hltBtagJet30.push_back(obj_TLV);
 
 	if( (verbose_ && dumpHLT_) || (false && numEvents_<200) ) printf(" obj, filter %d: pt = %4.1f, filter = %s \n", h, obj.pt(), (obj.filterLabels()[h]).c_str());
+    */
       }
     }
   }
-  
-  //cout<<" *****@#$@#$ 44 ";
+
+
+    std::vector<double> vec_hlt_ele27wploose_pt;
+    std::vector<double> vec_hlt_ele27wploose_eta;
+    std::vector<double> vec_hlt_ele27wploose_phi;
+    for( int iHLTObj = 0; iHLTObj < int(triggerObjects_hlt_ele27wploose.size()); iHLTObj++ ){
+        vec_hlt_ele27wploose_pt.push_back(triggerObjects_hlt_ele27wploose[iHLTObj].Pt());
+        vec_hlt_ele27wploose_eta.push_back(triggerObjects_hlt_ele27wploose[iHLTObj].Eta());
+        vec_hlt_ele27wploose_phi.push_back(triggerObjects_hlt_ele27wploose[iHLTObj].Phi());
+    }
+    eve->hltEle27WPLooseGsf_pt_  = vec_hlt_ele27wploose_pt;
+    eve->hltEle27WPLooseGsf_eta_ = vec_hlt_ele27wploose_eta;
+    eve->hltEle27WPLooseGsf_phi_ = vec_hlt_ele27wploose_phi;
+
+    std::vector<double> vec_hlt_ele27wptight_pt;
+    std::vector<double> vec_hlt_ele27wptight_eta;
+    std::vector<double> vec_hlt_ele27wptight_phi;
+    for( int iHLTObj = 0; iHLTObj < int(triggerObjects_hlt_ele27wptight.size()); iHLTObj++ ){
+        vec_hlt_ele27wptight_pt.push_back(triggerObjects_hlt_ele27wptight[iHLTObj].Pt());
+        vec_hlt_ele27wptight_eta.push_back(triggerObjects_hlt_ele27wptight[iHLTObj].Eta());
+        vec_hlt_ele27wptight_phi.push_back(triggerObjects_hlt_ele27wptight[iHLTObj].Phi());
+    }
+    eve->hltEle27WPTightGsf_pt_  = vec_hlt_ele27wptight_pt;
+    eve->hltEle27WPTightGsf_eta_ = vec_hlt_ele27wptight_eta;
+    eve->hltEle27WPTightGsf_phi_ = vec_hlt_ele27wptight_phi;
+
+    std::vector<double> vec_hlt_ele32wptight_pt;
+    std::vector<double> vec_hlt_ele32wptight_eta;
+    std::vector<double> vec_hlt_ele32wptight_phi;
+    for( int iHLTObj = 0; iHLTObj < int(triggerObjects_hlt_ele32wptight.size()); iHLTObj++ ){
+        vec_hlt_ele32wptight_pt.push_back(triggerObjects_hlt_ele32wptight[iHLTObj].Pt());
+        vec_hlt_ele32wptight_eta.push_back(triggerObjects_hlt_ele32wptight[iHLTObj].Eta());
+        vec_hlt_ele32wptight_phi.push_back(triggerObjects_hlt_ele32wptight[iHLTObj].Phi());
+    }
+    eve->hltEle32WPTightGsf_pt_  = vec_hlt_ele32wptight_pt;
+    eve->hltEle32WPTightGsf_eta_ = vec_hlt_ele32wptight_eta;
+    eve->hltEle32WPTightGsf_phi_ = vec_hlt_ele32wptight_phi;
+
+    std::vector<double> vec_hlt_ele27wplooseht200_pt;
+    std::vector<double> vec_hlt_ele27wplooseht200_eta;
+    std::vector<double> vec_hlt_ele27wplooseht200_phi;
+    for( int iHLTObj = 0; iHLTObj < int(triggerObjects_hlt_ele27wplooseht200.size()); iHLTObj++ ){
+        vec_hlt_ele27wplooseht200_pt.push_back(triggerObjects_hlt_ele27wplooseht200[iHLTObj].Pt());
+        vec_hlt_ele27wplooseht200_eta.push_back(triggerObjects_hlt_ele27wplooseht200[iHLTObj].Eta());
+        vec_hlt_ele27wplooseht200_phi.push_back(triggerObjects_hlt_ele27wplooseht200[iHLTObj].Phi());
+    }
+    eve->hltEle27WPLooseHT200Gsf_pt_  = vec_hlt_ele27wplooseht200_pt;
+    eve->hltEle27WPLooseHT200Gsf_eta_ = vec_hlt_ele27wplooseht200_eta;
+    eve->hltEle27WPLooseHT200Gsf_phi_ = vec_hlt_ele27wplooseht200_phi;
 
   /*
   std::vector<double> vec_hltL1SingleEG25_pt;

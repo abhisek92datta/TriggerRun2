@@ -349,6 +349,23 @@ struct triggerStudyEventVars{
   vdouble hltPFHT200Jet30_phi_;
   vint    hltPFHT200Jet30_id_;
   */
+
+  vdouble hltEle27WPLooseGsf_pt_;
+  vdouble hltEle27WPLooseGsf_eta_;
+  vdouble hltEle27WPLooseGsf_phi_;
+
+  vdouble hltEle27WPTightGsf_pt_;
+  vdouble hltEle27WPTightGsf_eta_;
+  vdouble hltEle27WPTightGsf_phi_;
+
+  vdouble hltEle32WPTightGsf_pt_;
+  vdouble hltEle32WPTightGsf_eta_;
+  vdouble hltEle32WPTightGsf_phi_;
+
+  vdouble hltEle27WPLooseHT200Gsf_pt_;
+  vdouble hltEle27WPLooseHT200Gsf_eta_;
+  vdouble hltEle27WPLooseHT200Gsf_phi_;
+
   vint    flt_accept_;
   vstring flt_name_;
   
@@ -682,6 +699,23 @@ void triggerStudyEventVars::initialize(){
   hltPFHT200Jet30_phi_.clear();
   hltPFHT200Jet30_id_.clear();
   */
+
+  hltEle27WPLooseGsf_pt_.clear();
+  hltEle27WPLooseGsf_eta_.clear();
+  hltEle27WPLooseGsf_phi_.clear();
+
+  hltEle27WPTightGsf_pt_.clear();
+  hltEle27WPTightGsf_eta_.clear();
+  hltEle27WPTightGsf_phi_.clear();
+
+  hltEle32WPTightGsf_pt_.clear();
+  hltEle32WPTightGsf_eta_.clear();
+  hltEle32WPTightGsf_phi_.clear();
+
+  hltEle27WPLooseHT200Gsf_pt_.clear();
+  hltEle27WPLooseHT200Gsf_eta_.clear();
+  hltEle27WPLooseHT200Gsf_phi_.clear();
+
   flt_accept_.clear();
   flt_name_.clear();
   
