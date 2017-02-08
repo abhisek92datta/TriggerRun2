@@ -245,13 +245,20 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   TH1D *c_csv_wgt_hf[9][6];
   TH1D *h_csv_wgt_lf[9][4][3];
   
-  double PU_x[100], PU_y[100];
-  
+  double PU_B_x[100], PU_B_y[100];
+  double PU_C_x[100], PU_C_y[100];
+  double PU_D_x[100], PU_D_y[100];
+  double PU_E_x[100], PU_E_y[100];
+  double PU_F_x[100], PU_F_y[100];
+  double PU_G_x[100], PU_G_y[100];
+  double PU_H_x[100], PU_H_y[100];
+
+
   inline void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
   inline std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const double &, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
  
   inline double getPDFweight(const edm::Handle<GenEventInfoProduct> &, const int );
-  inline double getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> );
+  inline double getPUweight(edm::Handle<std::vector<PileupSummaryInfo>>, const int );
   inline double getQ2weight(const edm::Handle<GenEventInfoProduct> &, const edm::Handle<LHEEventProduct> &, const string &);
   inline double getbweight( std::vector<pat::Jet> );
   inline void fillCSVHistos(TFile *, TFile *);
@@ -391,12 +398,42 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
 
   // Set up PU_weights
     ifstream fin;
-    fin.open("data/PU_weight/PU_weights.txt");
+    fin.open("data/PU_weight/PU_weights_B.txt");
     for (int i = 0; i < 75; ++i) {
-        fin >> PU_x[i] >> PU_y[i];
+        fin >> PU_B_x[i] >> PU_B_y[i];
     }
     fin.close();
-    
+    fin.open("data/PU_weight/PU_weights_C.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_C_x[i] >> PU_C_y[i];
+    }
+    fin.close();
+    fin.open("data/PU_weight/PU_weights_D.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_D_x[i] >> PU_D_y[i];
+    }
+    fin.close();
+    fin.open("data/PU_weight/PU_weights_E.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_E_x[i] >> PU_E_y[i];
+    }
+    fin.close();
+    fin.open("data/PU_weight/PU_weights_F.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_F_x[i] >> PU_F_y[i];
+    }
+    fin.close();
+    fin.open("data/PU_weight/PU_weights_G.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_G_x[i] >> PU_G_y[i];
+    }
+    fin.close();
+    fin.open("data/PU_weight/PU_weights_H.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_H_x[i] >> PU_H_y[i];
+    }
+    fin.close();
+
   // Set up PDF_weights
   NNPDF30_nlo_as_0118_PDFSet = new LHAPDF::PDFSet("NNPDF30_nlo_as_0118");
   _systPDFs = NNPDF30_nlo_as_0118_PDFSet->mkPDFs();
@@ -541,7 +578,7 @@ inline double TriggerAnalyzer::getPDFweight(const edm::Handle<GenEventInfoProduc
 }
 
 inline double
-TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo)
+TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo, const int run)
 {
     
     double pu_weight = -1;
@@ -556,12 +593,64 @@ TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo
             }
         }
     }
-    for (int i = 0; i < 75; ++i) {
-        if (numTruePV < (PU_x[i] + 1)) {
-            pu_weight = PU_y[i];
-            break;
+
+    if(run>=272007 && run<=275376){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_B_x[i] + 1)) {
+                pu_weight = PU_B_y[i];
+                break;
+            }
         }
     }
+    else if(run>=275657 && run<=276283){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_C_x[i] + 1)) {
+                pu_weight = PU_C_y[i];
+                break;
+            }
+        }
+    }
+    else if(run>=276315 && run<=276811){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_D_x[i] + 1)) {
+                pu_weight = PU_D_y[i];
+                break;
+            }
+        }
+    }
+    else if(run>=276831 && run<=277420){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_E_x[i] + 1)) {
+                pu_weight = PU_E_y[i];
+                break;
+            }
+        }
+    }
+    else if(run>=277772 && run<=278808){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_F_x[i] + 1)) {
+                pu_weight = PU_F_y[i];
+                break;
+            }
+        }
+    }
+    else if(run>=278820 && run<=280385){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_G_x[i] + 1)) {
+                pu_weight = PU_G_y[i];
+                break;
+            }
+        }
+    }
+    else if(run>=280919 && run<=284044){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_H_x[i] + 1)) {
+                pu_weight = PU_H_y[i];
+                break;
+            }
+        }
+    }
+
     return pu_weight;
 }
 
@@ -2742,7 +2831,7 @@ cout<<"f";
     PDF_weight_down = getPDFweight(GenEventInfoHandle, -1);
 
     //PU_weight
-   	PU_weight = getPUweight(PupInfoHandle);
+   	PU_weight = getPUweight(PupInfoHandle, run);
    		
     //Q2_weight
 	Q2_weight_up = getQ2weight(GenEventInfoHandle, LHEEventProductHandle , "1005");
