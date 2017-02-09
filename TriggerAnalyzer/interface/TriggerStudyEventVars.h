@@ -380,6 +380,8 @@ struct triggerStudyEventVars{
   double PU_weight_F_;
   double PU_weight_G_;
   double PU_weight_H_;
+  double PU_weight_BCDEF_;
+  double PU_weight_GH_;
   double PDF_weight_;
   double PDF_weight_up_;
   double PDF_weight_down_;
@@ -391,7 +393,9 @@ struct triggerStudyEventVars{
   vdouble lepton_gsf_sf_;
   vdouble lepton_trig_sf_;
   vdouble lepton_hip_sf_;
- 
+
+  bool isData_;
+
   void initialize();
 
 };
@@ -736,6 +740,8 @@ void triggerStudyEventVars::initialize(){
   PU_weight_F_ = 0;
   PU_weight_G_ = 0;
   PU_weight_H_ = 0;
+  PU_weight_BCDEF_ = 0;
+  PU_weight_GH_ = 0;
   PDF_weight_ = 0;
   Q2_weight_ = 0;
   lepton_id_sf_.clear();
@@ -743,7 +749,8 @@ void triggerStudyEventVars::initialize(){
   lepton_gsf_sf_.clear();
   lepton_trig_sf_.clear();
   lepton_hip_sf_.clear();
-  
+
+  isData_ = 0;
 
   return;
 }

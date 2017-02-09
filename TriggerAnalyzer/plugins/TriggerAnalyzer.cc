@@ -253,6 +253,8 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   double PU_F_x[100], PU_F_y[100];
   double PU_G_x[100], PU_G_y[100];
   double PU_H_x[100], PU_H_y[100];
+  double PU_BCDEF_x[100], PU_BCDEF_y[100];
+  double PU_GH_x[100], PU_GH_y[100];
 
 
   inline void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
@@ -437,6 +439,16 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
     fin.open("data/PU_weight/PU_weights_H.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_H_x[i] >> PU_H_y[i];
+    }
+    fin.close();
+    fin.open("data/PU_weight/PU_weights_BCDEF.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_BCDEF_x[i] >> PU_BCDEF_y[i];
+    }
+    fin.close();
+    fin.open("data/PU_weight/PU_weights_GH.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_GH_x[i] >> PU_GH_y[i];
     }
     fin.close();
 
@@ -660,6 +672,22 @@ TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo
         for (int i = 0; i < 75; ++i) {
             if (numTruePV < (PU_H_x[i] + 1)) {
                 pu_weight = PU_H_y[i];
+                break;
+            }
+        }
+    }
+    else if(run==8){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_BCDEF_x[i] + 1)) {
+                pu_weight = PU_BCDEF_y[i];
+                break;
+            }
+        }
+    }
+    else if(run==9){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_GH_x[i] + 1)) {
+                pu_weight = PU_GH_y[i];
                 break;
             }
         }
@@ -2826,6 +2854,8 @@ cout<<"f";
   double PU_weight_F = 1;
   double PU_weight_G = 1;
   double PU_weight_H = 1;
+  double PU_weight_BCDEF = 1;
+  double PU_weight_GH = 1;
   double PDF_weight = 1;
   double PDF_weight_up = 1;
   double PDF_weight_down = 1;
@@ -2837,6 +2867,8 @@ cout<<"f";
   vdouble lepton_gsf_sf;
   vdouble lepton_trig_sf;
   vdouble lepton_hip_sf;
+
+  eve->isData_ = isData_;
   
   if(!isData_) {
 		
@@ -2859,7 +2891,9 @@ cout<<"f";
 	PU_weight_E = getPUweight(PupInfoHandle, 4);
 	PU_weight_F = getPUweight(PupInfoHandle, 5);
 	PU_weight_G = getPUweight(PupInfoHandle, 6);
-	PU_weight_H = getPUweight(PupInfoHandle, 7);   		
+	PU_weight_H = getPUweight(PupInfoHandle, 7);
+    PU_weight_BCDEF = getPUweight(PupInfoHandle, 8);
+    PU_weight_GH = getPUweight(PupInfoHandle, 9);
    		
     //Q2_weight
 	Q2_weight_up = getQ2weight(GenEventInfoHandle, LHEEventProductHandle , "1005");
@@ -2929,6 +2963,8 @@ cout<<"f";
   eve->PU_weight_F_ = PU_weight_F;
   eve->PU_weight_G_ = PU_weight_G;
   eve->PU_weight_H_ = PU_weight_H;
+  eve->PU_weight_BCDEF_ = PU_weight_BCDEF;
+  eve->PU_weight_GH_ = PU_weight_GH;
   eve->PDF_weight_ = PDF_weight;
   eve->PDF_weight_up_ = PDF_weight_up;
   eve->PDF_weight_down_ = PDF_weight_down;
