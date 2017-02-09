@@ -245,6 +245,7 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   TH1D *c_csv_wgt_hf[9][6];
   TH1D *h_csv_wgt_lf[9][4][3];
   
+  double PU_x[100], PU_y[100];
   double PU_B_x[100], PU_B_y[100];
   double PU_C_x[100], PU_C_y[100];
   double PU_D_x[100], PU_D_y[100];
@@ -397,6 +398,12 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
     fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
 
   // Set up PU_weights
+    ifstream fin;
+    fin.open("data/PU_weight/PU_weights.txt");
+    for (int i = 0; i < 75; ++i) {
+        fin >> PU_x[i] >> PU_y[i];
+    }
+    fin.close();
     ifstream fin;
     fin.open("data/PU_weight/PU_weights_B.txt");
     for (int i = 0; i < 75; ++i) {
@@ -594,7 +601,15 @@ TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo
         }
     }
 
-    if(run>=272007 && run<=275376){
+	if(run==0){
+        for (int i = 0; i < 75; ++i) {
+            if (numTruePV < (PU_x[i] + 1)) {
+                pu_weight = PU_y[i];
+                break;
+            }
+        }
+    }
+    else if(run==1){
         for (int i = 0; i < 75; ++i) {
             if (numTruePV < (PU_B_x[i] + 1)) {
                 pu_weight = PU_B_y[i];
@@ -602,7 +617,7 @@ TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo
             }
         }
     }
-    else if(run>=275657 && run<=276283){
+    else if(run==2){
         for (int i = 0; i < 75; ++i) {
             if (numTruePV < (PU_C_x[i] + 1)) {
                 pu_weight = PU_C_y[i];
@@ -610,7 +625,7 @@ TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo
             }
         }
     }
-    else if(run>=276315 && run<=276811){
+    else if(run==3){
         for (int i = 0; i < 75; ++i) {
             if (numTruePV < (PU_D_x[i] + 1)) {
                 pu_weight = PU_D_y[i];
@@ -618,7 +633,7 @@ TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo
             }
         }
     }
-    else if(run>=276831 && run<=277420){
+    else if(run==4){
         for (int i = 0; i < 75; ++i) {
             if (numTruePV < (PU_E_x[i] + 1)) {
                 pu_weight = PU_E_y[i];
@@ -626,7 +641,7 @@ TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo
             }
         }
     }
-    else if(run>=277772 && run<=278808){
+    else if(run==5){
         for (int i = 0; i < 75; ++i) {
             if (numTruePV < (PU_F_x[i] + 1)) {
                 pu_weight = PU_F_y[i];
@@ -634,7 +649,7 @@ TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo
             }
         }
     }
-    else if(run>=278820 && run<=280385){
+    else if(run==6){
         for (int i = 0; i < 75; ++i) {
             if (numTruePV < (PU_G_x[i] + 1)) {
                 pu_weight = PU_G_y[i];
@@ -642,7 +657,7 @@ TriggerAnalyzer::getPUweight(edm::Handle<std::vector<PileupSummaryInfo>> PupInfo
             }
         }
     }
-    else if(run>=280919 && run<=284044){
+    else if(run==7){
         for (int i = 0; i < 75; ++i) {
             if (numTruePV < (PU_H_x[i] + 1)) {
                 pu_weight = PU_H_y[i];
@@ -2805,6 +2820,13 @@ cout<<"f";
   double gen_weight = 1;
   double csv_weight = 1;
   double PU_weight = 1;
+  double PU_weight_B = 1;
+  double PU_weight_C = 1;
+  double PU_weight_D = 1;
+  double PU_weight_E = 1;
+  double PU_weight_F = 1;
+  double PU_weight_G = 1;
+  double PU_weight_H = 1;
   double PDF_weight = 1;
   double PDF_weight_up = 1;
   double PDF_weight_down = 1;
@@ -2831,7 +2853,14 @@ cout<<"f";
     PDF_weight_down = getPDFweight(GenEventInfoHandle, -1);
 
     //PU_weight
-   	PU_weight = getPUweight(PupInfoHandle, run);
+   	PU_weight = getPUweight(PupInfoHandle, 0);
+   	PU_weight_B = getPUweight(PupInfoHandle, 1);
+   	PU_weight_C = getPUweight(PupInfoHandle, 2);
+	PU_weight_D = getPUweight(PupInfoHandle, 3);
+	PU_weight_E = getPUweight(PupInfoHandle, 4);
+	PU_weight_F = getPUweight(PupInfoHandle, 5);
+	PU_weight_G = getPUweight(PupInfoHandle, 6);
+	PU_weight_H = getPUweight(PupInfoHandle, 7);   		
    		
     //Q2_weight
 	Q2_weight_up = getQ2weight(GenEventInfoHandle, LHEEventProductHandle , "1005");
@@ -2894,6 +2923,13 @@ cout<<"f";
   eve->gen_weight_ = gen_weight;
   eve->csv_weight_ = csv_weight;
   eve->PU_weight_ = PU_weight;
+  eve->PU_weight_B_ = PU_weight_B;
+  eve->PU_weight_C_ = PU_weight_C;
+  eve->PU_weight_D_ = PU_weight_D;
+  eve->PU_weight_E_ = PU_weight_E;
+  eve->PU_weight_F_ = PU_weight_F;
+  eve->PU_weight_G_ = PU_weight_G;
+  eve->PU_weight_H_ = PU_weight_H;
   eve->PDF_weight_ = PDF_weight;
   eve->PDF_weight_up_ = PDF_weight_up;
   eve->PDF_weight_down_ = PDF_weight_down;

@@ -373,6 +373,13 @@ struct triggerStudyEventVars{
   double gen_weight_;
   double csv_weight_;
   double PU_weight_;
+  double PU_weight_B_;
+  double PU_weight_C_;
+  double PU_weight_D_;
+  double PU_weight_E_;
+  double PU_weight_F_;
+  double PU_weight_G_;
+  double PU_weight_H_;
   double PDF_weight_;
   double PDF_weight_up_;
   double PDF_weight_down_;
@@ -722,6 +729,13 @@ void triggerStudyEventVars::initialize(){
   gen_weight_ = 0;
   csv_weight_ = 0;
   PU_weight_ = 0;
+  PU_weight_B_ = 0;
+  PU_weight_C_ = 0;
+  PU_weight_D_ = 0;
+  PU_weight_E_ = 0;
+  PU_weight_F_ = 0;
+  PU_weight_G_ = 0;
+  PU_weight_H_ = 0;
   PDF_weight_ = 0;
   Q2_weight_ = 0;
   lepton_id_sf_.clear();
