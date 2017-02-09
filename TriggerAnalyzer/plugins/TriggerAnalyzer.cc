@@ -404,7 +404,6 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
         fin >> PU_x[i] >> PU_y[i];
     }
     fin.close();
-    ifstream fin;
     fin.open("data/PU_weight/PU_weights_B.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_B_x[i] >> PU_B_y[i];
