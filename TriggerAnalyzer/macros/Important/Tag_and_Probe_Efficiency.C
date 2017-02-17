@@ -45,7 +45,7 @@ typedef std::vector<double>                    vdouble;
 typedef std::vector<std::vector<double> >      vvdouble;
 typedef std::vector<std::vector<int> >         vvint;
 
-void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
+void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
   clock_t t;
   t = clock();
@@ -115,7 +115,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   stream << jobN;
   str_jobN = stream.str();
 
-  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/triggerTree_MC_80X_drell_yan/161104_212140/0000/trigger_analyzer_*.root";
+  std::string treefilename = "/eos/uscms/store/user/adatta/Trigger_Analysis/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/triggerTree_MC_80X_drell_yan/170210_002949/0000/trigger_analyzer_*.root";
   //std::string treefilename2 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0001/trigger_analyzer_*.root";
   //std::string treefilename3 = "/eos/uscms/store/user/adatta/Trigger_Analysis/SingleElectron/triggerTree_SingleElectron_Run2016B/160723_151923/0002/trigger_analyzer_*.root";
   
@@ -146,9 +146,9 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   TH1::SetDefaultSumw2();
 
     int n_ptBins = 10;
-    double x_ptBins[10] = {30, 40, 50, 60, 70, 80, 90 , 100, 150, 200, 500 };
+    double x_ptBins[11] = {30, 40, 50, 60, 70, 80, 90 , 100, 150, 200, 500 };
 
-    int n_scetaBins = 8;
+    int n_scetaBins = 7;
     double x_scetaBins[8]
     = {  -2.2, // range -2.2_-2.1 is to contain electron with |eta|<2.1 while |SC_eta|>2.1.
         -2.1 + 0.6 * 1,
@@ -160,29 +160,29 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
         -2.1 + 0.6 * 7 + 0.1
     };
 
-    int n_htBins = 18;
+    int n_htBins = 17;
     double x_htBins[18] = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90 , 100, 150, 200, 300, 400, 500, 750, 1000 };
 
     TEfficiency* Eff_pt_WPLoose_27 = new TEfficiency("Eff_pt_WPLoose_27","Efficiency vs pT for WPLoose_27;pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPLoose_27 = new TEfficiency("Eff_sceta_WPLoose_27","Efficiency vs SuperCluster eta for WPLoose_27;SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPLoose_27 = new TEfficiency("Eff_phi_WPLoose_27","Efficiency vs phi for WPLoose_27;#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPLoose_27 = new TEfficiency("Eff_2d_WPLoose_27","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPLoose_27 = new TEfficiency("Eff_phi_WPLoose_27","Efficiency vs phi for WPLoose_27;#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPLoose_27 = new TEfficiency("Eff_2d_WPLoose_27","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV)",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPLoose_27 = new TEfficiency("Eff_HT_WPLoose_27","Efficiency vs HT for WPLoose_27;HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPLoose_27 = new TEfficiency("Eff_numPV_WPLoose_27","Efficiency vs numPV for WPLoose_27;numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPLoose_27 = new TEfficiency("Eff_nJets_WPLoose_27","Efficiency vs nJets for WPLoose_27;nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPLoose_27_BCDEF = new TEfficiency("Eff_pt_WPLoose_27_BCDEF","Efficiency vs pT for WPLoose_27 (for B to F);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPLoose_27_BCDEF = new TEfficiency("Eff_sceta_WPLoose_27_BCDEF","Efficiency vs SuperCluster eta for WPLoose_27 (for B to F);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPLoose_27_BCDEF = new TEfficiency("Eff_phi_WPLoose_27_BCDEF","Efficiency vs phi for WPLoose_27 (for B to F);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPLoose_27_BCDEF = new TEfficiency("Eff_2d_WPLoose_27_BCDEF","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPLoose_27_BCDEF = new TEfficiency("Eff_phi_WPLoose_27_BCDEF","Efficiency vs phi for WPLoose_27 (for B to F);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPLoose_27_BCDEF = new TEfficiency("Eff_2d_WPLoose_27_BCDEF","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPLoose_27_BCDEF = new TEfficiency("Eff_HT_WPLoose_27_BCDEF","Efficiency vs HT for WPLoose_27 (for B to F);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPLoose_27_BCDEF = new TEfficiency("Eff_numPV_WPLoose_27_BCDEF","Efficiency vs numPV for WPLoose_27 (for B to F);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPLoose_27_BCDEF = new TEfficiency("Eff_nJets_WPLoose_27_BCDEF","Efficiency vs nJets for WPLoose_27 (for B to F);nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPLoose_27_GH = new TEfficiency("Eff_pt_WPLoose_27_GH","Efficiency vs pT for WPLoose_27 (for G and H);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPLoose_27_GH = new TEfficiency("Eff_sceta_WPLoose_27_GH","Efficiency vs SuperCluster eta for WPLoose_27 (for G and H);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPLoose_27_GH = new TEfficiency("Eff_phi_WPLoose_27_GH","Efficiency vs phi for WPLoose_27 (for G and H);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPLoose_27_GH = new TEfficiency("Eff_2d_WPLoose_27_GH","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPLoose_27_GH = new TEfficiency("Eff_phi_WPLoose_27_GH","Efficiency vs phi for WPLoose_27 (for G and H);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPLoose_27_GH = new TEfficiency("Eff_2d_WPLoose_27_GH","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPLoose_27_GH = new TEfficiency("Eff_HT_WPLoose_27_GH","Efficiency vs HT for WPLoose_27 (for G and H);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPLoose_27_GH = new TEfficiency("Eff_numPV_WPLoose_27_GH","Efficiency vs numPV for WPLoose_27 (for G and H);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPLoose_27_GH = new TEfficiency("Eff_nJets_WPLoose_27_GH","Efficiency vs nJets for WPLoose_27 (for G and H);nJets;Efficiency",10,0,10);
@@ -190,24 +190,24 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
     TEfficiency* Eff_pt_WPTight_27 = new TEfficiency("Eff_pt_WPTight_27","Efficiency vs pT for WPTight_27;pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPTight_27 = new TEfficiency("Eff_sceta_WPTight_27","Efficiency vs SuperCluster eta for WPTight_27;SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPTight_27 = new TEfficiency("Eff_phi_WPTight_27","Efficiency vs phi for WPTight_27;#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPTight_27 = new TEfficiency("Eff_2d_WPTight_27","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPTight_27 = new TEfficiency("Eff_phi_WPTight_27","Efficiency vs phi for WPTight_27;#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPTight_27 = new TEfficiency("Eff_2d_WPTight_27","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPTight_27 = new TEfficiency("Eff_HT_WPTight_27","Efficiency vs HT for WPTight_27;HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPTight_27 = new TEfficiency("Eff_numPV_WPTight_27","Efficiency vs numPV for WPTight_27;numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPTight_27 = new TEfficiency("Eff_nJets_WPTight_27","Efficiency vs nJets for WPTight_27;nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPTight_27_BCDEF = new TEfficiency("Eff_pt_WPTight_27_BCDEF","Efficiency vs pT for WPTight_27 (for B to F);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPTight_27_BCDEF = new TEfficiency("Eff_sceta_WPTight_27_BCDEF","Efficiency vs SuperCluster eta for WPTight_27 (for B to F);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPTight_27_BCDEF = new TEfficiency("Eff_phi_WPTight_27_BCDEF","Efficiency vs phi for WPTight_27 (for B to F);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPTight_27_BCDEF = new TEfficiency("Eff_2d_WPTight_27_BCDEF","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPTight_27_BCDEF = new TEfficiency("Eff_phi_WPTight_27_BCDEF","Efficiency vs phi for WPTight_27 (for B to F);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPTight_27_BCDEF = new TEfficiency("Eff_2d_WPTight_27_BCDEF","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPTight_27_BCDEF = new TEfficiency("Eff_HT_WPTight_27_BCDEF","Efficiency vs HT for WPTight_27 (for B to F);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPTight_27_BCDEF = new TEfficiency("Eff_numPV_WPTight_27_BCDEF","Efficiency vs numPV for WPTight_27 (for B to F);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPTight_27_BCDEF = new TEfficiency("Eff_nJets_WPTight_27_BCDEF","Efficiency vs nJets for WPTight_27 (for B to F);nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPTight_27_GH = new TEfficiency("Eff_pt_WPTight_27_GH","Efficiency vs pT for WPTight_27 (for G and H);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPTight_27_GH = new TEfficiency("Eff_sceta_WPTight_27_GH","Efficiency vs SuperCluster eta for WPTight_27 (for G and H);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPTight_27_GH = new TEfficiency("Eff_phi_WPTight_27_GH","Efficiency vs phi for WPTight_27 (for G and H);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPTight_27_GH = new TEfficiency("Eff_2d_WPTight_27_GH","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPTight_27_GH = new TEfficiency("Eff_phi_WPTight_27_GH","Efficiency vs phi for WPTight_27 (for G and H);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPTight_27_GH = new TEfficiency("Eff_2d_WPTight_27_GH","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPTight_27_GH = new TEfficiency("Eff_HT_WPTight_27_GH","Efficiency vs HT for WPTight_27 (for G and H);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPTight_27_GH = new TEfficiency("Eff_numPV_WPTight_27_GH","Efficiency vs numPV for WPTight_27 (for G and H);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPTight_27_GH = new TEfficiency("Eff_nJets_WPTight_27_GH","Efficiency vs nJets for WPTight_27 (for G and H);nJets;Efficiency",10,0,10);
@@ -215,24 +215,24 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
     TEfficiency* Eff_pt_WPTight_32 = new TEfficiency("Eff_pt_WPTight_32","Efficiency vs pT for WPTight_32;pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPTight_32 = new TEfficiency("Eff_sceta_WPTight_32","Efficiency vs SuperCluster eta for WPTight_32;SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPTight_32 = new TEfficiency("Eff_phi_WPTight_32","Efficiency vs phi for WPTight_32;#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPTight_32 = new TEfficiency("Eff_2d_WPTight_32","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPTight_32 = new TEfficiency("Eff_phi_WPTight_32","Efficiency vs phi for WPTight_32;#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPTight_32 = new TEfficiency("Eff_2d_WPTight_32","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPTight_32 = new TEfficiency("Eff_HT_WPTight_32","Efficiency vs HT for WPTight_32;HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPTight_32 = new TEfficiency("Eff_numPV_WPTight_32","Efficiency vs numPV for WPTight_32;numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPTight_32 = new TEfficiency("Eff_nJets_WPTight_32","Efficiency vs nJets for WPTight_32;nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPTight_32_BCDEF = new TEfficiency("Eff_pt_WPTight_32_BCDEF","Efficiency vs pT for WPTight_32 (for B to F);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPTight_32_BCDEF = new TEfficiency("Eff_sceta_WPTight_32_BCDEF","Efficiency vs SuperCluster eta for WPTight_32 (for B to F);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPTight_32_BCDEF = new TEfficiency("Eff_phi_WPTight_32_BCDEF","Efficiency vs phi for WPTight_32 (for B to F);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPTight_32_BCDEF = new TEfficiency("Eff_2d_WPTight_32_BCDEF","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPTight_32_BCDEF = new TEfficiency("Eff_phi_WPTight_32_BCDEF","Efficiency vs phi for WPTight_32 (for B to F);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPTight_32_BCDEF = new TEfficiency("Eff_2d_WPTight_32_BCDEF","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPTight_32_BCDEF = new TEfficiency("Eff_HT_WPTight_32_BCDEF","Efficiency vs HT for WPTight_32 (for B to F);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPTight_32_BCDEF = new TEfficiency("Eff_numPV_WPTight_32_BCDEF","Efficiency vs numPV for WPTight_32 (for B to F);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPTight_32_BCDEF = new TEfficiency("Eff_nJets_WPTight_32_BCDEF","Efficiency vs nJets for WPTight_32 (for B to F);nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPTight_32_GH = new TEfficiency("Eff_pt_WPTight_32_GH","Efficiency vs pT for WPTight_32 (for G and H);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPTight_32_GH = new TEfficiency("Eff_sceta_WPTight_32_GH","Efficiency vs SuperCluster eta for WPTight_32 (for G and H);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPTight_32_GH = new TEfficiency("Eff_phi_WPTight_32_GH","Efficiency vs phi for WPTight_32 (for G and H);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPTight_32_GH = new TEfficiency("Eff_2d_WPTight_32_GH","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPTight_32_GH = new TEfficiency("Eff_phi_WPTight_32_GH","Efficiency vs phi for WPTight_32 (for G and H);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPTight_32_GH = new TEfficiency("Eff_2d_WPTight_32_GH","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPTight_32_GH = new TEfficiency("Eff_HT_WPTight_32_GH","Efficiency vs HT for WPTight_32 (for G and H);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPTight_32_GH = new TEfficiency("Eff_numPV_WPTight_32_GH","Efficiency vs numPV for WPTight_32 (for G and H);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPTight_32_GH = new TEfficiency("Eff_nJets_WPTight_32_GH","Efficiency vs nJets for WPTight_32 (for G and H);nJets;Efficiency",10,0,10);
@@ -240,24 +240,24 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
     TEfficiency* Eff_pt_WPLoose_27_HT200 = new TEfficiency("Eff_pt_WPLoose_27_HT200","Efficiency vs pT for WPLoose_27_HT200;pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPLoose_27_HT200 = new TEfficiency("Eff_sceta_WPLoose_27_HT200","Efficiency vs SuperCluster eta for WPLoose_27_HT200;SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPLoose_27_HT200 = new TEfficiency("Eff_phi_WPLoose_27_HT200","Efficiency vs phi for WPLoose_27_HT200;#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPLoose_27_HT200 = new TEfficiency("Eff_2d_WPLoose_27_HT200","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPLoose_27_HT200 = new TEfficiency("Eff_phi_WPLoose_27_HT200","Efficiency vs phi for WPLoose_27_HT200;#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPLoose_27_HT200 = new TEfficiency("Eff_2d_WPLoose_27_HT200","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPLoose_27_HT200 = new TEfficiency("Eff_HT_WPLoose_27_HT200","Efficiency vs HT for WPLoose_27_HT200;HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPLoose_27_HT200 = new TEfficiency("Eff_numPV_WPLoose_27_HT200","Efficiency vs numPV for WPLoose_27_HT200;numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPLoose_27_HT200 = new TEfficiency("Eff_nJets_WPLoose_27_HT200","Efficiency vs nJets for WPLoose_27_HT200;nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_pt_WPLoose_27_HT200_BCDEF","Efficiency vs pT for WPLoose_27_HT200 (for B to F);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_sceta_WPLoose_27_HT200_BCDEF","Efficiency vs SuperCluster eta for WPLoose_27_HT200 (for B to F);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_phi_WPLoose_27_HT200_BCDEF","Efficiency vs phi for WPLoose_27_HT200 (for B to F);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_2d_WPLoose_27_HT200_BCDEF","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_phi_WPLoose_27_HT200_BCDEF","Efficiency vs phi for WPLoose_27_HT200 (for B to F);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_2d_WPLoose_27_HT200_BCDEF","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_HT_WPLoose_27_HT200_BCDEF","Efficiency vs HT for WPLoose_27_HT200 (for B to F);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_numPV_WPLoose_27_HT200_BCDEF","Efficiency vs numPV for WPLoose_27_HT200 (for B to F);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_nJets_WPLoose_27_HT200_BCDEF","Efficiency vs nJets for WPLoose_27_HT200 (for B to F);nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPLoose_27_HT200_GH = new TEfficiency("Eff_pt_WPLoose_27_HT200_GH","Efficiency vs pT for WPLoose_27_HT200 (for G and H);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPLoose_27_HT200_GH = new TEfficiency("Eff_sceta_WPLoose_27_HT200_GH","Efficiency vs SuperCluster eta for WPLoose_27_HT200 (for G and H);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPLoose_27_HT200_GH = new TEfficiency("Eff_phi_WPLoose_27_HT200_GH","Efficiency vs phi for WPLoose_27_HT200 (for G and H);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPLoose_27_HT200_GH = new TEfficiency("Eff_2d_WPLoose_27_HT200_GH","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPLoose_27_HT200_GH = new TEfficiency("Eff_phi_WPLoose_27_HT200_GH","Efficiency vs phi for WPLoose_27_HT200 (for G and H);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPLoose_27_HT200_GH = new TEfficiency("Eff_2d_WPLoose_27_HT200_GH","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPLoose_27_HT200_GH = new TEfficiency("Eff_HT_WPLoose_27_HT200_GH","Efficiency vs HT for WPLoose_27_HT200 (for G and H);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPLoose_27_HT200_GH = new TEfficiency("Eff_numPV_WPLoose_27_HT200_GH","Efficiency vs numPV for WPLoose_27_HT200 (for G and H);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPLoose_27_HT200_GH = new TEfficiency("Eff_nJets_WPLoose_27_HT200_GH","Efficiency vs nJets for WPLoose_27_HT200 (for G and H);nJets;Efficiency",10,0,10);
@@ -265,27 +265,138 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
     TEfficiency* Eff_pt_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_pt_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs pT for WPTight_27_OR_WPLoose_27_HT200;pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_sceta_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs SuperCluster eta for WPTight_27_OR_WPLoose_27_HT200;SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_phi_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs phi for WPTight_27_OR_WPLoose_27_HT200;#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_2d_WPTight_27_OR_WPLoose_27_HT200","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_phi_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs phi for WPTight_27_OR_WPLoose_27_HT200;#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_2d_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_HT_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs HT for WPTight_27_OR_WPLoose_27_HT200;HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_numPV_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs numPV for WPTight_27_OR_WPLoose_27_HT200;numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPTight_27_OR_WPLoose_27_HT200 = new TEfficiency("Eff_nJets_WPTight_27_OR_WPLoose_27_HT200","Efficiency vs nJets for WPTight_27_OR_WPLoose_27_HT200;nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPTight_27_OR_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_pt_WPTight_27_OR_WPLoose_27_HT200_BCDEF","Efficiency vs pT for WPTight_27_OR_WPLoose_27_HT200 (for B to F);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPTight_27_OR_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_sceta_WPTight_27_OR_WPLoose_27_HT200_BCDEF","Efficiency vs SuperCluster eta for WPTight_27_OR_WPLoose_27_HT200 (for B to F);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPTight_27_OR_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_phi_WPTight_27_OR_WPLoose_27_HT200_BCDEF","Efficiency vs phi for WPTight_27_OR_WPLoose_27_HT200 (for B to F);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPTight_27_OR_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_2d_WPTight_27_OR_WPLoose_27_HT200_BCDEF","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPTight_27_OR_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_phi_WPTight_27_OR_WPLoose_27_HT200_BCDEF","Efficiency vs phi for WPTight_27_OR_WPLoose_27_HT200 (for B to F);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPTight_27_OR_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_2d_WPTight_27_OR_WPLoose_27_HT200_BCDEF","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPTight_27_OR_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_HT_WPTight_27_OR_WPLoose_27_HT200_BCDEF","Efficiency vs HT for WPTight_27_OR_WPLoose_27_HT200 (for B to F);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPTight_27_OR_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_numPV_WPTight_27_OR_WPLoose_27_HT200_BCDEF","Efficiency vs numPV for WPTight_27_OR_WPLoose_27_HT200 (for B to F);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPTight_27_OR_WPLoose_27_HT200_BCDEF = new TEfficiency("Eff_nJets_WPTight_27_OR_WPLoose_27_HT200_BCDEF","Efficiency vs nJets for WPTight_27_OR_WPLoose_27_HT200 (for B to F);nJets;Efficiency",10,0,10);
 
     TEfficiency* Eff_pt_WPTight_27_OR_WPLoose_27_HT200_GH = new TEfficiency("Eff_pt_WPTight_27_OR_WPLoose_27_HT200_GH","Efficiency vs pT for WPTight_27_OR_WPLoose_27_HT200 (for G and H);pT (GeV);Efficiency",n_ptBins,x_ptBins);
     TEfficiency* Eff_sceta_WPTight_27_OR_WPLoose_27_HT200_GH = new TEfficiency("Eff_sceta_WPTight_27_OR_WPLoose_27_HT200_GH","Efficiency vs SuperCluster eta for WPTight_27_OR_WPLoose_27_HT200 (for G and H);SuperCluster #eta;Efficiency",n_scetaBins,x_scetaBins);
-    TEfficiency* Eff_phi_WPTight_27_OR_WPLoose_27_HT200_GH = new TEfficiency("Eff_phi_WPTight_27_OR_WPLoose_27_HT200_GH","Efficiency vs phi for WPTight_27_OR_WPLoose_27_HT200 (for G and H);#phi;x_scetaBins",30,-3,3);
-    TEfficiency* Eff_2d_WPTight_27_OR_WPLoose_27_HT200_GH = new TEfficiency("Eff_2d_WPTight_27_OR_WPLoose_27_HT200_GH","Efficiency;pT;SuperCluster #eta",n_ptBins,x_ptBins,n_scetaBins,x_scetaBins);
+    TEfficiency* Eff_phi_WPTight_27_OR_WPLoose_27_HT200_GH = new TEfficiency("Eff_phi_WPTight_27_OR_WPLoose_27_HT200_GH","Efficiency vs phi for WPTight_27_OR_WPLoose_27_HT200 (for G and H);#phi;Efficiency",30,-3,3);
+    TEfficiency* Eff_2d_WPTight_27_OR_WPLoose_27_HT200_GH = new TEfficiency("Eff_2d_WPTight_27_OR_WPLoose_27_HT200_GH","Efficiency vs pT and SuperCluster eta for WPLoose_27;SuperCluster #eta;pT (GeV);Efficiency",n_scetaBins,x_scetaBins,n_ptBins,x_ptBins);
     TEfficiency* Eff_HT_WPTight_27_OR_WPLoose_27_HT200_GH = new TEfficiency("Eff_HT_WPTight_27_OR_WPLoose_27_HT200_GH","Efficiency vs HT for WPTight_27_OR_WPLoose_27_HT200 (for G and H);HT (GeV);Efficiency",n_htBins,x_htBins);
     TEfficiency* Eff_numPV_WPTight_27_OR_WPLoose_27_HT200_GH = new TEfficiency("Eff_numPV_WPTight_27_OR_WPLoose_27_HT200_GH","Efficiency vs numPV for WPTight_27_OR_WPLoose_27_HT200 (for G and H);numPV;Efficiency",15,0,75);
     TEfficiency* Eff_nJets_WPTight_27_OR_WPLoose_27_HT200_GH = new TEfficiency("Eff_nJets_WPTight_27_OR_WPLoose_27_HT200_GH","Efficiency vs nJets for WPTight_27_OR_WPLoose_27_HT200 (for G and H);nJets;Efficiency",10,0,10);
+
+    Eff_pt_WPLoose_27->SetUseWeightedEvents();
+    Eff_sceta_WPLoose_27->SetUseWeightedEvents();
+    Eff_phi_WPLoose_27->SetUseWeightedEvents();
+    Eff_2d_WPLoose_27->SetUseWeightedEvents();
+    Eff_HT_WPLoose_27->SetUseWeightedEvents();
+    Eff_numPV_WPLoose_27->SetUseWeightedEvents();
+    Eff_nJets_WPLoose_27->SetUseWeightedEvents();
+    Eff_pt_WPLoose_27_BCDEF->SetUseWeightedEvents();
+    Eff_sceta_WPLoose_27_BCDEF->SetUseWeightedEvents();
+    Eff_phi_WPLoose_27_BCDEF->SetUseWeightedEvents();
+    Eff_2d_WPLoose_27_BCDEF->SetUseWeightedEvents();
+    Eff_HT_WPLoose_27_BCDEF->SetUseWeightedEvents();
+    Eff_numPV_WPLoose_27_BCDEF->SetUseWeightedEvents();
+    Eff_nJets_WPLoose_27_BCDEF->SetUseWeightedEvents();
+    Eff_pt_WPLoose_27_GH->SetUseWeightedEvents();
+    Eff_sceta_WPLoose_27_GH->SetUseWeightedEvents();
+    Eff_phi_WPLoose_27_GH->SetUseWeightedEvents();
+    Eff_2d_WPLoose_27_GH->SetUseWeightedEvents();
+    Eff_HT_WPLoose_27_GH->SetUseWeightedEvents();
+    Eff_numPV_WPLoose_27_GH->SetUseWeightedEvents();
+    Eff_nJets_WPLoose_27_GH->SetUseWeightedEvents();
+
+    Eff_pt_WPTight_27->SetUseWeightedEvents();
+    Eff_sceta_WPTight_27->SetUseWeightedEvents();
+    Eff_phi_WPTight_27->SetUseWeightedEvents();
+    Eff_2d_WPTight_27->SetUseWeightedEvents();
+    Eff_HT_WPTight_27->SetUseWeightedEvents();
+    Eff_numPV_WPTight_27->SetUseWeightedEvents();
+    Eff_nJets_WPTight_27->SetUseWeightedEvents();
+    Eff_pt_WPTight_27_BCDEF->SetUseWeightedEvents();
+    Eff_sceta_WPTight_27_BCDEF->SetUseWeightedEvents();
+    Eff_phi_WPTight_27_BCDEF->SetUseWeightedEvents();
+    Eff_2d_WPTight_27_BCDEF->SetUseWeightedEvents();
+    Eff_HT_WPTight_27_BCDEF->SetUseWeightedEvents();
+    Eff_numPV_WPTight_27_BCDEF->SetUseWeightedEvents();
+    Eff_nJets_WPTight_27_BCDEF->SetUseWeightedEvents();
+    Eff_pt_WPTight_27_GH->SetUseWeightedEvents();
+    Eff_sceta_WPTight_27_GH->SetUseWeightedEvents();
+    Eff_phi_WPTight_27_GH->SetUseWeightedEvents();
+    Eff_2d_WPTight_27_GH->SetUseWeightedEvents();
+    Eff_HT_WPTight_27_GH->SetUseWeightedEvents();
+    Eff_numPV_WPTight_27_GH->SetUseWeightedEvents();
+    Eff_nJets_WPTight_27_GH->SetUseWeightedEvents();
+
+    Eff_pt_WPTight_32->SetUseWeightedEvents();
+    Eff_sceta_WPTight_32->SetUseWeightedEvents();
+    Eff_phi_WPTight_32->SetUseWeightedEvents();
+    Eff_2d_WPTight_32->SetUseWeightedEvents();
+    Eff_HT_WPTight_32->SetUseWeightedEvents();
+    Eff_numPV_WPTight_32->SetUseWeightedEvents();
+    Eff_nJets_WPTight_32->SetUseWeightedEvents();
+    Eff_pt_WPTight_32_BCDEF->SetUseWeightedEvents();
+    Eff_sceta_WPTight_32_BCDEF->SetUseWeightedEvents();
+    Eff_phi_WPTight_32_BCDEF->SetUseWeightedEvents();
+    Eff_2d_WPTight_32_BCDEF->SetUseWeightedEvents();
+    Eff_HT_WPTight_32_BCDEF->SetUseWeightedEvents();
+    Eff_numPV_WPTight_32_BCDEF->SetUseWeightedEvents();
+    Eff_nJets_WPTight_32_BCDEF->SetUseWeightedEvents();
+    Eff_pt_WPTight_32_GH->SetUseWeightedEvents();
+    Eff_sceta_WPTight_32_GH->SetUseWeightedEvents();
+    Eff_phi_WPTight_32_GH->SetUseWeightedEvents();
+    Eff_2d_WPTight_32_GH->SetUseWeightedEvents();
+    Eff_HT_WPTight_32_GH->SetUseWeightedEvents();
+    Eff_numPV_WPTight_32_GH->SetUseWeightedEvents();
+    Eff_nJets_WPTight_32_GH->SetUseWeightedEvents();
+
+    Eff_pt_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_sceta_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_phi_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_2d_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_HT_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_numPV_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_nJets_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_pt_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_sceta_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_phi_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_2d_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_HT_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_numPV_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_nJets_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_pt_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_sceta_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_phi_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_2d_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_HT_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_numPV_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_nJets_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+
+    Eff_pt_WPTight_27_OR_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_sceta_WPTight_27_OR_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_phi_WPTight_27_OR_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_2d_WPTight_27_OR_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_HT_WPTight_27_OR_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_numPV_WPTight_27_OR_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_nJets_WPTight_27_OR_WPLoose_27_HT200->SetUseWeightedEvents();
+    Eff_pt_WPTight_27_OR_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_sceta_WPTight_27_OR_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_phi_WPTight_27_OR_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_2d_WPTight_27_OR_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_HT_WPTight_27_OR_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_numPV_WPTight_27_OR_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_nJets_WPTight_27_OR_WPLoose_27_HT200_BCDEF->SetUseWeightedEvents();
+    Eff_pt_WPTight_27_OR_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_sceta_WPTight_27_OR_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_phi_WPTight_27_OR_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_2d_WPTight_27_OR_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_HT_WPTight_27_OR_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_numPV_WPTight_27_OR_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+    Eff_nJets_WPTight_27_OR_WPLoose_27_HT200_GH->SetUseWeightedEvents();
+
 
    //////////////////////////////////////////////////////////////////////////
   ///  Weights
@@ -363,30 +474,32 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
         // FOR DATA
         //int isData = 1;
 
+        double PU_weight_lumi;
 		double gen_weight = eve->gen_weight_;
   		double csv_weight = eve->csv_weight_;
   		double PU_weight = eve->PU_weight_ ;
+        double PU_weight_B, PU_weight_C, PU_weight_D, PU_weight_E, PU_weight_F, PU_weight_G, PU_weight_H, PU_weight_BCDEF, PU_weight_GH;
         if(!isData){
-            double PU_weight_B = eve->PU_weight_B_;
-            double PU_weight_C = eve->PU_weight_C_;
-            double PU_weight_D = eve->PU_weight_D_;
-            double PU_weight_E = eve->PU_weight_E_;
-            double PU_weight_F = eve->PU_weight_F_;
-            double PU_weight_G = eve->PU_weight_G_;
-            double PU_weight_H = eve->PU_weight_H_;
-            double PU_weight_BCDEF = eve->PU_weight_BCDEF_;
-            double PU_weight_GH = eve->PU_weight_GH_;
+            PU_weight_B = eve->PU_weight_B_;
+            PU_weight_C = eve->PU_weight_C_;
+            PU_weight_D = eve->PU_weight_D_;
+            PU_weight_E = eve->PU_weight_E_;
+            PU_weight_F = eve->PU_weight_F_;
+            PU_weight_G = eve->PU_weight_G_;
+            PU_weight_H = eve->PU_weight_H_;
+            PU_weight_BCDEF = eve->PU_weight_BCDEF_;
+            PU_weight_GH = eve->PU_weight_GH_;
         }
         else{
-            double PU_weight_B = 1;
-            double PU_weight_C = 1;
-            double PU_weight_D = 1;
-            double PU_weight_E = 1;
-            double PU_weight_F = 1;
-            double PU_weight_G = 1;
-            double PU_weight_H = 1;
-            double PU_weight_BCDEF = 1;
-            double PU_weight_GH = 1;
+            PU_weight_B = 1;
+            PU_weight_C = 1;
+            PU_weight_D = 1;
+            PU_weight_E = 1;
+            PU_weight_F = 1;
+            PU_weight_G = 1;
+            PU_weight_H = 1;
+            PU_weight_BCDEF = 1;
+            PU_weight_GH = 1;
         }
   		double PDF_weight = eve->PDF_weight_;
   		double Q2_weight = eve->Q2_weight_;
@@ -450,8 +563,9 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     vlepton.push_back(lepton_px[i]);
                     vlepton.push_back(lepton_py[i]);
                     vlepton.push_back(lepton_pz[i]);
-				    //Trigger SF not applied
-					vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
+				    //Trigger SF and GSF SF not applied
+					//vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
+                    vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_hip_sf[i]);
                     vlepton.push_back(lepton_sc_eta[i]);
 					vvLEPTON.push_back(vlepton);
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {
@@ -515,13 +629,16 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
         int tag, probe;
         double deta, dphi, dR;
-        bool trigger_pass;
+        bool trigger_pass = 0;
+
+        PU_weight_lumi = (PU_weight_BCDEF * 18.219  + PU_weight_GH * 16.146)/34.365 ;
 
 		// PDF Weight, Q2 Weight not applied
 	    //tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*csv_weight*PU_weight*gen_weight;
-        tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*PU_weight;
-        tot_weight_BCDEF = vvLEPTON[0][8]*vvLEPTON[1][8]*PU_weight_BCDEF;
-        tot_weight_GH = vvLEPTON[0][8]*vvLEPTON[1][8]*PU_weight_GH;
+        //tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*PU_weight*gen_weight; // using integrated PU weight
+        tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*PU_weight_lumi*gen_weight; // using lumi-weighted PU weight
+        tot_weight_BCDEF = vvLEPTON[0][8]*vvLEPTON[1][8]*PU_weight_BCDEF*gen_weight;
+        tot_weight_GH = vvLEPTON[0][8]*vvLEPTON[1][8]*PU_weight_GH*gen_weight;
 
         // Fill Histograms
 
@@ -529,7 +646,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
             tag = probe = -9999;
             for(int i=0; i<int(hltEle27WPLooseGsf_eta.size());i++){
-                deta = hltEle27WPLooseGsf_eta[i] - vvLEPTON[0][1];
+                deta = hltEle27WPLooseGsf_eta[i] - vvLEPTON[0][9];
                 dphi = hltEle27WPLooseGsf_phi[i] - vvLEPTON[0][2];
                 dR = sqrt( deta*deta + dphi*dphi );
                 if(dR<0.1){
@@ -540,7 +657,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             }
             if(tag!=0){
                 for(int i=0; i<int(hltEle27WPLooseGsf_eta.size());i++){
-                    deta = hltEle27WPLooseGsf_eta[i] - vvLEPTON[1][1];
+                    deta = hltEle27WPLooseGsf_eta[i] - vvLEPTON[1][9];
                     dphi = hltEle27WPLooseGsf_phi[i] - vvLEPTON[1][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -554,7 +671,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             if(tag==0 || tag==1){
                 trigger_pass = 0;
                 for(int i=0; i<int(hltEle27WPLooseGsf_eta.size());i++){
-                    deta = hltEle27WPLooseGsf_eta[i] - vvLEPTON[probe][1];
+                    deta = hltEle27WPLooseGsf_eta[i] - vvLEPTON[probe][9];
                     dphi = hltEle27WPLooseGsf_phi[i] - vvLEPTON[probe][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -566,26 +683,26 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 Eff_pt_WPLoose_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0]);
                 Eff_sceta_WPLoose_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9]);
                 Eff_phi_WPLoose_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][2]);
-                Eff_2d_WPLoose_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_2d_WPLoose_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9],vvLEPTON[probe][0]);
                 Eff_HT_WPLoose_27-> FillWeighted(trigger_pass,tot_weight,HT);
                 Eff_numPV_WPLoose_27-> FillWeighted(trigger_pass,tot_weight,numPV);
-                Eff_nJets_WPLoose_27-> FillWeighted(trigger_pass,tot_weight,nJets);
+                Eff_nJets_WPLoose_27-> FillWeighted(trigger_pass,tot_weight,numJets);
 
                 Eff_pt_WPLoose_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0]);
                 Eff_sceta_WPLoose_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9]);
                 Eff_phi_WPLoose_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][2]);
-                Eff_2d_WPLoose_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_2d_WPLoose_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9],vvLEPTON[probe][0]);
                 Eff_HT_WPLoose_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,HT);
                 Eff_numPV_WPLoose_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numPV);
-                Eff_nJets_WPLoose_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,nJets);
+                Eff_nJets_WPLoose_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numJets);
 
                 Eff_pt_WPLoose_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0]);
                 Eff_sceta_WPLoose_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9]);
                 Eff_phi_WPLoose_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][2]);
-                Eff_2d_WPLoose_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_2d_WPLoose_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9],vvLEPTON[probe][0]);
                 Eff_HT_WPLoose_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,HT);
                 Eff_numPV_WPLoose_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,numPV);
-                Eff_nJets_WPLoose_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,nJets);
+                Eff_nJets_WPLoose_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,numJets);
 
                 effi_num_loose_27 = effi_num_loose_27 + trigger_pass*tot_weight;
                 effi_den_loose_27 = effi_den_loose_27 + tot_weight;
@@ -603,7 +720,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
             tag = probe = -9999;
             for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
-                deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[0][1];
+                deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[0][9];
                 dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[0][2];
                 dR = sqrt( deta*deta + dphi*dphi );
                 if(dR<0.1){
@@ -614,7 +731,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             }
             if(tag!=0){
                 for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
-                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[1][1];
+                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[1][9];
                     dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[1][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -628,7 +745,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             if(tag==0 || tag==1){
                 trigger_pass = 0;
                 for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
-                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[probe][1];
+                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[probe][9];
                     dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[probe][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -640,26 +757,26 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 Eff_pt_WPTight_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0]);
                 Eff_sceta_WPTight_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9]);
                 Eff_phi_WPTight_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_2d_WPTight_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9],vvLEPTON[probe][0]);
                 Eff_HT_WPTight_27-> FillWeighted(trigger_pass,tot_weight,HT);
                 Eff_numPV_WPTight_27-> FillWeighted(trigger_pass,tot_weight,numPV);
-                Eff_nJets_WPTight_27-> FillWeighted(trigger_pass,tot_weight,nJets);
+                Eff_nJets_WPTight_27-> FillWeighted(trigger_pass,tot_weight,numJets);
 
                 Eff_pt_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0]);
                 Eff_sceta_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9]);
                 Eff_phi_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_2d_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9],vvLEPTON[probe][0]);
                 Eff_HT_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,HT);
                 Eff_numPV_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numPV);
-                Eff_nJets_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,nJets);
+                Eff_nJets_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numJets);
 
                 Eff_pt_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0]);
                 Eff_sceta_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9]);
                 Eff_phi_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_2d_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9],vvLEPTON[probe][0]);
                 Eff_HT_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,HT);
                 Eff_numPV_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,numPV);
-                Eff_nJets_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,nJets);
+                Eff_nJets_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,numJets);
 
                 effi_num_tight_27 = effi_num_tight_27 + trigger_pass*tot_weight;
                 effi_den_tight_27 = effi_den_tight_27 + tot_weight;
@@ -677,7 +794,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
             tag = probe = -9999;
             for(int i=0; i<int(hltEle32WPTightGsf_eta.size());i++){
-                deta = hltEle32WPTightGsf_eta[i] - vvLEPTON[0][1];
+                deta = hltEle32WPTightGsf_eta[i] - vvLEPTON[0][9];
                 dphi = hltEle32WPTightGsf_phi[i] - vvLEPTON[0][2];
                 dR = sqrt( deta*deta + dphi*dphi );
                 if(dR<0.1){
@@ -688,7 +805,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             }
             if(tag!=0){
                 for(int i=0; i<int(hltEle32WPTightGsf_eta.size());i++){
-                    deta = hltEle32WPTightGsf_eta[i] - vvLEPTON[1][1];
+                    deta = hltEle32WPTightGsf_eta[i] - vvLEPTON[1][9];
                     dphi = hltEle32WPTightGsf_phi[i] - vvLEPTON[1][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -702,7 +819,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             if(tag==0 || tag==1){
                 trigger_pass = 0;
                 for(int i=0; i<int(hltEle32WPTightGsf_eta.size());i++){
-                    deta = hltEle32WPTightGsf_eta[i] - vvLEPTON[probe][1];
+                    deta = hltEle32WPTightGsf_eta[i] - vvLEPTON[probe][9];
                     dphi = hltEle32WPTightGsf_phi[i] - vvLEPTON[probe][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -714,26 +831,26 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 Eff_pt_WPTight_32-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0]);
                 Eff_sceta_WPTight_32-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9]);
                 Eff_phi_WPTight_32-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_32-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_2d_WPTight_32-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9],vvLEPTON[probe][0]);
                 Eff_HT_WPTight_32-> FillWeighted(trigger_pass,tot_weight,HT);
                 Eff_numPV_WPTight_32-> FillWeighted(trigger_pass,tot_weight,numPV);
-                Eff_nJets_WPTight_32-> FillWeighted(trigger_pass,tot_weight,nJets);
+                Eff_nJets_WPTight_32-> FillWeighted(trigger_pass,tot_weight,numJets);
 
                 Eff_pt_WPTight_32_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0]);
                 Eff_sceta_WPTight_32_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9]);
                 Eff_phi_WPTight_32_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_32_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_2d_WPTight_32_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9],vvLEPTON[probe][0]);
                 Eff_HT_WPTight_32_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,HT);
                 Eff_numPV_WPTight_32_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numPV);
-                Eff_nJets_WPTight_32_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,nJets);
+                Eff_nJets_WPTight_32_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numJets);
 
                 Eff_pt_WPTight_32_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0]);
                 Eff_sceta_WPTight_32_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9]);
                 Eff_phi_WPTight_32_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_32_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_2d_WPTight_32_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9],vvLEPTON[probe][0]);
                 Eff_HT_WPTight_32_GH-> FillWeighted(trigger_pass,tot_weight_GH,HT);
                 Eff_numPV_WPTight_32_GH-> FillWeighted(trigger_pass,tot_weight_GH,numPV);
-                Eff_nJets_WPTight_32_GH-> FillWeighted(trigger_pass,tot_weight_GH,nJets);
+                Eff_nJets_WPTight_32_GH-> FillWeighted(trigger_pass,tot_weight_GH,numJets);
 
                 effi_num_tight_32 = effi_num_tight_32 + trigger_pass*tot_weight;
                 effi_den_tight_32 = effi_den_tight_32 + tot_weight;
@@ -751,7 +868,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
             tag = probe = -9999;
             for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
-                deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[0][1];
+                deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[0][9];
                 dphi = hltEle27WPLooseHT200Gsf_phi[i] - vvLEPTON[0][2];
                 dR = sqrt( deta*deta + dphi*dphi );
                 if(dR<0.1){
@@ -762,7 +879,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             }
             if(tag!=0){
                 for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
-                    deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[1][1];
+                    deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[1][9];
                     dphi = hltEle27WPLooseHT200Gsf_phi[i] - vvLEPTON[1][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -776,7 +893,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             if(tag==0 || tag==1){
                 trigger_pass = 0;
                 for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
-                    deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[probe][1];
+                    deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[probe][9];
                     dphi = hltEle27WPLooseHT200Gsf_phi[i] - vvLEPTON[probe][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -785,36 +902,36 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     }
                 }
 
-                Eff_pt_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0]);
-                Eff_sceta_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9]);
-                Eff_phi_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][2]);
-                Eff_2d_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0],vvLEPTON[probe][9]);
-                Eff_HT_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,HT);
-                Eff_numPV_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,numPV);
-                Eff_nJets_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,nJets);
+                Eff_pt_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0]);
+                Eff_sceta_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9]);
+                Eff_phi_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][2]);
+                Eff_2d_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9],vvLEPTON[probe][0]);
+                Eff_HT_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,HT);
+                Eff_numPV_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,numPV);
+                Eff_nJets_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,numJets);
 
-                Eff_pt_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0]);
-                Eff_sceta_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9]);
-                Eff_phi_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][2]);
-                Eff_2d_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0],vvLEPTON[probe][9]);
-                Eff_HT_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,HT);
-                Eff_numPV_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numPV);
-                Eff_nJets_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,nJets);
+                Eff_pt_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0]);
+                Eff_sceta_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9]);
+                Eff_phi_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][2]);
+                Eff_2d_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9],vvLEPTON[probe][0]);
+                Eff_HT_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,HT);
+                Eff_numPV_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numPV);
+                Eff_nJets_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numJets);
 
-                Eff_pt_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0]);
-                Eff_sceta_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9]);
-                Eff_phi_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][2]);
-                Eff_2d_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0],vvLEPTON[probe][9]);
-                Eff_HT_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,HT);
-                Eff_numPV_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,numPV);
-                Eff_nJets_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,nJets);
+                Eff_pt_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0]);
+                Eff_sceta_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9]);
+                Eff_phi_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][2]);
+                Eff_2d_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9],vvLEPTON[probe][0]);
+                Eff_HT_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,HT);
+                Eff_numPV_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,numPV);
+                Eff_nJets_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,numJets);
 
-                effi_num_loose_ht200_27 = effi_num_loose_ht200_27 + trigger_pass*tot_weight;
-                effi_den_loose_ht200_27 = effi_den_loose_ht200_27 + tot_weight;
-                effi_num_loose_ht200_27_BCDEF = effi_num_loose_ht200_27_BCDEF + trigger_pass*tot_weight_BCDEF;
-                effi_den_loose_ht200_27_BCDEF = effi_den_loose_ht200_27_BCDEF + tot_weight_BCDEF;
-                effi_num_loose_ht200_27_GH = effi_num_loose_ht200_27_GH + trigger_pass*tot_weight_GH;
-                effi_den_loose_ht200_27_GH = effi_den_loose_ht200_27_GH + tot_weight_GH;
+                effi_num_loose_27_ht200 = effi_num_loose_27_ht200 + trigger_pass*tot_weight;
+                effi_den_loose_27_ht200 = effi_den_loose_27_ht200 + tot_weight;
+                effi_num_loose_27_ht200_BCDEF = effi_num_loose_27_ht200_BCDEF + trigger_pass*tot_weight_BCDEF;
+                effi_den_loose_27_ht200_BCDEF = effi_den_loose_27_ht200_BCDEF + tot_weight_BCDEF;
+                effi_num_loose_27_ht200_GH = effi_num_loose_27_ht200_GH + trigger_pass*tot_weight_GH;
+                effi_den_loose_27_ht200_GH = effi_den_loose_27_ht200_GH + tot_weight_GH;
                 
             }
 			
@@ -825,7 +942,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
             tag = probe = -9999;
             for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
-                deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[0][1];
+                deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[0][9];
                 dphi = hltEle27WPLooseHT200Gsf_phi[i] - vvLEPTON[0][2];
                 dR = sqrt( deta*deta + dphi*dphi );
                 if(dR<0.1){
@@ -835,21 +952,8 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 }
             }
             if(tag!=0){
-                for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
-                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[0][1];
-                    dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[0][2];
-                    dR = sqrt( deta*deta + dphi*dphi );
-                    if(dR<0.1){
-                        tag = 0;
-                        probe = 1;
-                        break;
-                    }
-                }
-            }
-
-            if(tag!=0){
                 for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
-                    deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[1][1];
+                    deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[1][9];
                     dphi = hltEle27WPLooseHT200Gsf_phi[i] - vvLEPTON[1][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -859,9 +963,21 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     }
                 }
             }
-            if(tag!=0){
+            if(tag!=0 && tag!=1){
                 for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
-                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[1][1];
+                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[0][9];
+                    dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[0][2];
+                    dR = sqrt( deta*deta + dphi*dphi );
+                    if(dR<0.1){
+                        tag = 0;
+                        probe = 1;
+                        break;
+                    }
+                }
+             }
+           if(tag!=0 && tag!=1){
+                for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
+                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[1][9];
                     dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[1][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -875,7 +991,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             if(tag==0 || tag==1){
                 trigger_pass = 0;
                 for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
-                    deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[probe][1];
+                    deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[probe][9];
                     dphi = hltEle27WPLooseHT200Gsf_phi[i] - vvLEPTON[probe][2];
                     dR = sqrt( deta*deta + dphi*dphi );
                     if(dR<0.1){
@@ -883,37 +999,48 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                         break;
                     }
                 }
+                if(trigger_pass==0){
+                    for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
+                        deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[probe][9];
+                        dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[probe][2];
+                        dR = sqrt( deta*deta + dphi*dphi );
+                        if(dR<0.1){
+                            trigger_pass = 1;
+                            break;
+                        }
+                    }
+                }
 
-                Eff_pt_WPTight_27_OR_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0]);
-                Eff_sceta_WPTight_27_OR_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9]);
-                Eff_phi_WPTight_27_OR_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_27_OR_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0],vvLEPTON[probe][9]);
-                Eff_HT_WPTight_27_OR_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,HT);
-                Eff_numPV_WPTight_27_OR_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,numPV);
-                Eff_nJets_WPTight_27_OR_WPLoose_HT200_27-> FillWeighted(trigger_pass,tot_weight,nJets);
+                Eff_pt_WPTight_27_OR_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0]);
+                Eff_sceta_WPTight_27_OR_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9]);
+                Eff_phi_WPTight_27_OR_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][2]);
+                Eff_2d_WPTight_27_OR_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_HT_WPTight_27_OR_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,HT);
+                Eff_numPV_WPTight_27_OR_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,numPV);
+                Eff_nJets_WPTight_27_OR_WPLoose_27_HT200-> FillWeighted(trigger_pass,tot_weight,numJets);
 
-                Eff_pt_WPTight_27_OR_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0]);
-                Eff_sceta_WPTight_27_OR_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9]);
-                Eff_phi_WPTight_27_OR_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_27_OR_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0],vvLEPTON[probe][9]);
-                Eff_HT_WPTight_27_OR_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,HT);
-                Eff_numPV_WPTight_27_OR_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numPV);
-                Eff_nJets_WPTight_27_OR_WPLoose_HT200_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,nJets);
+                Eff_pt_WPTight_27_OR_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0]);
+                Eff_sceta_WPTight_27_OR_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9]);
+                Eff_phi_WPTight_27_OR_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][2]);
+                Eff_2d_WPTight_27_OR_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_HT_WPTight_27_OR_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,HT);
+                Eff_numPV_WPTight_27_OR_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numPV);
+                Eff_nJets_WPTight_27_OR_WPLoose_27_HT200_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numJets);
 
-                Eff_pt_WPTight_27_OR_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0]);
-                Eff_sceta_WPTight_27_OR_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9]);
-                Eff_phi_WPTight_27_OR_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_27_OR_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0],vvLEPTON[probe][9]);
-                Eff_HT_WPTight_27_OR_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,HT);
-                Eff_numPV_WPTight_27_OR_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,numPV);
-                Eff_nJets_WPTight_27_OR_WPLoose_HT200_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,nJets);
+                Eff_pt_WPTight_27_OR_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0]);
+                Eff_sceta_WPTight_27_OR_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9]);
+                Eff_phi_WPTight_27_OR_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][2]);
+                Eff_2d_WPTight_27_OR_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0],vvLEPTON[probe][9]);
+                Eff_HT_WPTight_27_OR_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,HT);
+                Eff_numPV_WPTight_27_OR_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,numPV);
+                Eff_nJets_WPTight_27_OR_WPLoose_27_HT200_GH-> FillWeighted(trigger_pass,tot_weight_GH,numJets);
 
-                effi_num_tight_27_or_loose_ht200_27 = effi_num_tight_27_or_loose_ht200_27 + trigger_pass*tot_weight;
-                effi_den_tight_27_or_loose_ht200_27 = effi_den_tight_27_or_loose_ht200_27 + tot_weight;
-                effi_num_tight_27_or_loose_ht200_27_BCDEF = effi_num_tight_27_or_loose_ht200_27_BCDEF + trigger_pass*tot_weight_BCDEF;
-                effi_den_tight_27_or_loose_ht200_27_BCDEF = effi_den_tight_27_or_loose_ht200_27_BCDEF + tot_weight_BCDEF;
-                effi_num_tight_27_or_loose_ht200_27_GH = effi_num_tight_27_or_loose_ht200_27_GH + trigger_pass*tot_weight_GH;
-                effi_den_tight_27_or_loose_ht200_27_GH = effi_den_tight_27_or_loose_ht200_27_GH + tot_weight_GH;
+                effi_num_tight_27_or_loose_27_ht200 = effi_num_tight_27_or_loose_27_ht200 + trigger_pass*tot_weight;
+                effi_den_tight_27_or_loose_27_ht200 = effi_den_tight_27_or_loose_27_ht200 + tot_weight;
+                effi_num_tight_27_or_loose_27_ht200_BCDEF = effi_num_tight_27_or_loose_27_ht200_BCDEF + trigger_pass*tot_weight_BCDEF;
+                effi_den_tight_27_or_loose_27_ht200_BCDEF = effi_den_tight_27_or_loose_27_ht200_BCDEF + tot_weight_BCDEF;
+                effi_num_tight_27_or_loose_27_ht200_GH = effi_num_tight_27_or_loose_27_ht200_GH + trigger_pass*tot_weight_GH;
+                effi_den_tight_27_or_loose_27_ht200_GH = effi_den_tight_27_or_loose_27_ht200_GH + tot_weight_GH;
                 
             }
 			
@@ -947,25 +1074,25 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   std::cout<<"Total No. of events : "<<N_total<<"\n";
   std::cout<<"No. of events passing event selection only : "<<N_eve<<"\n\n";
   std::cout<<"No. of events passing event selection plus WP_Loose_Ele27 Trigger : "<<N_eve_loose_27<<"\n";
-  std:cout<<"Combined Efficiency B to H :"<<effi_loose_27<<"\n";
-  std:cout<<"Efficiency B to F :"<<effi_loose_27_BCDEF<<"\n";
-  std:cout<<"Efficiency G and H :"<<effi_loose_27_GH<<"\n\n";
+  std::cout<<"Combined Efficiency B to H :"<<effi_loose_27<<"\n";
+  std::cout<<"Efficiency B to F :"<<effi_loose_27_BCDEF<<"\n";
+  std::cout<<"Efficiency G and H :"<<effi_loose_27_GH<<"\n\n";
   std::cout<<"No. of events passing event selection plus WP_Tight_Ele27 Trigger : "<<N_eve_tight_27<<"\n";
-  std:cout<<"Combined Efficiency B to H :"<<effi_tight_27<<"\n";
-  std:cout<<"Efficiency B to F :"<<effi_tight_27_BCDEF<<"\n";
-  std:cout<<"Efficiency G and H :"<<effi_tight_27_GH<<"\n\n";
+  std::cout<<"Combined Efficiency B to H :"<<effi_tight_27<<"\n";
+  std::cout<<"Efficiency B to F :"<<effi_tight_27_BCDEF<<"\n";
+  std::cout<<"Efficiency G and H :"<<effi_tight_27_GH<<"\n\n";
   std::cout<<"No. of events passing event selection plus WP_Tight_Ele32 Trigger : "<<N_eve_tight_32<<"\n";
-  std:cout<<"Combined Efficiency B to H :"<<effi_tight_32<<"\n";
-  std:cout<<"Efficiency B to F :"<<effi_tight_32_BCDEF<<"\n";
-  std:cout<<"Efficiency G and H :"<<effi_tight_32_GH<<"\n\n";
+  std::cout<<"Combined Efficiency B to H :"<<effi_tight_32<<"\n";
+  std::cout<<"Efficiency B to F :"<<effi_tight_32_BCDEF<<"\n";
+  std::cout<<"Efficiency G and H :"<<effi_tight_32_GH<<"\n\n";
   std::cout<<"No. of events passing event selection plus WP_Loose_Ele27_HT200 Trigger : "<<N_eve_loose_27_ht200<<"\n";
-  std:cout<<"Combined Efficiency B to H :"<<effi_loose_27_ht200<<"\n";
-  std:cout<<"Efficiency B to F :"<<effi_loose_27_ht200_BCDEF<<"\n";
-  std:cout<<"Efficiency G and H :"<<effi_loose_27_ht200_GH<<"\n\n";
+  std::cout<<"Combined Efficiency B to H :"<<effi_loose_27_ht200<<"\n";
+  std::cout<<"Efficiency B to F :"<<effi_loose_27_ht200_BCDEF<<"\n";
+  std::cout<<"Efficiency G and H :"<<effi_loose_27_ht200_GH<<"\n\n";
   std::cout<<"No. of events passing event selection plus WP_Tight_Ele27 OR WP_Loose_Ele27_HT200 Trigger : "<<N_eve_tight_27_OR_loose_27_ht200<<"\n";
-  std:cout<<"Combined Efficiency B to H :"<<effi_tight_27_or_loose_27_ht200<<"\n";
-  std:cout<<"Efficiency B to F :"<<effi_tight_27_or_loose_27_ht200_BCDEF<<"\n";
-  std:cout<<"Efficiency G and H :"<<effi_tight_27_or_loose_27_ht200_GH<<"\n\n";
+  std::cout<<"Combined Efficiency B to H :"<<effi_tight_27_or_loose_27_ht200<<"\n";
+  std::cout<<"Efficiency B to F :"<<effi_tight_27_or_loose_27_ht200_BCDEF<<"\n";
+  std::cout<<"Efficiency G and H :"<<effi_tight_27_or_loose_27_ht200_GH<<"\n\n";
   std::cout<<"Sum of Generator Weights for sample : "<<sum_gen_weight<<"\n";
   std::cout<<"**********************************************************************************************\n";
   histofile.Write();
