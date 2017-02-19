@@ -277,7 +277,7 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   double PU_GH_x[100], PU_GH_y[100];
 
 
-  std::vector<std::string> MET_filter_names;
+  std::vector<std::string> MET_filter_names_;
   inline bool Check_filters(edm::Handle<edm::TriggerResults>);
 
   inline void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
@@ -307,8 +307,8 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   //hltTag (iConfig.getParameter<string>("HLTsource")),
   //filterTag (iConfig.getParameter<string>("PATsource")),
   genTtbarIdToken_(consumes<int>(iConfig.getParameter<edm::InputTag>("genTtbarId"))),
-  isData_(iConfig.getParameter<bool>("isData")),
-  MET_filter_names(iConfig.getParameter<std::vector<string>>("MET_filter_names"))
+  isData_(iConfig.getParameter<bool>("isData"))
+  //MET_filter_names_(iConfig.getParameter<std::vector<string>>("MET_filter_names"))
 {
 
   //now do what ever initialization is needed
@@ -321,7 +321,11 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
  
   hltTag = iConfig.getUntrackedParameter<string>("HLTsource");
   filterTag = iConfig.getUntrackedParameter<string>("PATsource");
-  
+  MET_filter_names_ = iConfig.getUntrackedParameter<std::vector<string>>("MET_filter_names");
+
+  //for(int i=0; i<int(MET_filter_names_.size()); i++)
+  //     std::cout<<MET_filter_names_[i]<<"\n";
+
   gtReadoutRecordToken = consumes <L1GlobalTriggerReadoutRecord> (edm::InputTag(std::string("gtDigis"), std::string(""), std::string("RECO")));
 
   triggerResultsToken = consumes <edm::TriggerResults> (edm::InputTag(std::string("TriggerResults"), std::string(""), hltTag));
@@ -691,17 +695,17 @@ TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const 
 
 inline bool TriggerAnalyzer::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
 {
-    /*
+
     if (!filterResults.isValid()) {
         std::cerr << "Trigger results not valid for tag " << filterTag
         << std::endl;
         return 1;
     }
-    */
+
 
     bool pass = 1;
-    for (std::vector<std::string>::const_iterator filter = MET_filter_names.begin();
-         filter != MET_filter_names.end(); ++filter) {
+    for (std::vector<std::string>::const_iterator filter = MET_filter_names_.begin();
+         filter != MET_filter_names_.end(); ++filter) {
 
         unsigned int filterIndex;
         std::string pathName = *filter;

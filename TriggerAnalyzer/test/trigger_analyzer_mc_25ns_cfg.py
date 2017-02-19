@@ -96,7 +96,7 @@ process.triggeranalyzer = cms.EDAnalyzer('TriggerAnalyzer',
                                          #electronMVAcategories = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15Trig25nsV1Categories"),
                                          electronMVAvalues = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
                                          electronMVAcategories = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),
-                                         MET_filter_names = cms.vstring("Flag_HBHENoiseFilter', 'Flag_HBHENoiseIsoFilter', 'Flag_EcalDeadCellTriggerPrimitiveFilter', 'Flag_goodVertices', 'Flag_globalTightHalo2016Filter"),
+                                         MET_filter_names = cms.untracked.vstring("Flag_HBHENoiseFilter", "Flag_HBHENoiseIsoFilter", "Flag_EcalDeadCellTriggerPrimitiveFilter", "Flag_goodVertices", "Flag_globalTightHalo2016Filter"),
                                          badchcandfilter = cms.InputTag("BadChargedCandidateFilter"),
                                          badpfmufilter = cms.InputTag("BadPFMuonFilter"),
     )
