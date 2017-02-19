@@ -20,6 +20,8 @@ chmod 755 TriggerRun_run_recipe.sh
 
 ./TriggerRun_run_recipe.sh
 
+rm -rf TriggerRun2.git
+
 rm -rf TriggerRun_run_recipe.sh
 
 cd CMSSW_8_0_26_patch1/src/TriggerRun2/TriggerAnalyzer/
