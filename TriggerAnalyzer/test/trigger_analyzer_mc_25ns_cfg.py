@@ -68,6 +68,14 @@ runMetCorAndUncFromMiniAOD(process,
   isData=False,
 )
 
+process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+
+process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+
 process.source = cms.Source("PoolSource",
         fileNames = cms.untracked.vstring())
 
@@ -97,4 +105,7 @@ process.TFileService = cms.Service("TFileService",
 	fileName = cms.string('trigger_analyzer.root')
 )
 
-process.p = cms.Path(process.electronMVAValueMapProducer * process.fullPatMetSequence * process.triggeranalyzer)
+process.p = cms.Path(process.electronMVAValueMapProducer * process.fullPatMetSequence
+                     * process.BadPFMuonFilter
+                     * process.BadChargedCandidateFilter
+                     * process.triggeranalyzer)
