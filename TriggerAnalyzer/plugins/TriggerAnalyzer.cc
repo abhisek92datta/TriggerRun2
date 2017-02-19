@@ -278,7 +278,7 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
 
 
   std::vector<std::string> MET_filter_names;
-  inline bool Check_filters(edm::Handle<edm::TriggerResults>, std::vector<std::string>);
+  inline bool Check_filters(edm::Handle<edm::TriggerResults>);
 
   inline void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
   inline std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const int &, const double &, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
@@ -689,7 +689,7 @@ TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const 
   return outputJets;
 }
 
-inline bool Check_filters(edm::Handle<edm::TriggerResults> filterResults, std::vector<std::string> MET_filter_names)
+inline bool TriggerAnalyzer::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
 {
     /*
     if (!filterResults.isValid()) {
@@ -1684,7 +1684,7 @@ cout<<"f";
   eve->flt_name_   = flt_name;
 
   // MET Filters
-  bool met_filters = Check_filters(filterResults, MET_filter_names);
+  bool met_filters = Check_filters(filterResults);
   eve->met_filters = met_filters;
 
   bool filterbadPFMuon, filterbadChCandidate;
