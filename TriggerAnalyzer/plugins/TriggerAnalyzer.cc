@@ -278,7 +278,7 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
 
 
   std::vector<std::string> MET_filter_names;
-  inline bool Check_filters(edm::Handle<edm::TriggerResults>);
+  inline bool Check_filters(edm::Handle<edm::TriggerResults>, std::vector<std::string>);
 
   inline void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
   inline std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const int &, const double &, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
@@ -510,7 +510,7 @@ inline void TriggerAnalyzer::SetFactorizedJetCorrector(const sysType::sysType iS
     std::vector<JetCorrectorParameters> corrParams_G;
     std::vector<JetCorrectorParameters> corrParams_H;
 
-    if (isdata) {
+    if (isData_) {
 
         JetCorrectorParameters *L3JetPar_BCD = new JetCorrectorParameters(
                                                                           "data/JEC/Summer16_23Sep2016BCDV4_DATA_L3Absolute_AK4PFchs.txt");
@@ -627,7 +627,7 @@ TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const 
 
 	// JEC
 
-      if(!isData) {   // MC
+      if(!isData_) {   // MC
           _jetCorrector_MC->setJetPt(jet.pt());
           _jetCorrector_MC->setJetEta(jet.eta());
           _jetCorrector_MC->setJetA(jet.jetArea());
@@ -689,13 +689,15 @@ TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const 
   return outputJets;
 }
 
-inline bool CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
+inline bool Check_filters(edm::Handle<edm::TriggerResults> filterResults, std::vector<std::string> MET_filter_names)
 {
+    /*
     if (!filterResults.isValid()) {
         std::cerr << "Trigger results not valid for tag " << filterTag
         << std::endl;
         return 1;
     }
+    */
 
     bool pass = 1;
     for (std::vector<std::string>::const_iterator filter = MET_filter_names.begin();
@@ -703,7 +705,7 @@ inline bool CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterRes
 
         unsigned int filterIndex;
         std::string pathName = *filter;
-        filterIndex = filter_config.triggerIndex(pathName);
+        filterIndex = filter_config_.triggerIndex(pathName);
         if (filterIndex >= filterResults->size()){
             pass = pass*0;
             break;
@@ -1682,7 +1684,7 @@ cout<<"f";
   eve->flt_name_   = flt_name;
 
   // MET Filters
-  bool met_filters = Check_filters(filterResults);
+  bool met_filters = Check_filters(filterResults, MET_filter_names);
   eve->met_filters = met_filters;
 
   bool filterbadPFMuon, filterbadChCandidate;
