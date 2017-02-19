@@ -1,7 +1,5 @@
 voms-proxy-init -voms cms
 
-git cms-init
-
 git cms-merge-topic riga:badGlobalMuonTagger_fix
 
 git cms-merge-topic rafaellopesdesa:RegressionCheckNegEnergy
