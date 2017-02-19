@@ -6,15 +6,15 @@ git cms-init
 
 git cms-merge-topic riga:badGlobalMuonTagger_fix
 
-git cms-merge-topic rafaellopesdesa:RegressionCheckNegEnergy
+#git cms-merge-topic rafaellopesdesa:RegressionCheckNegEnergy
 
-git cms-merge-topic shervin86:Moriond2017_JEC_energyScales
+#git cms-merge-topic shervin86:Moriond2017_JEC_energyScales
 
-cd EgammaAnalysis/ElectronTools/data
+#cd EgammaAnalysis/ElectronTools/data
 
-git clone git@github.com:ECALELFS/ScalesSmearings.git
+#git clone git@github.com:ECALELFS/ScalesSmearings.git
 
-cd ../../..
+#cd ../../..
 
 mv ../../TriggerRun2.git .
 
