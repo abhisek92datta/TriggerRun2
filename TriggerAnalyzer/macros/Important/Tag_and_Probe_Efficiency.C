@@ -437,7 +437,13 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
 		bool GoodFirstPV = eve->goodFirstVertex_;
 		if(!GoodFirstPV) continue;
-		
+
+        // check MET Filters
+        bool met_filters_ = eve->met_filters;
+        bool filterbadChCandidate_ = eve->filterbadChCandidate;
+        bool filterbadPFMuon_ = eve->filterbadPFMuon;
+        if(!met_filters_ || !filterbadChCandidate_ || !filterbadPFMuon_)
+          continue;
 		
 		//Grab Specific Lepton information from trees
 		
@@ -469,10 +475,7 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		vdouble jet_eta = eve->jet_eta_;
 		vdouble jet_csv = eve->jet_csv_;
 
-        // FOR MC
         int isData = eve->isData_;
-        // FOR DATA
-        //int isData = 1;
 
         double PU_weight_lumi;
 		double gen_weight = eve->gen_weight_;
@@ -550,8 +553,8 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			 }
 			
 			else {
-			    if (isNonTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Non-Triggering MVA electron ID
-				//if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
+			    //if (isNonTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Non-Triggering MVA electron ID
+				if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
 				//if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {               // for Triggering MVA electron ID
 					numLooseEle++;
 					vdouble vlepton;
@@ -563,9 +566,9 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     vlepton.push_back(lepton_px[i]);
                     vlepton.push_back(lepton_py[i]);
                     vlepton.push_back(lepton_pz[i]);
-				    //Trigger SF and GSF SF not applied
+				    //Trigger, GSF and HIP SF not applied
 					//vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
-                    vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_hip_sf[i]);
+                    vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]);
                     vlepton.push_back(lepton_sc_eta[i]);
 					vvLEPTON.push_back(vlepton);
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {
@@ -586,7 +589,7 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 					jet1_pt = jet_pt[i];
 					jet1_csv = jet_csv[i];
 				}						
-				if ( jet_csv[i] > 0.8 )
+				if ( jet_csv[i] >= 0.8484 )
 					numTags++;
 			}
 		}
@@ -631,7 +634,7 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
         double deta, dphi, dR;
         bool trigger_pass = 0;
 
-        PU_weight_lumi = (PU_weight_BCDEF * 18.219  + PU_weight_GH * 16.146)/34.365 ;
+        PU_weight_lumi = (PU_weight_BCDEF * 19.717  + PU_weight_GH * 16.146)/35.863 ;
 
 		// PDF Weight, Q2 Weight not applied
 	    //tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*csv_weight*PU_weight*gen_weight;

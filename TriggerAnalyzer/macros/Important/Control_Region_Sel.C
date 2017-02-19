@@ -195,8 +195,14 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
 		bool GoodFirstPV = eve->goodFirstVertex_;
 		if(!GoodFirstPV) continue;
-		
-		
+
+        // check MET Filters
+        bool met_filters_ = eve->met_filters;
+        bool filterbadChCandidate_ = eve->filterbadChCandidate;
+        bool filterbadPFMuon_ = eve->filterbadPFMuon;
+        if(!met_filters_ || !filterbadChCandidate_ || !filterbadPFMuon_)
+            continue;
+
 		//Grab Specific Lepton information from trees
 		
 		int event_nr = eve->evt_;
@@ -227,7 +233,33 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		vdouble jet_pt = eve->jet_pt_;
 		vdouble jet_eta = eve->jet_eta_;
 		vdouble jet_csv = eve->jet_csv_;
-		
+
+        int isData = eve->isData_;
+
+        double PU_weight_lumi;
+        double PU_weight_B, PU_weight_C, PU_weight_D, PU_weight_E, PU_weight_F, PU_weight_G, PU_weight_H, PU_weight_BCDEF, PU_weight_GH;
+        if(!isData){
+            PU_weight_B = eve->PU_weight_B_;
+            PU_weight_C = eve->PU_weight_C_;
+            PU_weight_D = eve->PU_weight_D_;
+            PU_weight_E = eve->PU_weight_E_;
+            PU_weight_F = eve->PU_weight_F_;
+            PU_weight_G = eve->PU_weight_G_;
+            PU_weight_H = eve->PU_weight_H_;
+            PU_weight_BCDEF = eve->PU_weight_BCDEF_;
+            PU_weight_GH = eve->PU_weight_GH_;
+        }
+        else{
+            PU_weight_B = 1;
+            PU_weight_C = 1;
+            PU_weight_D = 1;
+            PU_weight_E = 1;
+            PU_weight_F = 1;
+            PU_weight_G = 1;
+            PU_weight_H = 1;
+            PU_weight_BCDEF = 1;
+            PU_weight_GH = 1;
+        }
 		double gen_weight = eve->gen_weight_;
   		double csv_weight = eve->csv_weight_;
   		double PU_weight = eve->PU_weight_ ;
@@ -262,8 +294,8 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			 }
 			
 			else {
-			    if (isNonTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Non-Triggering MVA electron ID
-				//if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
+			    //if (isNonTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Non-Triggering MVA electron ID
+				if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
 				//if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {               // for Triggering MVA electron ID
 					numLooseEle++;
 					vdouble vlepton;
@@ -271,13 +303,14 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 					vlepton.push_back(lepton_eta[i]);
 					vlepton.push_back(lepton_phi[i]);
 					vlepton.push_back(lepton_energy[i]);
-				        vlepton.push_back(lepton_charge[i]);
-				        vlepton.push_back(lepton_px[i]);
-				        vlepton.push_back(lepton_py[i]);
-				        vlepton.push_back(lepton_pz[i]);
-				    //Trigger SF not applied
-					vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
-					vvLEPTON.push_back(vlepton);
+                    vlepton.push_back(lepton_charge[i]);
+                    vlepton.push_back(lepton_px[i]);
+                    vlepton.push_back(lepton_py[i]);
+                    vlepton.push_back(lepton_pz[i]);
+				    //Trigger, GSF and HIP SF not applied
+					//vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
+                    vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]);
+                    vvLEPTON.push_back(vlepton);
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {
 						numTightEle++;
 					}
@@ -296,7 +329,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 					jet1_pt = jet_pt[i];
 					jet1_csv = jet_csv[i];
 				}						
-				if ( jet_csv[i] > 0.8 )
+				if ( jet_csv[i] >= 0.8484 )
 					numTags++;
 			}
 		}
@@ -306,7 +339,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
 		if(numMu!=0)continue;
 		if(numLooseEle!=2)continue;
-		if(numTightEle<1)continue;
+		if(numTightEle!=2)continue;
 		
 	        if((vvLEPTON[0][4]*vvLEPTON[1][4]) == -1)
 	          opp_charge = 1;
@@ -340,12 +373,11 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		if (pass_WPLoose_27_HT200 ==1 || pass_WPTight_27 ==1 ) 
 			pass_WPTight_27_OR_WPLoose_27_HT200 = 1;
 
-
-        //vvLEPTON[0][8] = 1; // for Data
-        //vvLEPTON[1][8] = 1; // for Data
+        PU_weight_lumi = (PU_weight_BCDEF * 19.717  + PU_weight_GH * 16.146)/35.863 ;
 
 		// PDF Weight, Q2 Weight not applied
-	    tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*csv_weight*PU_weight*gen_weight;
+	    //tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*csv_weight*PU_weight*gen_weight;
+        tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*csv_weight*PU_weight_lumi*gen_weight;
 	
 		// Fill Histograms
 		

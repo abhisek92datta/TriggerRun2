@@ -33,7 +33,7 @@ void combine_control_region() {
 	
 	TH1::SetDefaultSumw2();
 	
-	double L = 35.2733; // 1/fb
+	double L = 35.863; // 1/fb
 	//double L = 11.395; // 1/fb
 	
 	TFile *f1 = new TFile("Control_Region_mc_dy.root");

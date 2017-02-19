@@ -147,6 +147,9 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT <reco::GenParticleCollection> mcparicleToken;
   //edm::EDGetTokenT <std::vector< PileupSummaryInfo > > puInfoToken;
 
+  edm::EDGetTokenT<bool> BadChCandFilterToken;
+  edm::EDGetTokenT<bool> BadPFMuonFilterToken;
+
   edm::EDGetTokenT <GenEventInfoProduct> genInfoProductToken;
   edm::EDGetTokenT <LHEEventProduct> lheEventProductToken;
 
@@ -225,15 +228,32 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   TH1D* h_numSecVtx;
   
   TRandom3 *r;
-  
-  FactorizedJetCorrector* _jetCorrector;
-  JetCorrectionUncertainty* _jetCorrectorUnc;
+
+  // for JEC
+  FactorizedJetCorrector *_jetCorrector_MC;
+  FactorizedJetCorrector *_jetCorrector_BCD;
+  FactorizedJetCorrector *_jetCorrector_EF;
+  FactorizedJetCorrector *_jetCorrector_G;
+  FactorizedJetCorrector *_jetCorrector_H;
+  JetCorrectionUncertainty *_jetCorrectorUnc;
+
+  // for JER
+  std::vector<double>    JER_etaMin;
+  std::vector<double>    JER_etaMax;
+  std::vector<double>    JER_rhoMin;
+  std::vector<double>    JER_rhoMax;
+  std::vector<double>    JER_PtMin;
+  std::vector<double>    JER_PtMax;
+  std::vector<double>    JER_Par0;
+  std::vector<double>    JER_Par1;
+  std::vector<double>    JER_Par2;
+  std::vector<double>    JER_Par3;
 
   MiniAODHelper miniAODhelper;
   LeptonSFHelper leptonSFhelper;
   
   // for PDF weight
-  LHAPDF::PDFSet *NNPDF30_nlo_as_0118_PDFSet;
+  LHAPDF::PDFSet *PDF4LHC15_nlo_30_PDFSet;
   std::vector<LHAPDF::PDF *> _systPDFs;
   
   // for b-weights
@@ -257,8 +277,11 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   double PU_GH_x[100], PU_GH_y[100];
 
 
+  std::vector<std::string> MET_filter_names;
+  inline bool Check_filters(edm::Handle<edm::TriggerResults>);
+
   inline void SetFactorizedJetCorrector(const sysType::sysType iSysType=sysType::NA);
-  inline std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const double &, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
+  inline std::vector<pat::Jet> GetCorrectedJets(const std::vector<pat::Jet>&, const int &, const double &, const sysType::sysType iSysType=sysType::NA, const float& corrFactor = 1, const float& uncFactor = 1);
  
   inline double getPDFweight(const edm::Handle<GenEventInfoProduct> &, const int );
   inline double getPUweight(edm::Handle<std::vector<PileupSummaryInfo>>, const int );
@@ -284,11 +307,11 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   //hltTag (iConfig.getParameter<string>("HLTsource")),
   //filterTag (iConfig.getParameter<string>("PATsource")),
   genTtbarIdToken_(consumes<int>(iConfig.getParameter<edm::InputTag>("genTtbarId"))),
-  isData_(iConfig.getParameter<bool>("isData"))
+  isData_(iConfig.getParameter<bool>("isData")),
+  MET_filter_names(iConfig.getParameter<std::vector<string>>("MET_filter_names"))
 {
 
-//cout<<" 123152365473542384765 ";
-   //now do what ever initialization is needed
+  //now do what ever initialization is needed
   verbose_ = false;
   debug_ = false;
   dumpHLT_ = false;
@@ -311,8 +334,8 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   secondaryVertexToken = consumes <reco::VertexCompositePtrCandidateCollection> (edm::InputTag(std::string("slimmedSecondaryVertices")));
   electronToken = consumes <edm::View<pat::Electron> > (edm::InputTag(std::string("slimmedElectrons")));
   muonToken = consumes <pat::MuonCollection> (edm::InputTag(std::string("slimmedMuons")));
-  //jetToken = consumes <pat::JetCollection> (edm::InputTag(std::string("slimmedJets")));
-  jetToken = consumes <pat::JetCollection> (edm::InputTag(std::string("selectedUpdatedPatJets")));
+  jetToken = consumes <pat::JetCollection> (edm::InputTag(std::string("slimmedJets")));
+  //jetToken = consumes <pat::JetCollection> (edm::InputTag(std::string("selectedUpdatedPatJets")));
   //pfMetToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETs")));
   pfMetToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETs"),std::string(""),std::string("MAOD")));
   //pfMetNoHFToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETsNoHF")));
@@ -320,6 +343,9 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   pfMetNoHFToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETs")));
   puppiMetToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETsPuppi")));
   token_genjets = consumes<reco::GenJetCollection>(edm::InputTag(std::string("slimmedGenJets")));
+
+  BadChCandFilterToken = consumes<bool>(iConfig.getParameter<edm::InputTag>("badchcandfilter"));
+  BadPFMuonFilterToken = consumes<bool>(iConfig.getParameter<edm::InputTag>("badpfmufilter"));
 
   packedpfToken = consumes <pat::PackedCandidateCollection> (edm::InputTag(std::string("packedPFCandidates")));
 
@@ -392,69 +418,69 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   
   // Set up b-weights
   inputFileHF =
-    	  "data/csv_weights/csv_rwt_fit_hf_v2_final_2016_09_7test.root";
+    	  "data/csv_weights/csv_rwt_fit_hf_v2_final_2017_1_10test.root";
     inputFileLF =
-    	  "data/csv_weights/csv_rwt_fit_lf_v2_final_2016_09_7test.root";
+    	  "data/csv_weights/csv_rwt_fit_lf_v2_final_2017_1_10test.root";
     f_CSVwgt_HF = new TFile((inputFileHF).c_str());
     f_CSVwgt_LF = new TFile((inputFileLF).c_str());
     fillCSVHistos(f_CSVwgt_HF, f_CSVwgt_LF);
 
   // Set up PU_weights
     ifstream fin;
-    fin.open("data/PU_weight/PU_weights.txt");
+    fin.open("data/PU_weight/PU_weight.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_x[i] >> PU_y[i];
     }
     fin.close();
-    fin.open("data/PU_weight/PU_weights_B.txt");
+    fin.open("data/PU_weight/PU_weight_B.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_B_x[i] >> PU_B_y[i];
     }
     fin.close();
-    fin.open("data/PU_weight/PU_weights_C.txt");
+    fin.open("data/PU_weight/PU_weight_C.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_C_x[i] >> PU_C_y[i];
     }
     fin.close();
-    fin.open("data/PU_weight/PU_weights_D.txt");
+    fin.open("data/PU_weight/PU_weight_D.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_D_x[i] >> PU_D_y[i];
     }
     fin.close();
-    fin.open("data/PU_weight/PU_weights_E.txt");
+    fin.open("data/PU_weight/PU_weight_E.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_E_x[i] >> PU_E_y[i];
     }
     fin.close();
-    fin.open("data/PU_weight/PU_weights_F.txt");
+    fin.open("data/PU_weight/PU_weight_F.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_F_x[i] >> PU_F_y[i];
     }
     fin.close();
-    fin.open("data/PU_weight/PU_weights_G.txt");
+    fin.open("data/PU_weight/PU_weight_G.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_G_x[i] >> PU_G_y[i];
     }
     fin.close();
-    fin.open("data/PU_weight/PU_weights_H.txt");
+    fin.open("data/PU_weight/PU_weight_H.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_H_x[i] >> PU_H_y[i];
     }
     fin.close();
-    fin.open("data/PU_weight/PU_weights_BCDEF.txt");
+    fin.open("data/PU_weight/PU_weight_BCDEF.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_BCDEF_x[i] >> PU_BCDEF_y[i];
     }
     fin.close();
-    fin.open("data/PU_weight/PU_weights_GH.txt");
+    fin.open("data/PU_weight/PU_weight_GH.txt");
     for (int i = 0; i < 75; ++i) {
         fin >> PU_GH_x[i] >> PU_GH_y[i];
     }
     fin.close();
 
-  // Set up PDF_weights
-  NNPDF30_nlo_as_0118_PDFSet = new LHAPDF::PDFSet("NNPDF30_nlo_as_0118");
-  _systPDFs = NNPDF30_nlo_as_0118_PDFSet->mkPDFs();
+    // Set up PDF_weights
+    PDF4LHC15_nlo_30_PDFSet = new LHAPDF::PDFSet("PDF4LHC15_nlo_30");
+    _systPDFs = PDF4LHC15_nlo_30_PDFSet->mkPDFs();
 
 }
 
@@ -465,7 +491,7 @@ TriggerAnalyzer::~TriggerAnalyzer()
    // do anything here that needs to be done at desctruction time
    // (e.g. close files, deallocate resources etc.)
    r->SetSeed(0);
-   delete NNPDF30_nlo_as_0118_PDFSet;
+   delete PDF4LHC15_nlo_30_PDFSet;
 }
 
 
@@ -477,51 +503,120 @@ TriggerAnalyzer::~TriggerAnalyzer()
 
 inline void TriggerAnalyzer::SetFactorizedJetCorrector(const sysType::sysType iSysType){
 
-    std::vector<JetCorrectorParameters> corrParams;	
-    if (isData_) {
-    
-    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_DATA_L3Absolute_AK4PFchs.txt");
-    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_DATA_L2Relative_AK4PFchs.txt");
-    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_DATA_L1FastJet_AK4PFchs.txt");
-    JetCorrectorParameters *L2L3JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_DATA_L2L3Residual_AK4PFchs.txt");
 
+    std::vector<JetCorrectorParameters> corrParams_MC;
+    std::vector<JetCorrectorParameters> corrParams_BCD;
+    std::vector<JetCorrectorParameters> corrParams_EF;
+    std::vector<JetCorrectorParameters> corrParams_G;
+    std::vector<JetCorrectorParameters> corrParams_H;
 
-    corrParams.push_back(*L1JetPar);
-    corrParams.push_back(*L2JetPar);
-    corrParams.push_back(*L3JetPar);
-    corrParams.push_back(*L2L3JetPar);
-    _jetCorrector = new FactorizedJetCorrector(corrParams);
+    if (isdata) {
 
-    std::string _JESUncFile = "data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt";		
-    _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
-    
-    delete L3JetPar;
-    delete L2JetPar;
-    delete L1JetPar;
-    delete L2L3JetPar;
+        JetCorrectorParameters *L3JetPar_BCD = new JetCorrectorParameters(
+                                                                          "data/JEC/Summer16_23Sep2016BCDV4_DATA_L3Absolute_AK4PFchs.txt");
+        JetCorrectorParameters *L2JetPar_BCD = new JetCorrectorParameters(
+                                                                          "data/JEC/Summer16_23Sep2016BCDV4_DATA_L2Relative_AK4PFchs.txt");
+        JetCorrectorParameters *L1JetPar_BCD = new JetCorrectorParameters(
+                                                                          "data/JEC/Summer16_23Sep2016BCDV4_DATA_L1FastJet_AK4PFchs.txt");
+        JetCorrectorParameters *L2L3JetPar_BCD = new JetCorrectorParameters(
+                                                                            "data/JEC/Summer16_23Sep2016BCDV4_DATA_L2L3Residual_AK4PFchs.txt");
+
+        JetCorrectorParameters *L3JetPar_EF = new JetCorrectorParameters(
+                                                                         "data/JEC/Summer16_23Sep2016EFV4_DATA_L3Absolute_AK4PFchs.txt");
+        JetCorrectorParameters *L2JetPar_EF = new JetCorrectorParameters(
+                                                                         "data/JEC/Summer16_23Sep2016EFV4_DATA_L2Relative_AK4PFchs.txt");
+        JetCorrectorParameters *L1JetPar_EF = new JetCorrectorParameters(
+                                                                         "data/JEC/Summer16_23Sep2016EFV4_DATA_L1FastJet_AK4PFchs.txt");
+        JetCorrectorParameters *L2L3JetPar_EF = new JetCorrectorParameters(
+                                                                           "data/JEC/Summer16_23Sep2016EFV4_DATA_L2L3Residual_AK4PFchs.txt");
+
+        JetCorrectorParameters *L3JetPar_G = new JetCorrectorParameters(
+                                                                        "data/JEC/Summer16_23Sep2016GV4_DATA_L3Absolute_AK4PFchs.txt");
+        JetCorrectorParameters *L2JetPar_G = new JetCorrectorParameters(
+                                                                        "data/JEC/Summer16_23Sep2016GV4_DATA_L2Relative_AK4PFchs.txt");
+        JetCorrectorParameters *L1JetPar_G = new JetCorrectorParameters(
+                                                                        "data/JEC/Summer16_23Sep2016GV4_DATA_L1FastJet_AK4PFchs.txt");
+        JetCorrectorParameters *L2L3JetPar_G = new JetCorrectorParameters(
+                                                                          "data/JEC/Summer16_23Sep2016GV4_DATA_L2L3Residual_AK4PFchs.txt");
+
+        JetCorrectorParameters *L3JetPar_H = new JetCorrectorParameters(
+                                                                        "data/JEC/Summer16_23Sep2016HV4_DATA_L3Absolute_AK4PFchs.txt");
+        JetCorrectorParameters *L2JetPar_H = new JetCorrectorParameters(
+                                                                        "data/JEC/Summer16_23Sep2016HV4_DATA_L2Relative_AK4PFchs.txt");
+        JetCorrectorParameters *L1JetPar_H = new JetCorrectorParameters(
+                                                                        "data/JEC/Summer16_23Sep2016HV4_DATA_L1FastJet_AK4PFchs.txt");
+        JetCorrectorParameters *L2L3JetPar_H = new JetCorrectorParameters(
+                                                                          "data/JEC/Summer16_23Sep2016HV4_DATA_L2L3Residual_AK4PFchs.txt");
+
+        corrParams_BCD.push_back(*L1JetPar_BCD);
+        corrParams_BCD.push_back(*L2JetPar_BCD);
+        corrParams_BCD.push_back(*L3JetPar_BCD);
+        corrParams_BCD.push_back(*L2L3JetPar_BCD);
+        _jetCorrector_BCD = new FactorizedJetCorrector(corrParams_BCD);
+        corrParams_EF.push_back(*L1JetPar_EF);
+        corrParams_EF.push_back(*L2JetPar_EF);
+        corrParams_EF.push_back(*L3JetPar_EF);
+        corrParams_EF.push_back(*L2L3JetPar_EF);
+        _jetCorrector_EF = new FactorizedJetCorrector(corrParams_EF);
+        corrParams_G.push_back(*L1JetPar_G);
+        corrParams_G.push_back(*L2JetPar_G);
+        corrParams_G.push_back(*L3JetPar_G);
+        corrParams_G.push_back(*L2L3JetPar_G);
+        _jetCorrector_G = new FactorizedJetCorrector(corrParams_G);
+        corrParams_H.push_back(*L1JetPar_H);
+        corrParams_H.push_back(*L2JetPar_H);
+        corrParams_H.push_back(*L3JetPar_H);
+        corrParams_H.push_back(*L2L3JetPar_H);
+        _jetCorrector_H = new FactorizedJetCorrector(corrParams_H);
+
+        std::string _JESUncFile =
+        "data/JEC/Spring16_25nsV6_DATA_Uncertainty_AK4PFchs.txt";
+        _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
+
+        delete L3JetPar_BCD;
+        delete L2JetPar_BCD;
+        delete L1JetPar_BCD;
+        delete L2L3JetPar_BCD;
+        delete L3JetPar_EF;
+        delete L2JetPar_EF;
+        delete L1JetPar_EF;
+        delete L2L3JetPar_EF;
+        delete L3JetPar_G;
+        delete L2JetPar_G;
+        delete L1JetPar_G;
+        delete L2L3JetPar_G;
+        delete L3JetPar_H;
+        delete L2JetPar_H;
+        delete L1JetPar_H;
+        delete L2L3JetPar_H;
+
     }
     
-    else {	
-    JetCorrectorParameters *L3JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_MC_L3Absolute_AK4PFchs.txt");
-    JetCorrectorParameters *L2JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_MC_L2Relative_AK4PFchs.txt");
-    JetCorrectorParameters *L1JetPar  = new JetCorrectorParameters("data/JEC/Spring16_25nsV6_MC_L1FastJet_AK4PFchs.txt");
-
-    corrParams.push_back(*L1JetPar);
-    corrParams.push_back(*L2JetPar);
-    corrParams.push_back(*L3JetPar);
-    _jetCorrector = new FactorizedJetCorrector(corrParams);
-
-    std::string _JESUncFile = "data/JEC/Spring16_25nsV6_MC_Uncertainty_AK4PFchs.txt";	
-    _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
-    
-    delete L3JetPar;
-    delete L2JetPar;
-    delete L1JetPar;
+    else {
+        JetCorrectorParameters *L3JetPar = new JetCorrectorParameters(
+                                                                      "data/JEC/Summer16_23Sep2016V4_MC_L3Absolute_AK4PFchs.txt");
+        JetCorrectorParameters *L2JetPar = new JetCorrectorParameters(
+                                                                      "data/JEC/Summer16_23Sep2016V4_MC_L2Relative_AK4PFchs.txt");
+        JetCorrectorParameters *L1JetPar = new JetCorrectorParameters(
+                                                                      "data/JEC/Summer16_23Sep2016V4_MC_L1FastJet_AK4PFchs.txt");
+        
+        corrParams_MC.push_back(*L1JetPar);
+        corrParams_MC.push_back(*L2JetPar);
+        corrParams_MC.push_back(*L3JetPar);
+        _jetCorrector_MC = new FactorizedJetCorrector(corrParams_MC);
+        
+        std::string _JESUncFile =
+        "data/JEC/Summer16_23Sep2016V4_MC_Uncertainty_AK4PFchs.txt";
+        _jetCorrectorUnc = new JetCorrectionUncertainty(_JESUncFile);
+        
+        delete L3JetPar;
+        delete L2JetPar;
+        delete L1JetPar;
     }
 }
 
 inline std::vector<pat::Jet> 
-TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const double &rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
+TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const int &run_nr, const double &rho, const sysType::sysType iSysType, const float& corrFactor , const float& uncFactor ){
 	
   std::vector<pat::Jet> outputJets;
 
@@ -532,13 +627,45 @@ TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const 
 
 	// JEC
 
-    _jetCorrector->setJetPt(jet.pt());
-    _jetCorrector->setJetEta(jet.eta());
-    _jetCorrector->setJetA(jet.jetArea());
-    _jetCorrector->setRho(rho); //=fixedGridRhoFastjetAll
+      if(!isData) {   // MC
+          _jetCorrector_MC->setJetPt(jet.pt());
+          _jetCorrector_MC->setJetEta(jet.eta());
+          _jetCorrector_MC->setJetA(jet.jetArea());
+          _jetCorrector_MC->setRho(rho); //=fixedGridRhoFastjetAll
+          scale = _jetCorrector_MC->getCorrection();
+      }
+      else {         // DATA
+          if( run_nr>=272007 && run_nr<=276811 ) {
+              _jetCorrector_BCD->setJetPt(jet.pt());
+              _jetCorrector_BCD->setJetEta(jet.eta());
+              _jetCorrector_BCD->setJetA(jet.jetArea());
+              _jetCorrector_BCD->setRho(rho); //=fixedGridRhoFastjetAll
+              scale = _jetCorrector_BCD->getCorrection();
+          }
+          else if( run_nr>=276831 && run_nr<=278801 ) {
+              _jetCorrector_EF->setJetPt(jet.pt());
+              _jetCorrector_EF->setJetEta(jet.eta());
+              _jetCorrector_EF->setJetA(jet.jetArea());
+              _jetCorrector_EF->setRho(rho); //=fixedGridRhoFastjetAll
+              scale = _jetCorrector_EF->getCorrection();
+          }
+          else if( run_nr>=278802 && run_nr<=280385 ) {
+              _jetCorrector_G->setJetPt(jet.pt());
+              _jetCorrector_G->setJetEta(jet.eta());
+              _jetCorrector_G->setJetA(jet.jetArea());
+              _jetCorrector_G->setRho(rho); //=fixedGridRhoFastjetAll
+              scale = _jetCorrector_G->getCorrection();
+          }
+          else if( run_nr>=280919 && run_nr<=284044 ) {
+              _jetCorrector_H->setJetPt(jet.pt());
+              _jetCorrector_H->setJetEta(jet.eta());
+              _jetCorrector_H->setJetA(jet.jetArea());
+              _jetCorrector_H->setRho(rho); //=fixedGridRhoFastjetAll
+              scale = _jetCorrector_H->getCorrection();
+          }
+      }
 
-    scale = _jetCorrector->getCorrection();
-    jet.scaleEnergy( scale );
+      jet.scaleEnergy(scale);
 
     if( iSysType == sysType::JESup || iSysType == sysType::JESdown ){
       _jetCorrectorUnc->setJetPt(jet.pt());
@@ -562,13 +689,43 @@ TriggerAnalyzer::GetCorrectedJets(const std::vector<pat::Jet>& inputJets, const 
   return outputJets;
 }
 
+inline bool CU_ttH_EDA::Check_filters(edm::Handle<edm::TriggerResults> filterResults)
+{
+    if (!filterResults.isValid()) {
+        std::cerr << "Trigger results not valid for tag " << filterTag
+        << std::endl;
+        return 1;
+    }
+
+    bool pass = 1;
+    for (std::vector<std::string>::const_iterator filter = MET_filter_names.begin();
+         filter != MET_filter_names.end(); ++filter) {
+
+        unsigned int filterIndex;
+        std::string pathName = *filter;
+        filterIndex = filter_config.triggerIndex(pathName);
+        if (filterIndex >= filterResults->size()){
+            pass = pass*0;
+            break;
+        }
+        if (filterResults->accept(filterIndex))
+            pass=pass*1;
+        else {
+            pass = pass*0;
+            break;
+        }
+    }
+
+    return pass;
+}
+
 inline double TriggerAnalyzer::getPDFweight(const edm::Handle<GenEventInfoProduct> &genInfos, const int option)
 {
     auto pdfInfos = genInfos->pdf();
     double pdfNominal = pdfInfos->xPDF.first * pdfInfos->xPDF.second;
    
     std::vector<double> pdfs;
-    for (size_t j = 0; j < NNPDF30_nlo_as_0118_PDFSet->size(); ++j) {
+    for (size_t j = 0; j < PDF4LHC15_nlo_30_PDFSet->size(); ++j) {
         double xpdf1 = _systPDFs[j]->xfxQ(pdfInfos->id.first, pdfInfos->x.first,
                                           pdfInfos->scalePDF);
         double xpdf2 = _systPDFs[j]->xfxQ(
@@ -577,7 +734,7 @@ inline double TriggerAnalyzer::getPDFweight(const edm::Handle<GenEventInfoProduc
     }
 
     const LHAPDF::PDFUncertainty pdfUnc =
-        NNPDF30_nlo_as_0118_PDFSet->uncertainty(pdfs, 68.);
+        PDF4LHC15_nlo_30_PDFSet->uncertainty(pdfs, 68.);
 
 	double weight = 1.0;
     double weight_up = 1.0;
@@ -1524,6 +1681,21 @@ cout<<"f";
   eve->flt_accept_ = flt_accept;
   eve->flt_name_   = flt_name;
 
+  // MET Filters
+  bool met_filters = Check_filters(filterResults);
+  eve->met_filters = met_filters;
+
+  bool filterbadPFMuon, filterbadChCandidate;
+  filterbadChCandidate = filterbadPFMuon = 0;
+  edm::Handle<bool> ifilterbadChCand;
+  edm:: Handle<bool> ifilterbadPFMuon;
+  iEvent.getByToken(BadChCandFilterToken, ifilterbadChCand);
+  iEvent.getByToken(BadPFMuonFilterToken, ifilterbadPFMuon);
+  filterbadChCandidate = *ifilterbadChCand;
+  filterbadPFMuon = *ifilterbadPFMuon;
+  eve->filterbadChCandidate = filterbadChCandidate;
+  eve->filterbadPFMuon = filterbadPFMuon;
+
   if( debug_ ) std::cout << " ====> test 7 " << std::endl;
 
 
@@ -1883,7 +2055,7 @@ cout<<"f";
   else 
   	doJER = 1;
   // JEC
-  std::vector<pat::Jet> correctedJets_noSys = GetCorrectedJets(rawJets, rho_event, sysType::NA);
+  std::vector<pat::Jet> correctedJets_noSys = GetCorrectedJets(rawJets, run, rho_event, sysType::NA);
   // JER
   correctedJets_noSys = miniAODhelper.GetCorrectedJets(correctedJets_noSys, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
@@ -1911,7 +2083,7 @@ cout<<"f";
   std::vector<pat::Jet> rawJets_nocc = miniAODhelper.GetUncorrectedJets(pfJets_ID);
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> correctedJets_nocc_noSys = GetCorrectedJets(rawJets_nocc, rho_event, sysType::NA);
+  std::vector<pat::Jet> correctedJets_nocc_noSys = GetCorrectedJets(rawJets_nocc, run, rho_event, sysType::NA);
   // JER
   correctedJets_nocc_noSys = miniAODhelper.GetCorrectedJets(correctedJets_nocc_noSys, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
@@ -1930,7 +2102,7 @@ cout<<"f";
   std::vector<pat::Jet> oldJetsForMET_uncorr = miniAODhelper.GetUncorrectedJets(oldJetsForMET);
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> newJetsForMET = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::NA);
+  std::vector<pat::Jet> newJetsForMET = GetCorrectedJets(oldJetsForMET_uncorr, run, rho_event, sysType::NA);
   // JER
   newJetsForMET = miniAODhelper.GetCorrectedJets(newJetsForMET, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
@@ -1955,7 +2127,7 @@ cout<<"f";
   // JESup
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> newJetsForMET_JESup = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::JESup);
+  std::vector<pat::Jet> newJetsForMET_JESup = GetCorrectedJets(oldJetsForMET_uncorr, run, rho_event, sysType::JESup);
   // JER
   newJetsForMET_JESup = miniAODhelper.GetCorrectedJets(newJetsForMET_JESup, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
@@ -1975,7 +2147,7 @@ cout<<"f";
   // JESdown
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> newJetsForMET_JESdown = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::JESdown);
+  std::vector<pat::Jet> newJetsForMET_JESdown = GetCorrectedJets(oldJetsForMET_uncorr, run, rho_event, sysType::JESdown);
   // JER
   newJetsForMET_JESdown = miniAODhelper.GetCorrectedJets(newJetsForMET_JESdown, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
 
@@ -1996,7 +2168,7 @@ cout<<"f";
   // JERup
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> newJetsForMET_JERup = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::NA);
+  std::vector<pat::Jet> newJetsForMET_JERup = GetCorrectedJets(oldJetsForMET_uncorr, run, rho_event, sysType::NA);
   // JER
   newJetsForMET_JERup = miniAODhelper.GetCorrectedJets(newJetsForMET_JERup, iEvent, iSetup, genjets, r, sysType::JERup, 0, doJER);
 
@@ -2016,7 +2188,7 @@ cout<<"f";
   // JERdown
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> newJetsForMET_JERdown = GetCorrectedJets(oldJetsForMET_uncorr, rho_event, sysType::NA);
+  std::vector<pat::Jet> newJetsForMET_JERdown = GetCorrectedJets(oldJetsForMET_uncorr, run, rho_event, sysType::NA);
   // JER
   newJetsForMET_JERdown = miniAODhelper.GetCorrectedJets(newJetsForMET_JERdown, iEvent, iSetup, genjets, r, sysType::JERdown, 0, doJER);
  
@@ -2122,7 +2294,7 @@ cout<<"f";
   // JESUp
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> correctedJets_JESup = GetCorrectedJets(rawJets, rho_event, sysType::JESup);
+  std::vector<pat::Jet> correctedJets_JESup = GetCorrectedJets(rawJets, run, rho_event, sysType::JESup);
   // JER
   correctedJets_JESup = miniAODhelper.GetCorrectedJets(correctedJets_JESup, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
  
@@ -2168,7 +2340,7 @@ cout<<"f";
   // JESDown
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> correctedJets_JESdown = GetCorrectedJets(rawJets, rho_event, sysType::JESdown);
+  std::vector<pat::Jet> correctedJets_JESdown = GetCorrectedJets(rawJets, run, rho_event, sysType::JESdown);
   // JER
   correctedJets_JESdown = miniAODhelper.GetCorrectedJets(correctedJets_JESdown, iEvent, iSetup, genjets, r, sysType::NA, 0, doJER);
   
@@ -2213,7 +2385,7 @@ cout<<"f";
   // JERUp
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> correctedJets_JERup = GetCorrectedJets(rawJets, rho_event, sysType::NA);
+  std::vector<pat::Jet> correctedJets_JERup = GetCorrectedJets(rawJets, run, rho_event, sysType::NA);
   // JER
   correctedJets_JERup = miniAODhelper.GetCorrectedJets(correctedJets_JERup, iEvent, iSetup, genjets, r, sysType::JERup, 0, doJER);
  
@@ -2259,7 +2431,7 @@ cout<<"f";
   // JERDown
   // Use JEC from GT
   // JEC
-  std::vector<pat::Jet> correctedJets_JERdown = GetCorrectedJets(rawJets, rho_event, sysType::NA);
+  std::vector<pat::Jet> correctedJets_JERdown = GetCorrectedJets(rawJets, run, rho_event, sysType::NA);
   // JER
   correctedJets_JERdown = miniAODhelper.GetCorrectedJets(correctedJets_JERdown, iEvent, iSetup, genjets, r, sysType::JERdown, 0, doJER);
   

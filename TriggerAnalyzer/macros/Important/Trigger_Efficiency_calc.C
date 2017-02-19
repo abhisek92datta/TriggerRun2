@@ -261,8 +261,14 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		
 		bool GoodFirstPV = eve->goodFirstVertex_;
 		if(!GoodFirstPV) continue;
-		
-		
+
+        // check MET Filters
+        bool met_filters_ = eve->met_filters;
+        bool filterbadChCandidate_ = eve->filterbadChCandidate;
+        bool filterbadPFMuon_ = eve->filterbadPFMuon;
+        if(!met_filters_ || !filterbadChCandidate_ || !filterbadPFMuon_)
+            continue;
+
 		//Grab Specific Lepton information from trees
 		
 		int event_nr = eve->evt_;
@@ -304,8 +310,8 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			 }
 			
 			else {
-			    if (isNonTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Non-Triggering MVA electron ID
-				//if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
+			    //if (isNonTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Non-Triggering MVA electron ID
+				if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
 				//if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {               // for Triggering MVA electron ID
 					numLooseEle++;
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {
@@ -325,7 +331,7 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			if ( jet_pt[i]>30 && fabs(jet_eta[i])<2.4 ) {
 				numJets++;
 				HT = HT + jet_pt[i];
-				if ( jet_csv[i] > 0.8 )
+				if ( jet_csv[i] >= 0.8484 )
 					numTags++;
 			}
 		}

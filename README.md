@@ -1,39 +1,28 @@
 # Trigger Analysis for Single Electron HLT
 
-voms-proxy-init -voms cms
+source /cvmfs/cms.cern.ch/cmsset_default.sh
 
-cmsrel CMSSW_8_0_20
+export SCRAM_ARCH="slc6_amd64_gcc530"
 
-cd CMSSW_8_0_20/src/
+cmsrel CMSSW_8_0_26_patch1
+
+cd CMSSW_8_0_26_patch1/src/
 
 cmsenv
 
-git cms-merge-topic cms-met:METRecipe_8020
-
 git clone https://github.com/abhisek92datta/TriggerRun2.git
 
-git clone https://github.com/abhisek92datta/MiniAOD.git
+cp TriggerRun2/TriggerRun_run_recipe.sh .
 
-cd MiniAOD
+chmod 755 TriggerRun_run_recipe.sh
 
-git checkout CMSSW_8_0_8_ICHEP_Leptons
-
-cd ..
-
-scramv1 b -j 32
-
-scramv1 b -j 32
-
-scramv1 b -j 32
+./TriggerRun_run_recipe.sh
 
 cd TriggerRun2/TriggerAnalyzer/
 
 RUN :
 
 For MC :
-
-Change -- HLTsource = cms.untracked.string("HLT") 
-in test/trigger_analyzer_mc_25ns_cfg.py
 
 To Run Locally:
 
@@ -55,9 +44,6 @@ To Run on CRAB :
 4. crab submit -c newCRAB_forMC.py
 
 For DATA :
-
-Change -- HLTsource = cms.untracked.string("HLT") 
-in test/trigger_analyzer_data_80x_cfg.py
 
 To Run Locally:
 

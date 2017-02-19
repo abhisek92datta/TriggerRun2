@@ -44,6 +44,10 @@ struct triggerStudyEventVars{
 
   double  wgt_generator_;
 
+  bool met_filter;
+  bool filterbadChCandidate;
+  bool filterbadPFMuon;
+
   int numJets_;
   int numTags_;
   int numPVs_;
@@ -411,6 +415,11 @@ void triggerStudyEventVars::initialize(){
   evt_ = -99;
 
   wgt_generator_ = -99.9;
+
+  met_filter = 0;
+  filterbadChCandidate = 0;
+  filterbadPFMuon = 0;
+
 
   numJets_ = -99;
   numTags_ = -99;
