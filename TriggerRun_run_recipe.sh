@@ -1,5 +1,9 @@
 voms-proxy-init -voms cms
 
+cd CMSSW_8_0_26_patch1/src/
+
+git cms-init
+
 git cms-merge-topic riga:badGlobalMuonTagger_fix
 
 git cms-merge-topic rafaellopesdesa:RegressionCheckNegEnergy
@@ -11,6 +15,8 @@ cd EgammaAnalysis/ElectronTools/data
 git clone git@github.com:ECALELFS/ScalesSmearings.git
 
 cd ../../..
+
+mv ../../TriggerRun2.git .
 
 git clone https://github.com/abhisek92datta/MiniAOD.git
 

@@ -10,6 +10,8 @@ cd CMSSW_8_0_26_patch1/src/
 
 cmsenv
 
+cd ../../
+
 git clone https://github.com/abhisek92datta/TriggerRun2.git
 
 cp TriggerRun2/TriggerRun_run_recipe.sh .
@@ -18,7 +20,9 @@ chmod 755 TriggerRun_run_recipe.sh
 
 ./TriggerRun_run_recipe.sh
 
-cd TriggerRun2/TriggerAnalyzer/
+rm -rf TriggerRun_run_recipe.sh
+
+cd CMSSW_8_0_26_patch1/src/TriggerRun2/TriggerAnalyzer/
 
 RUN :
 
