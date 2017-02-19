@@ -16,7 +16,7 @@ git cms-merge-topic riga:badGlobalMuonTagger_fix
 
 #cd ../../..
 
-mv ../../TriggerRun2.git .
+git clone https://github.com/abhisek92datta/TriggerRun2.git
 
 git clone https://github.com/abhisek92datta/MiniAOD.git
 
