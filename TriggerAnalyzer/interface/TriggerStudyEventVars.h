@@ -419,9 +419,10 @@ void triggerStudyEventVars::initialize(){
   wgt_generator_ = -99.9;
 
   met_filters = 0;
-  filterbadChCandidate = 0;
-  filterbadPFMuon = 0;
-
+  //filterbadChCandidate = 0;
+  //filterbadPFMuon = 0;
+  badGlobalMuonTagger = 0;
+  cloneGlobalMuonTagger = 0;
 
   numJets_ = -99;
   numTags_ = -99;
