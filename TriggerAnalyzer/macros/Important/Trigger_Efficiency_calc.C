@@ -264,8 +264,6 @@ void Trigger_Efficiency_calc( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
         // check MET Filters
         bool met_filters_ = eve->met_filters;
-        // check MET Filters
-        bool met_filters_ = eve->met_filters;
         //bool filterbadChCandidate_ = eve->filterbadChCandidate;
         //bool filterbadPFMuon_ = eve->filterbadPFMuon;
         //if(!met_filters_ || !filterbadChCandidate_ || !filterbadPFMuon_)
