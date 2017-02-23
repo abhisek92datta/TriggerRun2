@@ -74,10 +74,12 @@ runMetCorAndUncFromMiniAOD(process,
  isData=True,
 )
 
-process.badGlobalMuonTagger.taggingMode = cms.bool(True)
-#myModulesInPathToRun += process.badGlobalMuonTagger
-process.cloneGlobalMuonTagger.taggingMode = cms.bool(True)
-#myModulesInPathToRun += process.cloneGlobalMuonTagger
+process.load("RecoMET.METFilters.badGlobalMuonTaggersMiniAOD_cff")
+
+process.badGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
+#myModulesInPathToRun += process.badGlobalMuonTaggerMAOD
+process.cloneGlobalMuonTaggerMAOD.taggingMode = cms.bool(True)
+#myModulesInPathToRun += process.cloneGlobalMuonTaggerMAOD
 
 #process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
 #process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
@@ -111,8 +113,8 @@ process.triggeranalyzer = cms.EDAnalyzer('TriggerAnalyzer',
                                          MET_filter_names = cms.untracked.vstring("Flag_HBHENoiseFilter", "Flag_HBHENoiseIsoFilter", "Flag_EcalDeadCellTriggerPrimitiveFilter", "Flag_goodVertices", "Flag_eeBadScFilter", "Flag_globalTightHalo2016Filter"),
                                          #badchcandfilter = cms.InputTag("BadChargedCandidateFilter"),
                                          #badpfmufilter = cms.InputTag("BadPFMuonFilter"),
-                                         badglobalmuontagger = cms.InputTag("badGlobalMuonTagger"),
-                                         cloneglobalmuontagger = cms.InputTag("cloneGlobalMuonTagger"),
+                                         badglobalmuontagger = cms.InputTag("badGlobalMuonTaggerMAOD"),
+                                         cloneglobalmuontagger = cms.InputTag("cloneGlobalMuonTaggerMAOD"),
     )
 
 process.TFileService = cms.Service("TFileService",
@@ -122,6 +124,6 @@ process.TFileService = cms.Service("TFileService",
 process.p = cms.Path(process.electronMVAValueMapProducer * process.fullPatMetSequence
                      #* process.BadPFMuonFilter
                      #* process.BadChargedCandidateFilter
-                     * process.badGlobalMuonTagger
-                     * process.cloneGlobalMuonTagger
+                     * process.badGlobalMuonTaggerMAOD
+                     * process.cloneGlobalMuonTaggerMAOD
                      * process.triggeranalyzer)
