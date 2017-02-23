@@ -355,7 +355,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
         //vvLEPTON[0][4] = 1; // for Data
 
-        PU_weight_lumi = (PU_weight_BCDEF * 19.717  + PU_weight_GH * 16.146)/35.863 ;
+        PU_weight_lumi = (PU_weight_BCDEF * 19.710  + PU_weight_GH * 16.135)/35.845 ;
 
 	    // Q2 Weight, PDF Weight not applied
 	    //tot_weight = vvLEPTON[0][4]*csv_weight*PU_weight*gen_weight;

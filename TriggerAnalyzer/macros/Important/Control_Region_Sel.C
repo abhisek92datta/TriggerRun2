@@ -373,7 +373,7 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		if (pass_WPLoose_27_HT200 ==1 || pass_WPTight_27 ==1 ) 
 			pass_WPTight_27_OR_WPLoose_27_HT200 = 1;
 
-        PU_weight_lumi = (PU_weight_BCDEF * 19.717  + PU_weight_GH * 16.146)/35.863 ;
+        PU_weight_lumi = (PU_weight_BCDEF * 19.710  + PU_weight_GH * 16.135)/35.845 ;
 
 		// PDF Weight, Q2 Weight not applied
 	    //tot_weight = vvLEPTON[0][8]*vvLEPTON[1][8]*csv_weight*PU_weight*gen_weight;

@@ -32,10 +32,10 @@
 void combine_data_mc() {
 	
 	TH1::SetDefaultSumw2();
-	
-	//double L = 26.149; // 1/fb
-	double L = 35.863; // 1/fb
-	
+
+	//double L = 35.863; // 1/fb
+    double L = 35.845; // 1/fb
+
 	TFile *f1 = new TFile("Distribution_mc_tthbb.root");
 	TH1D *tthbb_pt_loose_27 = (TH1D*)f1->Get("Pt_WPLoose_27");
 	TH1D *tthbb_eta_loose_27 = (TH1D*)f1->Get("Eta_WPLoose_27");
