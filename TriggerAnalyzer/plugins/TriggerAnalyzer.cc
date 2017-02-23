@@ -147,8 +147,11 @@ class TriggerAnalyzer : public edm::EDAnalyzer {
   edm::EDGetTokenT <reco::GenParticleCollection> mcparicleToken;
   //edm::EDGetTokenT <std::vector< PileupSummaryInfo > > puInfoToken;
 
-  edm::EDGetTokenT<bool> BadChCandFilterToken;
-  edm::EDGetTokenT<bool> BadPFMuonFilterToken;
+  //edm::EDGetTokenT<bool> BadChCandFilterToken;
+  //edm::EDGetTokenT<bool> BadPFMuonFilterToken;
+
+  edm::EDGetTokenT<bool> BadGlobalMuonTaggerToken;
+  edm::EDGetTokenT<bool> CloneGlobalMuonTaggerToken;
 
   edm::EDGetTokenT <GenEventInfoProduct> genInfoProductToken;
   edm::EDGetTokenT <LHEEventProduct> lheEventProductToken;
@@ -348,8 +351,11 @@ TriggerAnalyzer::TriggerAnalyzer(const edm::ParameterSet& iConfig):
   puppiMetToken = consumes <pat::METCollection> (edm::InputTag(std::string("slimmedMETsPuppi")));
   token_genjets = consumes<reco::GenJetCollection>(edm::InputTag(std::string("slimmedGenJets")));
 
-  BadChCandFilterToken = consumes<bool>(iConfig.getParameter<edm::InputTag>("badchcandfilter"));
-  BadPFMuonFilterToken = consumes<bool>(iConfig.getParameter<edm::InputTag>("badpfmufilter"));
+  //BadChCandFilterToken = consumes<bool>(iConfig.getParameter<edm::InputTag>("badchcandfilter"));
+  //BadPFMuonFilterToken = consumes<bool>(iConfig.getParameter<edm::InputTag>("badpfmufilter"));
+
+  BadGlobalMuonTaggerToken = consumes<bool>(iConfig.getParameter<edm::InputTag>("badglobalmuontagger"));
+  CloneGlobalMuonTaggerToken = consumes<bool>(iConfig.getParameter<edm::InputTag>("cloneglobalmuontagger"));
 
   packedpfToken = consumes <pat::PackedCandidateCollection> (edm::InputTag(std::string("packedPFCandidates")));
 
@@ -1691,6 +1697,7 @@ cout<<"f";
   bool met_filters = Check_filters(filterResults);
   eve->met_filters = met_filters;
 
+  /*
   bool filterbadPFMuon, filterbadChCandidate;
   filterbadChCandidate = filterbadPFMuon = 0;
   edm::Handle<bool> ifilterbadChCand;
@@ -1701,6 +1708,18 @@ cout<<"f";
   filterbadPFMuon = *ifilterbadPFMuon;
   eve->filterbadChCandidate = filterbadChCandidate;
   eve->filterbadPFMuon = filterbadPFMuon;
+  */
+
+  bool badGlobalMuonTagger, cloneGlobalMuonTagger;
+  badGlobalMuonTagger = cloneGlobalMuonTagger = 0;
+  edm::Handle<bool> ibadGlobalMuonTagger;
+  edm:: Handle<bool> icloneGlobalMuonTagger;
+  iEvent.getByToken(BadGlobalMuonTaggerToken, ibadGlobalMuonTagger);
+  iEvent.getByToken(CloneGlobalMuonTaggerToken, icloneGlobalMuonTagger);
+  badGlobalMuonTagger = *ibadGlobalMuonTagger;
+  cloneGlobalMuonTagger = *icloneGlobalMuonTagger;
+  eve->badGlobalMuonTagger = badGlobalMuonTagger;
+  eve->cloneGlobalMuonTagger = cloneGlobalMuonTagger;
 
   if( debug_ ) std::cout << " ====> test 7 " << std::endl;
 

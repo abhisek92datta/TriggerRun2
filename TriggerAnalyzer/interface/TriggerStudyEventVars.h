@@ -45,8 +45,10 @@ struct triggerStudyEventVars{
   double  wgt_generator_;
 
   bool met_filters;
-  bool filterbadChCandidate;
-  bool filterbadPFMuon;
+  //bool filterbadChCandidate;
+  //bool filterbadPFMuon;
+  bool badGlobalMuonTagger;
+  bool cloneGlobalMuonTagger;
 
   int numJets_;
   int numTags_;

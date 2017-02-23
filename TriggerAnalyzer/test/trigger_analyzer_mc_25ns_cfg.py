@@ -68,13 +68,20 @@ runMetCorAndUncFromMiniAOD(process,
   isData=False,
 )
 
-process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
-process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
-process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+process.load("RecoMET.METFilters.badGlobalMuonTaggersMiniAOD_cff")
 
-process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
-process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
-process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+process.badGlobalMuonTagger.taggingMode = cms.bool(True)
+#myModulesInPathToRun += process.badGlobalMuonTagger
+process.cloneGlobalMuonTagger.taggingMode = cms.bool(True)
+#myModulesInPathToRun += process.cloneGlobalMuonTagger
+
+#process.load('RecoMET.METFilters.BadPFMuonFilter_cfi')
+#process.BadPFMuonFilter.muons = cms.InputTag("slimmedMuons")
+#process.BadPFMuonFilter.PFCandidates = cms.InputTag("packedPFCandidates")
+
+#process.load('RecoMET.METFilters.BadChargedCandidateFilter_cfi')
+#process.BadChargedCandidateFilter.muons = cms.InputTag("slimmedMuons")
+#process.BadChargedCandidateFilter.PFCandidates = cms.InputTag("packedPFCandidates")
 
 process.source = cms.Source("PoolSource",
         fileNames = cms.untracked.vstring())
@@ -97,8 +104,10 @@ process.triggeranalyzer = cms.EDAnalyzer('TriggerAnalyzer',
                                          electronMVAvalues = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Values"),
                                          electronMVAcategories = cms.InputTag("electronMVAValueMapProducer:ElectronMVAEstimatorRun2Spring15NonTrig25nsV1Categories"),
                                          MET_filter_names = cms.untracked.vstring("Flag_HBHENoiseFilter", "Flag_HBHENoiseIsoFilter", "Flag_EcalDeadCellTriggerPrimitiveFilter", "Flag_goodVertices", "Flag_globalTightHalo2016Filter"),
-                                         badchcandfilter = cms.InputTag("BadChargedCandidateFilter"),
-                                         badpfmufilter = cms.InputTag("BadPFMuonFilter"),
+                                         #badchcandfilter = cms.InputTag("BadChargedCandidateFilter"),
+                                         #badpfmufilter = cms.InputTag("BadPFMuonFilter"),
+                                         badglobalmuontagger = cms.InputTag("badGlobalMuonTagger"),
+                                         cloneglobalmuontagger = cms.InputTag("cloneGlobalMuonTagger"),
     )
 
 process.TFileService = cms.Service("TFileService",
@@ -106,6 +115,8 @@ process.TFileService = cms.Service("TFileService",
 )
 
 process.p = cms.Path(process.electronMVAValueMapProducer * process.fullPatMetSequence
-                     * process.BadPFMuonFilter
-                     * process.BadChargedCandidateFilter
+                     #* process.BadPFMuonFilter
+                     #* process.BadChargedCandidateFilter
+                     * process.badGlobalMuonTagger
+                     * process.cloneGlobalMuonTagger
                      * process.triggeranalyzer)
