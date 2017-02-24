@@ -185,7 +185,10 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 	  
 	  
 	  	chain->GetEntry(ievt);
-		
+
+        double gen_weight = eve->gen_weight_;
+        sum_gen_weight = sum_gen_weight + gen_weight;
+
 		//check Primary Vertices 
 		
 		bool GoodFirstPV = eve->goodFirstVertex_;
@@ -251,7 +254,7 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             PU_weight_BCDEF = 1;
             PU_weight_GH = 1;
         }
-		double gen_weight = eve->gen_weight_;
+
   		double csv_weight = eve->csv_weight_;
   		double PU_weight = eve->PU_weight_ ;
   		double PDF_weight = eve->PDF_weight_;
@@ -263,8 +266,6 @@ void Data_MC_Comparison( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   		vdouble lepton_hip_sf = eve->lepton_hip_sf_;
   		
   		double tot_weight = 1;
-
-        sum_gen_weight = sum_gen_weight + gen_weight;
 
 		double HT = 0;
 		int numPV = eve->numPVs_;

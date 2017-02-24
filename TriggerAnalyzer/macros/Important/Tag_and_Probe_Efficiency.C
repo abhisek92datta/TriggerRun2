@@ -432,7 +432,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 	  
 	  
 	  	chain->GetEntry(ievt);
-		
+
+        double gen_weight = eve->gen_weight_;
+        sum_gen_weight = sum_gen_weight + gen_weight;
+
 		//check Primary Vertices 
 		
 		bool GoodFirstPV = eve->goodFirstVertex_;
@@ -483,7 +486,6 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
         int isData = eve->isData_;
 
         double PU_weight_lumi;
-		double gen_weight = eve->gen_weight_;
   		double csv_weight = eve->csv_weight_;
   		double PU_weight = eve->PU_weight_ ;
         double PU_weight_B, PU_weight_C, PU_weight_D, PU_weight_E, PU_weight_F, PU_weight_G, PU_weight_H, PU_weight_BCDEF, PU_weight_GH;
@@ -537,8 +539,6 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
         double tot_weight_BCDEF = 1;    // MC (B to F)
         double tot_weight_GH = 1;       // MC (G and H)
 
-        sum_gen_weight = sum_gen_weight + gen_weight;
-		
 		double HT = 0;
 		int numPV = eve->numPVs_;
 		
