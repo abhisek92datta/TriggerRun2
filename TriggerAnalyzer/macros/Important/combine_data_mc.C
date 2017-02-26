@@ -588,8 +588,145 @@ void combine_data_mc() {
 	ttjets_dl_njets_tight_27_or_loose_27_ht200->SetTitle("MC ttjets_dl : Nr. of Jets Distribution for WPtight_27_or_loose_27_ht200");
 	ttjets_dl_nbtags_tight_27_or_loose_27_ht200->SetName("ttjets_dl_nbtags_WPtight_27_or_loose_27_ht200");
 	ttjets_dl_nbtags_tight_27_or_loose_27_ht200->SetTitle("MC ttjets_dl : Nr. of Btags Distribution for WPtight_27_or_loose_27_ht200");
-	
-	
+
+    TFile *f6 = new TFile("Distribution_mc_ttjets.root");
+    TH1D *ttjets_pt_loose_27 = (TH1D*)f6->Get("Pt_WPLoose_27");
+    TH1D *ttjets_eta_loose_27 = (TH1D*)f6->Get("Eta_WPLoose_27");
+    TH1D *ttjets_phi_loose_27 = (TH1D*)f6->Get("Phi_WPLoose_27");
+    TH1D *ttjets_ht_loose_27 = (TH1D*)f6->Get("HT_WPLoose_27");
+    TH1D *ttjets_npv_loose_27 = (TH1D*)f6->Get("NumPV_WPLoose_27");
+    TH1D *ttjets_jet1pt_loose_27 = (TH1D*)f6->Get("Jet1_pt_WPLoose_27");
+    TH1D *ttjets_jet1csv_loose_27 = (TH1D*)f6->Get("Jet1_csv_WPLoose_27");
+    TH1D *ttjets_njets_loose_27 = (TH1D*)f6->Get("Njets_WPLoose_27");
+    TH1D *ttjets_nbtags_loose_27 = (TH1D*)f6->Get("Nbtags_WPLoose_27");
+    TH1D *ttjets_pt_tight_27 = (TH1D*)f6->Get("Pt_WPTight_27");
+    TH1D *ttjets_eta_tight_27 = (TH1D*)f6->Get("Eta_WPTight_27");
+    TH1D *ttjets_phi_tight_27 = (TH1D*)f6->Get("Phi_WPTight_27");
+    TH1D *ttjets_ht_tight_27 = (TH1D*)f6->Get("HT_WPTight_27");
+    TH1D *ttjets_npv_tight_27 = (TH1D*)f6->Get("NumPV_WPTight_27");
+    TH1D *ttjets_jet1pt_tight_27 = (TH1D*)f6->Get("Jet1_pt_WPTight_27");
+    TH1D *ttjets_jet1csv_tight_27 = (TH1D*)f6->Get("Jet1_csv_WPTight_27");
+    TH1D *ttjets_njets_tight_27 = (TH1D*)f6->Get("Njets_WPTight_27");
+    TH1D *ttjets_nbtags_tight_27 = (TH1D*)f6->Get("Nbtags_WPTight_27");
+    TH1D *ttjets_pt_tight_32 = (TH1D*)f6->Get("Pt_WPTight_32");
+    TH1D *ttjets_eta_tight_32 = (TH1D*)f6->Get("Eta_WPTight_32");
+    TH1D *ttjets_phi_tight_32 = (TH1D*)f6->Get("Phi_WPTight_32");
+    TH1D *ttjets_ht_tight_32 = (TH1D*)f6->Get("HT_WPTight_32");
+    TH1D *ttjets_npv_tight_32 = (TH1D*)f6->Get("NumPV_WPTight_32");
+    TH1D *ttjets_jet1pt_tight_32 = (TH1D*)f6->Get("Jet1_pt_WPTight_32");
+    TH1D *ttjets_jet1csv_tight_32 = (TH1D*)f6->Get("Jet1_csv_WPTight_32");
+    TH1D *ttjets_njets_tight_32 = (TH1D*)f6->Get("Njets_WPTight_32");
+    TH1D *ttjets_nbtags_tight_32 = (TH1D*)f6->Get("Nbtags_WPTight_32");
+    TH1D *ttjets_pt_loose_27_ht200 = (TH1D*)f6->Get("Pt_WPLoose_27_HT200");
+    TH1D *ttjets_eta_loose_27_ht200 = (TH1D*)f6->Get("Eta_WPLoose_27_HT200");
+    TH1D *ttjets_phi_loose_27_ht200 = (TH1D*)f6->Get("Phi_WPLoose_27_HT200");
+    TH1D *ttjets_ht_loose_27_ht200 = (TH1D*)f6->Get("HT_WPLoose_27_HT200");
+    TH1D *ttjets_npv_loose_27_ht200 = (TH1D*)f6->Get("NumPV_WPLoose_27_HT200");
+    TH1D *ttjets_jet1pt_loose_27_ht200 = (TH1D*)f6->Get("Jet1_pt_WPLoose_27_HT200");
+    TH1D *ttjets_jet1csv_loose_27_ht200 = (TH1D*)f6->Get("Jet1_csv_WPLoose_27_HT200");
+    TH1D *ttjets_njets_loose_27_ht200 = (TH1D*)f6->Get("Njets_WPLoose_27_HT200");
+    TH1D *ttjets_nbtags_loose_27_ht200 = (TH1D*)f6->Get("Nbtags_WPLoose_27_HT200");
+    TH1D *ttjets_pt_tight_27_or_loose_27_ht200 = (TH1D*)f6->Get("Pt_WPTight_27_OR_WPLoose_27_HT200");
+    TH1D *ttjets_eta_tight_27_or_loose_27_ht200 = (TH1D*)f6->Get("Eta_WPTight_27_OR_WPLoose_27_HT200");
+    TH1D *ttjets_phi_tight_27_or_loose_27_ht200 = (TH1D*)f6->Get("Phi_WPTight_27_OR_WPLoose_27_HT200");
+    TH1D *ttjets_ht_tight_27_or_loose_27_ht200 = (TH1D*)f6->Get("HT_WPTight_27_OR_WPLoose_27_HT200");
+    TH1D *ttjets_npv_tight_27_or_loose_27_ht200 = (TH1D*)f6->Get("NumPV_WPTight_27_OR_WPLoose_27_HT200");
+    TH1D *ttjets_jet1pt_tight_27_or_loose_27_ht200 = (TH1D*)f6->Get("Jet1_pt_WPTight_27_OR_WPLoose_27_HT200");
+    TH1D *ttjets_jet1csv_tight_27_or_loose_27_ht200 = (TH1D*)f6->Get("Jet1_csv_WPTight_27_OR_WPLoose_27_HT200");
+    TH1D *ttjets_njets_tight_27_or_loose_27_ht200 = (TH1D*)f6->Get("Njets_WPTight_27_OR_WPLoose_27_HT200");
+    TH1D *ttjets_nbtags_tight_27_or_loose_27_ht200 = (TH1D*)f6->Get("Nbtags_WPTight_27_OR_WPLoose_27_HT200");
+
+    ttjets_pt_loose_27->SetName("ttjets_pt_WPLoose_27");
+    ttjets_pt_loose_27->SetTitle("MC ttjets : pT Distribution for WPLoose_27");
+    ttjets_eta_loose_27->SetName("ttjets_eta_WPLoose_27");
+    ttjets_eta_loose_27->SetTitle("MC ttjets : eta Distribution for WPLoose_27");
+    ttjets_phi_loose_27->SetName("ttjets_phi_WPLoose_27");
+    ttjets_phi_loose_27->SetTitle("MC ttjets : phi Distribution for WPLoose_27");
+    ttjets_ht_loose_27->SetName("ttjets_ht_WPLoose_27");
+    ttjets_ht_loose_27->SetTitle("MC ttjets : HT Distribution for WPLoose_27");
+    ttjets_npv_loose_27->SetName("ttjets_npv_WPLoose_27");
+    ttjets_npv_loose_27->SetTitle("MC ttjets : NPV Distribution for WPLoose_27");
+    ttjets_jet1pt_loose_27->SetName("ttjets_jet1pt_WPLoose_27");
+    ttjets_jet1pt_loose_27->SetTitle("MC ttjets : Jet1 pT Distribution for WPLoose_27");
+    ttjets_jet1csv_loose_27->SetName("ttjets_jet1csv_WPLoose_27");
+    ttjets_jet1csv_loose_27->SetTitle("MC ttjets : Jet1 CSV Distribution for WPLoose_27");
+    ttjets_njets_loose_27->SetName("ttjets_njets_WPLoose_27");
+    ttjets_njets_loose_27->SetTitle("MC ttjets : Nr. of Jets Distribution for WPLoose_27");
+    ttjets_nbtags_loose_27->SetName("ttjets_nbtags_WPLoose_27");
+    ttjets_nbtags_loose_27->SetTitle("MC ttjets : Nr. of Btags Distribution for WPLoose_27");
+    ttjets_pt_tight_27->SetName("ttjets_pt_WPTight_27");
+    ttjets_pt_tight_27->SetTitle("MC ttjets : pT Distribution for WPTight_27");
+    ttjets_eta_tight_27->SetName("ttjets_eta_WPTight_27");
+    ttjets_eta_tight_27->SetTitle("MC ttjets : eta Distribution for WPTight_27");
+    ttjets_phi_tight_27->SetName("ttjets_phi_WPTight_27");
+    ttjets_phi_tight_27->SetTitle("MC ttjets : phi Distribution for WPTight_27");
+    ttjets_ht_tight_27->SetName("ttjets_ht_WPTight_27");
+    ttjets_ht_tight_27->SetTitle("MC ttjets : HT Distribution for WPTight_27");
+    ttjets_npv_tight_27->SetName("ttjets_npv_WPTight_27");
+    ttjets_npv_tight_27->SetTitle("MC ttjets : NPV Distribution for WPTight_27");
+    ttjets_jet1pt_tight_27->SetName("ttjets_jet1pt_WPTight_27");
+    ttjets_jet1pt_tight_27->SetTitle("MC ttjets : Jet1 pT Distribution for WPTight_27");
+    ttjets_jet1csv_tight_27->SetName("ttjets_jet1csv_WPTight_27");
+    ttjets_jet1csv_tight_27->SetTitle("MC ttjets : Jet1 CSV Distribution for WPTight_27");
+    ttjets_njets_tight_27->SetName("ttjets_njets_WPTight_27");
+    ttjets_njets_tight_27->SetTitle("MC ttjets : Nr. of Jets Distribution for WPTight_27");
+    ttjets_nbtags_tight_27->SetName("ttjets_nbtags_WPTight_27");
+    ttjets_nbtags_tight_27->SetTitle("MC ttjets : Nr. of Btags Distribution for WPTight_27");
+    ttjets_pt_tight_32->SetName("ttjets_pt_WPTight_32");
+    ttjets_pt_tight_32->SetTitle("MC ttjets : pT Distribution for WPTight_32");
+    ttjets_eta_tight_32->SetName("ttjets_eta_WPTight_32");
+    ttjets_eta_tight_32->SetTitle("MC ttjets : eta Distribution for WPTight_32");
+    ttjets_phi_tight_32->SetName("ttjets_phi_WPTight_32");
+    ttjets_phi_tight_32->SetTitle("MC ttjets : phi Distribution for WPTight_32");
+    ttjets_ht_tight_32->SetName("ttjets_ht_WPTight_32");
+    ttjets_ht_tight_32->SetTitle("MC ttjets : HT Distribution for WPTight_32");
+    ttjets_npv_tight_32->SetName("ttjets_npv_WPTight_32");
+    ttjets_npv_tight_32->SetTitle("MC ttjets : NPV Distribution for WPTight_32");
+    ttjets_jet1pt_tight_32->SetName("ttjets_jet1pt_WPTight_32");
+    ttjets_jet1pt_tight_32->SetTitle("MC ttjets : Jet1 pT Distribution for WPTight_32");
+    ttjets_jet1csv_tight_32->SetName("ttjets_jet1csv_WPTight_32");
+    ttjets_jet1csv_tight_32->SetTitle("MC ttjets : Jet1 CSV Distribution for WPTight_32");
+    ttjets_njets_tight_32->SetName("ttjets_njets_WPTight_32");
+    ttjets_njets_tight_32->SetTitle("MC ttjets : Nr. of Jets Distribution for WPTight_32");
+    ttjets_nbtags_tight_32->SetName("ttjets_nbtags_WPTight_32");
+    ttjets_nbtags_tight_32->SetTitle("MC ttjets : Nr. of Btags Distribution for WPTight_32");
+    ttjets_pt_loose_27_ht200->SetName("ttjets_pt_WPloose_27_ht200");
+    ttjets_pt_loose_27_ht200->SetTitle("MC ttjets : pT Distribution for WPloose_27_ht200");
+    ttjets_eta_loose_27_ht200->SetName("ttjets_eta_WPloose_27_ht200");
+    ttjets_eta_loose_27_ht200->SetTitle("MC ttjets : eta Distribution for WPloose_27_ht200");
+    ttjets_phi_loose_27_ht200->SetName("ttjets_phi_WPloose_27_ht200");
+    ttjets_phi_loose_27_ht200->SetTitle("MC ttjets : phi Distribution for WPloose_27_ht200");
+    ttjets_ht_loose_27_ht200->SetName("ttjets_ht_WPloose_27_ht200");
+    ttjets_ht_loose_27_ht200->SetTitle("MC ttjets : HT Distribution for WPloose_27_ht200");
+    ttjets_npv_loose_27_ht200->SetName("ttjets_npv_WPloose_27_ht200");
+    ttjets_npv_loose_27_ht200->SetTitle("MC ttjets : NPV Distribution for WPloose_27_ht200");
+    ttjets_jet1pt_loose_27_ht200->SetName("ttjets_jet1pt_WPloose_27_ht200");
+    ttjets_jet1pt_loose_27_ht200->SetTitle("MC ttjets : Jet1 pT Distribution for WPloose_27_ht200");
+    ttjets_jet1csv_loose_27_ht200->SetName("ttjets_jet1csv_WPloose_27_ht200");
+    ttjets_jet1csv_loose_27_ht200->SetTitle("MC ttjets : Jet1 CSV Distribution for WPloose_27_ht200");
+    ttjets_njets_loose_27_ht200->SetName("ttjets_njets_WPloose_27_ht200");
+    ttjets_njets_loose_27_ht200->SetTitle("MC ttjets : Nr. of Jets Distribution for WPloose_27_ht200");
+    ttjets_nbtags_loose_27_ht200->SetName("ttjets_nbtags_WPloose_27_ht200");
+    ttjets_nbtags_loose_27_ht200->SetTitle("MC ttjets : Nr. of Btags Distribution for WPloose_27_ht200");
+    ttjets_pt_tight_27_or_loose_27_ht200->SetName("ttjets_pt_WPtight_27_or_loose_27_ht200");
+    ttjets_pt_tight_27_or_loose_27_ht200->SetTitle("MC ttjets : pT Distribution for WPtight_27_or_loose_27_ht200");
+    ttjets_eta_tight_27_or_loose_27_ht200->SetName("ttjets_eta_WPtight_27_or_loose_27_ht200");
+    ttjets_eta_tight_27_or_loose_27_ht200->SetTitle("MC ttjets : eta Distribution for WPtight_27_or_loose_27_ht200");
+    ttjets_phi_tight_27_or_loose_27_ht200->SetName("ttjets_phi_WPtight_27_or_loose_27_ht200");
+    ttjets_phi_tight_27_or_loose_27_ht200->SetTitle("MC ttjets : phi Distribution for WPtight_27_or_loose_27_ht200");
+    ttjets_ht_tight_27_or_loose_27_ht200->SetName("ttjets_ht_WPtight_27_or_loose_27_ht200");
+    ttjets_ht_tight_27_or_loose_27_ht200->SetTitle("MC ttjets : HT Distribution for WPtight_27_or_loose_27_ht200");
+    ttjets_npv_tight_27_or_loose_27_ht200->SetName("ttjets_npv_WPtight_27_or_loose_27_ht200");
+    ttjets_npv_tight_27_or_loose_27_ht200->SetTitle("MC ttjets : NPV Distribution for WPtight_27_or_loose_27_ht200");
+    ttjets_jet1pt_tight_27_or_loose_27_ht200->SetName("ttjets_jet1pt_WPtight_27_or_loose_27_ht200");
+    ttjets_jet1pt_tight_27_or_loose_27_ht200->SetTitle("MC ttjets : Jet1 pT Distribution for WPtight_27_or_loose_27_ht200");
+    ttjets_jet1csv_tight_27_or_loose_27_ht200->SetName("ttjets_jet1csv_WPtight_27_or_loose_27_ht200");
+    ttjets_jet1csv_tight_27_or_loose_27_ht200->SetTitle("MC ttjets : Jet1 CSV Distribution for WPtight_27_or_loose_27_ht200");
+    ttjets_njets_tight_27_or_loose_27_ht200->SetName("ttjets_njets_WPtight_27_or_loose_27_ht200");
+    ttjets_njets_tight_27_or_loose_27_ht200->SetTitle("MC ttjets : Nr. of Jets Distribution for WPtight_27_or_loose_27_ht200");
+    ttjets_nbtags_tight_27_or_loose_27_ht200->SetName("ttjets_nbtags_WPtight_27_or_loose_27_ht200");
+    ttjets_nbtags_tight_27_or_loose_27_ht200->SetTitle("MC ttjets : Nr. of Btags Distribution for WPtight_27_or_loose_27_ht200");
+
 	TFile *f5 = new TFile("Distribution_data_2016_B_H.root");
 	TH1D *data_pt_loose_27 = (TH1D*)f5->Get("Pt_WPLoose_27");
 	TH1D *data_eta_loose_27 = (TH1D*)f5->Get("Eta_WPLoose_27");
@@ -736,8 +873,8 @@ void combine_data_mc() {
 	double factor_tthbb = 600.0;
 	//double factor_tthbb = 1;
 	double sigma_tthbb = 0.5824*0.5071; // pb
-	double N_total_tthbb = 3993304;
-    double sum_gen_weight_tthbb = 2.24691e+06;
+	double N_total_tthbb = 3845797;
+    double sum_gen_weight_tthbb = 2.1646e+06;
     //double sum_gen_weight_tthbb = 1;
     double norm_tthbb = (L*sigma_tthbb*1000)/(sum_gen_weight_tthbb);
     //double norm_tthbb = (L*sigma_tthbb*1000)/(N_total_tthbb*sum_gen_weight_tthbb);
@@ -795,8 +932,8 @@ void combine_data_mc() {
 	
 	double factor_tthnonbb = 1;
 	double sigma_tthnonbb = 0.4176*0.5071; // pb
-	double N_total_tthnonbb = 3975854;
-    double sum_gen_weight_tthnonbb = 2.23766e+06;
+	double N_total_tthnonbb = 3981077;
+    double sum_gen_weight_tthnonbb = 2.24104e+06;
     //double sum_gen_weight_tthnonbb = 1;
     double norm_tthnonbb = (L*sigma_tthnonbb*1000)/(sum_gen_weight_tthnonbb);
     //double norm_tthnonbb = (L*sigma_tthnonbb*1000)/(N_total_tthnonbb*sum_gen_weight_tthnonbb);
@@ -804,8 +941,8 @@ void combine_data_mc() {
 	
 	double factor_ttjets_sl = 1;
 	double sigma_ttjets_sl = 364.3; // pb
-	double N_total_ttjets_sl = 157387260;
-    double sum_gen_weight_ttjets_sl = 1.57326e+08;
+	double N_total_ttjets_sl = 152716462;
+    double sum_gen_weight_ttjets_sl = 1.52716e+08;
     //double sum_gen_weight_ttjets_sl = 1;
     double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/(sum_gen_weight_ttjets_sl);
     //double norm_ttjets_sl = (L*sigma_ttjets_sl*1000)/(N_total_ttjets_sl*sum_gen_weight_ttjets_sl);
@@ -813,12 +950,21 @@ void combine_data_mc() {
 	
 	double factor_ttjets_dl = 1;
 	double sigma_ttjets_dl = 87.3; // pb
-	double N_total_ttjets_dl = 75383000;
-    double sum_gen_weight_ttjets_dl = 7.53348e+07;
+	double N_total_ttjets_dl = 79089590;
+    double sum_gen_weight_ttjets_dl = 7.90896e+07;
     //double sum_gen_weight_ttjets_dl = 1;
     double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/(sum_gen_weight_ttjets_dl);
     //double norm_ttjets_dl = (L*sigma_ttjets_dl*1000)/(N_total_ttjets_dl*sum_gen_weight_ttjets_dl);
 	double scale_ttjets_dl = factor_ttjets_dl*norm_ttjets_dl;
+
+    double factor_ttjets = 1;
+    double sigma_ttjets = 831.76; // pb
+    double N_total_ttjets = 77227178;
+    double sum_gen_weight_ttjets = 7.72272e+07;
+    //double sum_gen_weight_ttjets = 1;
+    double norm_ttjets = (L*sigma_ttjets*1000)/(sum_gen_weight_ttjets);
+    //double norm_ttjets = (L*sigma_ttjets*1000)/(N_total_ttjets*sum_gen_weight_ttjets);
+    double scale_ttjets = factor_ttjets*norm_ttjets;
 	
 	TH1D* bkgd_pt_loose_27 = new TH1D("Pt_WPLoose_27","Pt Distribution for WPLoose_27;pT (GeV);Nr. of Events",150,0,300);
     TH1D* bkgd_eta_loose_27 = new TH1D("Eta_WPLoose_27","Eta Distribution for WPLoose_27;#eta;Nr. of Events",30,-3,3);
@@ -865,7 +1011,59 @@ void combine_data_mc() {
     TH1D* bkgd_jet1csv_tight_27_or_loose_27_ht200 = new TH1D("Jet1_csv_WPTight_27_OR_WPLoose_27_HT200","Jet1 csv Distribution for WPTight_27_OR_WPLoose_27_HT200;csv;Nr. of Events",50,0,1);			
     TH1D* bkgd_njets_tight_27_or_loose_27_ht200 = new TH1D("Njets_WPTight_27_OR_WPLoose_27_HT200","N_jets Distribution for WPTight_27_OR_WPLoose_27_HT200;Nr. of jets;Nr. of Events",9,4,13);
     TH1D* bkgd_nbtags_tight_27_or_loose_27_ht200 = new TH1D("Nbtags_WPTight_27_OR_WPLoose_27_HT200","N_btags Distribution for WPTight_27_OR_WPLoose_27_HT200;Nr. of btags;Nr. of Events",7,2,9);
-	
+
+
+    // Background : ttjets + tthnonbb
+
+    bkgd_pt_loose_27->Add(ttjets_pt_loose_27, tthnonbb_pt_loose_27, scale_ttjets, scale_tthnonbb);
+    bkgd_eta_loose_27->Add(ttjets_eta_loose_27, tthnonbb_eta_loose_27, scale_ttjets, scale_tthnonbb);
+    bkgd_phi_loose_27->Add(ttjets_phi_loose_27, tthnonbb_phi_loose_27, scale_ttjets, scale_tthnonbb);
+    bkgd_ht_loose_27->Add(ttjets_ht_loose_27, tthnonbb_ht_loose_27, scale_ttjets, scale_tthnonbb);
+    bkgd_npv_loose_27->Add(ttjets_npv_loose_27, tthnonbb_npv_loose_27, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1pt_loose_27->Add(ttjets_jet1pt_loose_27, tthnonbb_jet1pt_loose_27, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1csv_loose_27->Add(ttjets_jet1csv_loose_27, tthnonbb_jet1csv_loose_27, scale_ttjets, scale_tthnonbb);
+    bkgd_njets_loose_27->Add(ttjets_njets_loose_27, tthnonbb_njets_loose_27, scale_ttjets, scale_tthnonbb);
+    bkgd_nbtags_loose_27->Add(ttjets_nbtags_loose_27, tthnonbb_nbtags_loose_27, scale_ttjets, scale_tthnonbb);
+    bkgd_pt_tight_27->Add(ttjets_pt_tight_27, tthnonbb_pt_tight_27, scale_ttjets, scale_tthnonbb);
+    bkgd_eta_tight_27->Add(ttjets_eta_tight_27, tthnonbb_eta_tight_27, scale_ttjets, scale_tthnonbb);
+    bkgd_phi_tight_27->Add(ttjets_phi_tight_27, tthnonbb_phi_tight_27, scale_ttjets, scale_tthnonbb);
+    bkgd_ht_tight_27->Add(ttjets_ht_tight_27, tthnonbb_ht_tight_27, scale_ttjets, scale_tthnonbb);
+    bkgd_npv_tight_27->Add(ttjets_npv_tight_27, tthnonbb_npv_tight_27, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1pt_tight_27->Add(ttjets_jet1pt_tight_27, tthnonbb_jet1pt_tight_27, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1csv_tight_27->Add(ttjets_jet1csv_tight_27, tthnonbb_jet1csv_tight_27, scale_ttjets, scale_tthnonbb);
+    bkgd_njets_tight_27->Add(ttjets_njets_tight_27, tthnonbb_njets_tight_27, scale_ttjets, scale_tthnonbb);
+    bkgd_nbtags_tight_27->Add(ttjets_nbtags_tight_27, tthnonbb_nbtags_tight_27, scale_ttjets, scale_tthnonbb);
+    bkgd_pt_tight_32->Add(ttjets_pt_tight_32, tthnonbb_pt_tight_32, scale_ttjets, scale_tthnonbb);
+    bkgd_eta_tight_32->Add(ttjets_eta_tight_32, tthnonbb_eta_tight_32, scale_ttjets, scale_tthnonbb);
+    bkgd_phi_tight_32->Add(ttjets_phi_tight_32, tthnonbb_phi_tight_32, scale_ttjets, scale_tthnonbb);
+    bkgd_ht_tight_32->Add(ttjets_ht_tight_32, tthnonbb_ht_tight_32, scale_ttjets, scale_tthnonbb);
+    bkgd_npv_tight_32->Add(ttjets_npv_tight_32, tthnonbb_npv_tight_32, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1pt_tight_32->Add(ttjets_jet1pt_tight_32, tthnonbb_jet1pt_tight_32, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1csv_tight_32->Add(ttjets_jet1csv_tight_32, tthnonbb_jet1csv_tight_32, scale_ttjets, scale_tthnonbb);
+    bkgd_njets_tight_32->Add(ttjets_njets_tight_32, tthnonbb_njets_tight_32, scale_ttjets, scale_tthnonbb);
+    bkgd_nbtags_tight_32->Add(ttjets_nbtags_tight_32, tthnonbb_nbtags_tight_32, scale_ttjets, scale_tthnonbb);
+    bkgd_pt_loose_27_ht200->Add(ttjets_pt_loose_27_ht200, tthnonbb_pt_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_eta_loose_27_ht200->Add(ttjets_eta_loose_27_ht200, tthnonbb_eta_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_phi_loose_27_ht200->Add(ttjets_phi_loose_27_ht200, tthnonbb_phi_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_ht_loose_27_ht200->Add(ttjets_ht_loose_27_ht200, tthnonbb_ht_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_npv_loose_27_ht200->Add(ttjets_npv_loose_27_ht200, tthnonbb_npv_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1pt_loose_27_ht200->Add(ttjets_jet1pt_loose_27_ht200, tthnonbb_jet1pt_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1csv_loose_27_ht200->Add(ttjets_jet1csv_loose_27_ht200, tthnonbb_jet1csv_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_njets_loose_27_ht200->Add(ttjets_njets_loose_27_ht200, tthnonbb_njets_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_nbtags_loose_27_ht200->Add(ttjets_nbtags_loose_27_ht200, tthnonbb_nbtags_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_pt_tight_27_or_loose_27_ht200->Add(ttjets_pt_tight_27_or_loose_27_ht200, tthnonbb_pt_tight_27_or_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_eta_tight_27_or_loose_27_ht200->Add(ttjets_eta_tight_27_or_loose_27_ht200, tthnonbb_eta_tight_27_or_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_phi_tight_27_or_loose_27_ht200->Add(ttjets_phi_tight_27_or_loose_27_ht200, tthnonbb_phi_tight_27_or_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_ht_tight_27_or_loose_27_ht200->Add(ttjets_ht_tight_27_or_loose_27_ht200, tthnonbb_ht_tight_27_or_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_npv_tight_27_or_loose_27_ht200->Add(ttjets_npv_tight_27_or_loose_27_ht200, tthnonbb_npv_tight_27_or_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1pt_tight_27_or_loose_27_ht200->Add(ttjets_jet1pt_tight_27_or_loose_27_ht200, tthnonbb_jet1pt_tight_27_or_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_jet1csv_tight_27_or_loose_27_ht200->Add(ttjets_jet1csv_tight_27_or_loose_27_ht200, tthnonbb_jet1csv_tight_27_or_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_njets_tight_27_or_loose_27_ht200->Add(ttjets_njets_tight_27_or_loose_27_ht200, tthnonbb_njets_tight_27_or_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+    bkgd_nbtags_tight_27_or_loose_27_ht200->Add(ttjets_nbtags_tight_27_or_loose_27_ht200, tthnonbb_nbtags_tight_27_or_loose_27_ht200, scale_ttjets, scale_tthnonbb);
+
+
+    // Background : ttjets_SL + ttjets_DL + tthnonbb
+    /*
 	bkgd_pt_loose_27->Add(ttjets_sl_pt_loose_27, ttjets_dl_pt_loose_27, scale_ttjets_sl, scale_ttjets_dl);
 	bkgd_eta_loose_27->Add(ttjets_sl_eta_loose_27, ttjets_dl_eta_loose_27, scale_ttjets_sl, scale_ttjets_dl);
 	bkgd_phi_loose_27->Add(ttjets_sl_phi_loose_27, ttjets_dl_phi_loose_27, scale_ttjets_sl, scale_ttjets_dl);
@@ -957,7 +1155,7 @@ void combine_data_mc() {
 	bkgd_jet1csv_tight_27_or_loose_27_ht200->Add(tthnonbb_jet1csv_tight_27_or_loose_27_ht200, scale_tthnonbb);
 	bkgd_njets_tight_27_or_loose_27_ht200->Add(tthnonbb_njets_tight_27_or_loose_27_ht200, scale_tthnonbb);
 	bkgd_nbtags_tight_27_or_loose_27_ht200->Add(tthnonbb_nbtags_tight_27_or_loose_27_ht200, scale_tthnonbb);
-    
+    */
 	
 	////////////////////////////////////////////////////////
 	//Plotting
@@ -3075,6 +3273,7 @@ void combine_data_mc() {
 	delete f2;
 	delete f3;
 	delete f4;
+    delete f6;
 	delete f5;
 	return;
 }

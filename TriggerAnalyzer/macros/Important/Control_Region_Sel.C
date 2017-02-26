@@ -245,28 +245,15 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
         double PU_weight_lumi;
         double PU_weight_B, PU_weight_C, PU_weight_D, PU_weight_E, PU_weight_F, PU_weight_G, PU_weight_H, PU_weight_BCDEF, PU_weight_GH;
-        if(!isData){
-            PU_weight_B = eve->PU_weight_B_;
-            PU_weight_C = eve->PU_weight_C_;
-            PU_weight_D = eve->PU_weight_D_;
-            PU_weight_E = eve->PU_weight_E_;
-            PU_weight_F = eve->PU_weight_F_;
-            PU_weight_G = eve->PU_weight_G_;
-            PU_weight_H = eve->PU_weight_H_;
-            PU_weight_BCDEF = eve->PU_weight_BCDEF_;
-            PU_weight_GH = eve->PU_weight_GH_;
-        }
-        else{
-            PU_weight_B = 1;
-            PU_weight_C = 1;
-            PU_weight_D = 1;
-            PU_weight_E = 1;
-            PU_weight_F = 1;
-            PU_weight_G = 1;
-            PU_weight_H = 1;
-            PU_weight_BCDEF = 1;
-            PU_weight_GH = 1;
-        }
+        PU_weight_B = eve->PU_weight_B_;
+        PU_weight_C = eve->PU_weight_C_;
+        PU_weight_D = eve->PU_weight_D_;
+        PU_weight_E = eve->PU_weight_E_;
+        PU_weight_F = eve->PU_weight_F_;
+        PU_weight_G = eve->PU_weight_G_;
+        PU_weight_H = eve->PU_weight_H_;
+        PU_weight_BCDEF = eve->PU_weight_BCDEF_;
+        PU_weight_GH = eve->PU_weight_GH_;
 
   		double csv_weight = eve->csv_weight_;
   		double PU_weight = eve->PU_weight_ ;
