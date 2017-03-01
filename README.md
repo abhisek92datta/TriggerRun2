@@ -78,7 +78,7 @@ To resubmit : crab resubmit -d <crab_output_directory_name>
 
 
 After Ntuples created and stored in storage area, 
-Plotting efficiencies using  : macros/Trigger_Express_June.C
+Plotting efficiencies using  : macros/Important/Trigger_Express_June.C
 
 cd macros/
 
@@ -105,6 +105,17 @@ cd macros/
 To put together the histograms in different root files in 1 root file :
 
 root -l -q combine_plots.C
+
+
+If some crab jobs fail for DATA, then macros/Important/Luminosity_calc.C can be used 
+to list the missing lumis due to these failed jobs :
+
+g++ json_editor.cpp -o json_editor
+
+./json_editor
+
+root -l -q Luminosity_calc.C
+
 
 
 

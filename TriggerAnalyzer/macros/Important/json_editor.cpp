@@ -1,3 +1,19 @@
+//////////////////////////////////////////////////////////
+//
+//  To create the input for Luminosity_calc.C
+//
+//  Format of JSON file for input to this :
+//
+//  273494    [[1,192]],
+//  273502    [[73,256],[258,318],[320,813],[815,1064]],
+//  .....
+//
+//  Lists the run numbers, starting and ending lumi for
+//  each run, and omitted lumis from each run
+//
+//
+//////////////////////////////////////////////////////////
+
 #include<iostream>
 #include<cmath>
 #include<fstream>
