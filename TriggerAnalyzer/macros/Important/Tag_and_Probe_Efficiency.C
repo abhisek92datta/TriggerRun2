@@ -45,6 +45,27 @@ typedef std::vector<double>                    vdouble;
 typedef std::vector<std::vector<double> >      vvdouble;
 typedef std::vector<std::vector<int> >         vvint;
 
+inline void dR_match(const vdouble& hlt_eta, const vdouble& hlt_phi, const double& eta, const double& phi, vdouble& vlepton){
+
+    int trig_match_index = -9999;
+    double dR_min = 9999;
+    double deta, dphi, dR;
+
+    for(int i=0; i<int(hlt_eta.size());i++){
+        deta = hlt_eta[i] - eta;
+        dphi = hlt_phi[i] - phi;
+        dR = sqrt( deta*deta + dphi*dphi );
+        if(dR<0.1){
+            if(dR<dR_min){
+                trig_match_index = i;
+                dR_min = dR;
+            }
+        }
+    }
+    vlepton.push_back(dR_min);
+    vlepton.push_back(trig_match_index);
+}
+
 void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
   clock_t t;
@@ -103,6 +124,20 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   double effi_num_tight_27_or_loose_27_ht200_GH = 0;
   double effi_den_tight_27_or_loose_27_ht200_GH = 0;
   double effi_tight_27_or_loose_27_ht200_GH;
+
+  int all_27 = 0;
+  int pass_27 = 0;
+
+  double all_2d_sceta_pt[100][100];
+  double pass_2d_sceta_pt[100][100];
+  double effi_2d_sceta_pt[100][100];
+  double all_2d_sceta_pt_BCDEF[100][100];
+  double pass_2d_sceta_pt_BCDEF[100][100];
+  double effi_2d_sceta_pt_BCDEF[100][100];
+  double all_2d_sceta_pt_GH[100][100];
+  double pass_2d_sceta_pt_GH[100][100];
+  double effi_2d_sceta_pt_GH[100][100];
+  int pt_select, sceta_select;
 
   double sum_gen_weight = 0;
 
@@ -456,6 +491,7 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		//Grab Specific Lepton information from trees
 		
 		int event_nr = eve->evt_;
+        int run_nr = eve->run_;
 		vint lepton_charge = eve->lepton_charge_;
         vdouble lepton_pt = eve->lepton_pt_;
         vdouble lepton_px = eve->lepton_px_;
@@ -550,22 +586,23 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 				if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
 				//if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {               // for Triggering MVA electron ID
 					numLooseEle++;
-					vdouble vlepton;
-					vlepton.push_back(lepton_pt[i]);
-					vlepton.push_back(lepton_eta[i]);
-					vlepton.push_back(lepton_phi[i]);
-					vlepton.push_back(lepton_energy[i]);
-                    vlepton.push_back(lepton_charge[i]);
-                    vlepton.push_back(lepton_px[i]);
-                    vlepton.push_back(lepton_py[i]);
-                    vlepton.push_back(lepton_pz[i]);
-				    //Trigger, GSF and HIP SF not applied
-					//vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
-                    vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]);
-                    vlepton.push_back(lepton_sc_eta[i]);
-					vvLEPTON.push_back(vlepton);
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {
-						numTightEle++;
+                        numTightEle++;
+                        vdouble vlepton;
+                        vlepton.push_back(lepton_pt[i]);
+                        vlepton.push_back(lepton_eta[i]);
+                        vlepton.push_back(lepton_phi[i]);
+                        vlepton.push_back(lepton_energy[i]);
+                        vlepton.push_back(lepton_charge[i]);
+                        vlepton.push_back(lepton_px[i]);
+                        vlepton.push_back(lepton_py[i]);
+                        vlepton.push_back(lepton_pz[i]);
+                        //Trigger, GSF and HIP SF not applied
+                        //vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
+                        vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]);
+                        vlepton.push_back(lepton_sc_eta[i]);
+                        dR_match(hltEle27WPTightGsf_eta, hltEle27WPTightGsf_phi, lepton_sc_eta[i], lepton_phi[i], vlepton);
+                        vvLEPTON.push_back(vlepton);
 					}
 				}
 			}	
@@ -588,8 +625,7 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		}
 		
 		//Selection
-		
-		
+
 		if(numMu!=0)continue;
 		if(numLooseEle!=2)continue;
 		if(numTightEle!=2)continue;
@@ -605,7 +641,7 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		// Opposite charge and dilepton mass window
 		if(opp_charge!=1) continue;
 		//if( mass_leplep < 88.7 || mass_leplep > 93.7) continue;   // 5 GeV window
-		if( mass_leplep < 86.2 || mass_leplep > 96.2) continue;   // 10 GeV window
+		//if( mass_leplep < 86.2 || mass_leplep > 96.2) continue;   // 10 GeV window
         if( mass_leplep < 81.2 || mass_leplep > 101.2) continue;   // 20 GeV window
 		
 		//Additionally we require 4Jets and 2Btag Jets
@@ -626,6 +662,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
         int tag, probe;
         double deta, dphi, dR;
         bool trigger_pass = 0;
+        int trig_match_index = -9999;
+        double dR_min = 9999;
+        bool probe_pass = 0;
+        bool tag_pass = 0;
 
         PU_weight_lumi = (PU_weight_BCDEF * 19.710  + PU_weight_GH * 16.135)/35.845 ;
 
@@ -640,6 +680,8 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 
         if(pass_WPLoose_27==1) {
 
+            trig_match_index = -9999;
+            dR_min = 9999;
             tag = probe = -9999;
             for(int i=0; i<int(hltEle27WPLooseGsf_eta.size());i++){
                 deta = hltEle27WPLooseGsf_eta[i] - vvLEPTON[0][9];
@@ -648,7 +690,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 if(dR<0.1){
                     tag = 0;
                     probe = 1;
-                    break;
+                    if(dR<dR_min){
+                        trig_match_index = i;
+                        dR_min = dR;
+                    }
                 }
             }
             if(tag!=0){
@@ -659,7 +704,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     if(dR<0.1){
                         tag = 1;
                         probe = 0;
-                        break;
+                        if(dR<dR_min){
+                            trig_match_index = i;
+                            dR_min = dR;
+                        }
                     }
                 }
             }
@@ -667,6 +715,8 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             if(tag==0 || tag==1){
                 trigger_pass = 0;
                 for(int i=0; i<int(hltEle27WPLooseGsf_eta.size());i++){
+                    if(i==trig_match_index)
+                        continue;
                     deta = hltEle27WPLooseGsf_eta[i] - vvLEPTON[probe][9];
                     dphi = hltEle27WPLooseGsf_phi[i] - vvLEPTON[probe][2];
                     dR = sqrt( deta*deta + dphi*dphi );
@@ -714,80 +764,91 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 			
 		if(pass_WPTight_27==1) {
 
-            tag = probe = -9999;
-            for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
-                deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[0][9];
-                dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[0][2];
-                dR = sqrt( deta*deta + dphi*dphi );
-                if(dR<0.1){
-                    tag = 0;
-                    probe = 1;
-                    break;
-                }
-            }
-            if(tag!=0){
-                for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
-                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[1][9];
-                    dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[1][2];
-                    dR = sqrt( deta*deta + dphi*dphi );
-                    if(dR<0.1){
-                        tag = 1;
-                        probe = 0;
-                        break;
-                    }
-                }
-            }
+            tag = 0;
+            probe = 1;
 
-            if(tag==0 || tag==1){
-                trigger_pass = 0;
-                for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
-                    deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[probe][9];
-                    dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[probe][2];
-                    dR = sqrt( deta*deta + dphi*dphi );
-                    if(dR<0.1){
-                        trigger_pass = 1;
-                        break;
+            while(tag<=1){
+                tag_pass = probe_pass = 0;
+                if(vvLEPTON[tag][10]!=9999)
+                    tag_pass = 1;
+                if(vvLEPTON[probe][10]!=9999){
+                    if(vvLEPTON[probe][11]!=vvLEPTON[tag][11]){
+                        probe_pass = 1;
                     }
                 }
 
-                Eff_pt_WPTight_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][0]);
-                Eff_sceta_WPTight_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9]);
-                Eff_phi_WPTight_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_27-> FillWeighted(trigger_pass,tot_weight,vvLEPTON[probe][9],vvLEPTON[probe][0]);
-                Eff_HT_WPTight_27-> FillWeighted(trigger_pass,tot_weight,HT);
-                Eff_numPV_WPTight_27-> FillWeighted(trigger_pass,tot_weight,numPV);
-                Eff_nJets_WPTight_27-> FillWeighted(trigger_pass,tot_weight,numJets);
+                if(tag_pass==1){
 
-                Eff_pt_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][0]);
-                Eff_sceta_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9]);
-                Eff_phi_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,vvLEPTON[probe][9],vvLEPTON[probe][0]);
-                Eff_HT_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,HT);
-                Eff_numPV_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numPV);
-                Eff_nJets_WPTight_27_BCDEF-> FillWeighted(trigger_pass,tot_weight_BCDEF,numJets);
+                    Eff_pt_WPTight_27-> FillWeighted(probe_pass,tot_weight,vvLEPTON[probe][0]);
+                    Eff_sceta_WPTight_27-> FillWeighted(probe_pass,tot_weight,vvLEPTON[probe][9]);
+                    Eff_phi_WPTight_27-> FillWeighted(probe_pass,tot_weight,vvLEPTON[probe][2]);
+                    Eff_2d_WPTight_27-> FillWeighted(probe_pass,tot_weight,vvLEPTON[probe][9],vvLEPTON[probe][0]);
+                    Eff_HT_WPTight_27-> FillWeighted(probe_pass,tot_weight,HT);
+                    Eff_numPV_WPTight_27-> FillWeighted(probe_pass,tot_weight,numPV);
+                    Eff_nJets_WPTight_27-> FillWeighted(probe_pass,tot_weight,numJets);
 
-                Eff_pt_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][0]);
-                Eff_sceta_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9]);
-                Eff_phi_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][2]);
-                Eff_2d_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,vvLEPTON[probe][9],vvLEPTON[probe][0]);
-                Eff_HT_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,HT);
-                Eff_numPV_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,numPV);
-                Eff_nJets_WPTight_27_GH-> FillWeighted(trigger_pass,tot_weight_GH,numJets);
+                    Eff_pt_WPTight_27_BCDEF-> FillWeighted(probe_pass,tot_weight_BCDEF,vvLEPTON[probe][0]);
+                    Eff_sceta_WPTight_27_BCDEF-> FillWeighted(probe_pass,tot_weight_BCDEF,vvLEPTON[probe][9]);
+                    Eff_phi_WPTight_27_BCDEF-> FillWeighted(probe_pass,tot_weight_BCDEF,vvLEPTON[probe][2]);
+                    Eff_2d_WPTight_27_BCDEF-> FillWeighted(probe_pass,tot_weight_BCDEF,vvLEPTON[probe][9],vvLEPTON[probe][0]);
+                    Eff_HT_WPTight_27_BCDEF-> FillWeighted(probe_pass,tot_weight_BCDEF,HT);
+                    Eff_numPV_WPTight_27_BCDEF-> FillWeighted(probe_pass,tot_weight_BCDEF,numPV);
+                    Eff_nJets_WPTight_27_BCDEF-> FillWeighted(probe_pass,tot_weight_BCDEF,numJets);
 
-                effi_num_tight_27 = effi_num_tight_27 + trigger_pass*tot_weight;
-                effi_den_tight_27 = effi_den_tight_27 + tot_weight;
-                effi_num_tight_27_BCDEF = effi_num_tight_27_BCDEF + trigger_pass*tot_weight_BCDEF;
-                effi_den_tight_27_BCDEF = effi_den_tight_27_BCDEF + tot_weight_BCDEF;
-                effi_num_tight_27_GH = effi_num_tight_27_GH + trigger_pass*tot_weight_GH;
-                effi_den_tight_27_GH = effi_den_tight_27_GH + tot_weight_GH;
-                
+                    Eff_pt_WPTight_27_GH-> FillWeighted(probe_pass,tot_weight_GH,vvLEPTON[probe][0]);
+                    Eff_sceta_WPTight_27_GH-> FillWeighted(probe_pass,tot_weight_GH,vvLEPTON[probe][9]);
+                    Eff_phi_WPTight_27_GH-> FillWeighted(probe_pass,tot_weight_GH,vvLEPTON[probe][2]);
+                    Eff_2d_WPTight_27_GH-> FillWeighted(probe_pass,tot_weight_GH,vvLEPTON[probe][9],vvLEPTON[probe][0]);
+                    Eff_HT_WPTight_27_GH-> FillWeighted(probe_pass,tot_weight_GH,HT);
+                    Eff_numPV_WPTight_27_GH-> FillWeighted(probe_pass,tot_weight_GH,numPV);
+                    Eff_nJets_WPTight_27_GH-> FillWeighted(probe_pass,tot_weight_GH,numJets);
+
+                    effi_num_tight_27 = effi_num_tight_27 + probe_pass*tot_weight;
+                    effi_den_tight_27 = effi_den_tight_27 + tot_weight;
+                    effi_num_tight_27_BCDEF = effi_num_tight_27_BCDEF + probe_pass*tot_weight_BCDEF;
+                    effi_den_tight_27_BCDEF = effi_den_tight_27_BCDEF + tot_weight_BCDEF;
+                    effi_num_tight_27_GH = effi_num_tight_27_GH + probe_pass*tot_weight_GH;
+                    effi_den_tight_27_GH = effi_den_tight_27_GH + tot_weight_GH;
+
+                    pt_select = sceta_select = 0;
+                    for(int i=0; i<n_ptBins; i++) {
+                        if(   (vvLEPTON[probe][0]>x_ptBins[i])  &&   (vvLEPTON[probe][0]<=x_ptBins[i+1])  ){
+                            pt_select = i;
+                            break;
+                        }
+                    }
+                    for(int i=0; i<n_scetaBins; i++) {
+                        if(   (vvLEPTON[probe][9]>x_scetaBins[i])  &&   (vvLEPTON[probe][9]<=x_scetaBins[i+1])  ){
+                            sceta_select = i;
+                            break;
+                        }
+                    }
+
+                    all_27 += tag_pass;
+                    pass_27 += probe_pass;
+
+                    all_2d_sceta_pt[pt_select][sceta_select] += tag_pass*tot_weight;
+                    pass_2d_sceta_pt[pt_select][sceta_select] += probe_pass*tot_weight;
+
+                    all_2d_sceta_pt_BCDEF[pt_select][sceta_select] += tag_pass*tot_weight_BCDEF;
+                    pass_2d_sceta_pt_BCDEF[pt_select][sceta_select] += probe_pass*tot_weight_BCDEF;
+
+                    all_2d_sceta_pt_GH[pt_select][sceta_select] += tag_pass*tot_weight_GH;
+                    pass_2d_sceta_pt_GH[pt_select][sceta_select] += probe_pass*tot_weight_GH;
+                    
+                }
+                tag++;
+                probe--;
             }
+            
+            N_eve_tight_27++;
 
-			N_eve_tight_27++;
 		}
 		
 		if(pass_WPTight_32==1) {
 
+            trig_match_index = -9999;
+            dR_min = 9999;
             tag = probe = -9999;
             for(int i=0; i<int(hltEle32WPTightGsf_eta.size());i++){
                 deta = hltEle32WPTightGsf_eta[i] - vvLEPTON[0][9];
@@ -796,7 +857,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 if(dR<0.1){
                     tag = 0;
                     probe = 1;
-                    break;
+                    if(dR<dR_min){
+                        trig_match_index = i;
+                        dR_min = dR;
+                    }
                 }
             }
             if(tag!=0){
@@ -807,7 +871,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     if(dR<0.1){
                         tag = 1;
                         probe = 0;
-                        break;
+                        if(dR<dR_min){
+                            trig_match_index = i;
+                            dR_min = dR;
+                        }
                     }
                 }
             }
@@ -815,6 +882,8 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             if(tag==0 || tag==1){
                 trigger_pass = 0;
                 for(int i=0; i<int(hltEle32WPTightGsf_eta.size());i++){
+                    if(i==trig_match_index)
+                        continue;
                     deta = hltEle32WPTightGsf_eta[i] - vvLEPTON[probe][9];
                     dphi = hltEle32WPTightGsf_phi[i] - vvLEPTON[probe][2];
                     dR = sqrt( deta*deta + dphi*dphi );
@@ -861,7 +930,9 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		}
 		
 		if(pass_WPLoose_27_HT200==1) {
-		
+
+            trig_match_index = -9999;
+            dR_min = 9999;
             tag = probe = -9999;
             for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
                 deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[0][9];
@@ -870,7 +941,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 if(dR<0.1){
                     tag = 0;
                     probe = 1;
-                    break;
+                    if(dR<dR_min){
+                        trig_match_index = i;
+                        dR_min = dR;
+                    }
                 }
             }
             if(tag!=0){
@@ -881,7 +955,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     if(dR<0.1){
                         tag = 1;
                         probe = 0;
-                        break;
+                        if(dR<dR_min){
+                            trig_match_index = i;
+                            dR_min = dR;
+                        }
                     }
                 }
             }
@@ -889,6 +966,8 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             if(tag==0 || tag==1){
                 trigger_pass = 0;
                 for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
+                    if(i==trig_match_index)
+                        continue;
                     deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[probe][9];
                     dphi = hltEle27WPLooseHT200Gsf_phi[i] - vvLEPTON[probe][2];
                     dR = sqrt( deta*deta + dphi*dphi );
@@ -935,7 +1014,9 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 		}
 		
 		if(pass_WPTight_27_OR_WPLoose_27_HT200==1) {
-		
+
+            trig_match_index = -9999;
+            dR_min = 9999;
             tag = probe = -9999;
             for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
                 deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[0][9];
@@ -944,7 +1025,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 if(dR<0.1){
                     tag = 0;
                     probe = 1;
-                    break;
+                    if(dR<dR_min){
+                        trig_match_index = i;
+                        dR_min = dR;
+                    }
                 }
             }
             if(tag!=0){
@@ -955,7 +1039,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     if(dR<0.1){
                         tag = 1;
                         probe = 0;
-                        break;
+                        if(dR<dR_min){
+                            trig_match_index = i;
+                            dR_min = dR;
+                        }
                     }
                 }
             }
@@ -967,7 +1054,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     if(dR<0.1){
                         tag = 0;
                         probe = 1;
-                        break;
+                        if(dR<dR_min){
+                            trig_match_index = i;
+                            dR_min = dR;
+                        }
                     }
                 }
              }
@@ -979,7 +1069,10 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                     if(dR<0.1){
                         tag = 1;
                         probe = 0;
-                        break;
+                        if(dR<dR_min){
+                            trig_match_index = i;
+                            dR_min = dR;
+                        }
                     }
                 }
             }
@@ -987,6 +1080,8 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
             if(tag==0 || tag==1){
                 trigger_pass = 0;
                 for(int i=0; i<int(hltEle27WPLooseHT200Gsf_eta.size());i++){
+                    if(i==trig_match_index)
+                        continue;
                     deta = hltEle27WPLooseHT200Gsf_eta[i] - vvLEPTON[probe][9];
                     dphi = hltEle27WPLooseHT200Gsf_phi[i] - vvLEPTON[probe][2];
                     dR = sqrt( deta*deta + dphi*dphi );
@@ -997,6 +1092,8 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
                 }
                 if(trigger_pass==0){
                     for(int i=0; i<int(hltEle27WPTightGsf_eta.size());i++){
+                        if(i==trig_match_index)
+                            continue;
                         deta = hltEle27WPTightGsf_eta[i] - vvLEPTON[probe][9];
                         dphi = hltEle27WPTightGsf_phi[i] - vvLEPTON[probe][2];
                         dR = sqrt( deta*deta + dphi*dphi );
@@ -1065,6 +1162,94 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   effi_tight_27_or_loose_27_ht200_BCDEF = effi_num_tight_27_or_loose_27_ht200_BCDEF / effi_den_tight_27_or_loose_27_ht200_BCDEF;
   effi_tight_27_or_loose_27_ht200_GH = effi_num_tight_27_or_loose_27_ht200_GH / effi_den_tight_27_or_loose_27_ht200_GH;
 
+
+
+    // Printing for Ele27_WPTight (since this is the one we are interested in now for caluclating Scale Factors)
+
+    for(int i=0; i<n_ptBins; i++){
+        for(int j=0; j<n_scetaBins; j++){
+            effi_2d_sceta_pt[i][j] = pass_2d_sceta_pt[i][j] / all_2d_sceta_pt[i][j];
+            effi_2d_sceta_pt_BCDEF[i][j] = pass_2d_sceta_pt_BCDEF[i][j] / all_2d_sceta_pt_BCDEF[i][j];
+            effi_2d_sceta_pt_GH[i][j] = pass_2d_sceta_pt_GH[i][j] / all_2d_sceta_pt_GH[i][j];
+        }
+    }
+
+    std::cout<<"Combined : \n\n";
+    std::cout<<"All : \n\n";
+    for(int i=n_ptBins-1; i>=0; i--){
+        for(int j=0; j<n_scetaBins; j++){
+            std::cout<<all_2d_sceta_pt[i][j]<<"    ";
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n\n";
+    std::cout<<"Pass : \n\n";
+    for(int i=n_ptBins-1; i>=0; i--){
+        for(int j=0; j<n_scetaBins; j++){
+            std::cout<<pass_2d_sceta_pt[i][j]<<"    ";
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n\n";
+    std::cout<<"Efficiency : \n\n";
+    for(int i=n_ptBins-1; i>=0; i--){
+        for(int j=0; j<n_scetaBins; j++){
+            std::cout<<effi_2d_sceta_pt[i][j]<<"    ";
+        }
+        std::cout<<"\n";
+    }
+
+    std::cout<<"\nBCDEF : \n\n";
+    std::cout<<"All : \n\n";
+    for(int i=n_ptBins-1; i>=0; i--){
+        for(int j=0; j<n_scetaBins; j++){
+            std::cout<<all_2d_sceta_pt_BCDEF[i][j]<<"    ";
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n\n";
+    std::cout<<"Pass : \n\n";
+    for(int i=n_ptBins-1; i>=0; i--){
+        for(int j=0; j<n_scetaBins; j++){
+            std::cout<<pass_2d_sceta_pt_BCDEF[i][j]<<"    ";
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n\n";
+    std::cout<<"Efficiency : \n\n";
+    for(int i=n_ptBins-1; i>=0; i--){
+        for(int j=0; j<n_scetaBins; j++){
+            std::cout<<effi_2d_sceta_pt_BCDEF[i][j]<<"    ";
+        }
+        std::cout<<"\n";
+    }
+
+    std::cout<<"\nGH : \n\n";
+    std::cout<<"All : \n\n";
+    for(int i=n_ptBins-1; i>=0; i--){
+        for(int j=0; j<n_scetaBins; j++){
+            std::cout<<all_2d_sceta_pt_GH[i][j]<<"    ";
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n\n";
+    std::cout<<"Pass : \n\n";
+    for(int i=n_ptBins-1; i>=0; i--){
+        for(int j=0; j<n_scetaBins; j++){
+            std::cout<<pass_2d_sceta_pt_GH[i][j]<<"    ";
+        }
+        std::cout<<"\n";
+    }
+    std::cout<<"\n\n";
+    std::cout<<"Efficiency : \n\n";
+    for(int i=n_ptBins-1; i>=0; i--){
+        for(int j=0; j<n_scetaBins; j++){
+            std::cout<<effi_2d_sceta_pt_GH[i][j]<<"    ";
+        }
+        std::cout<<"\n";
+    }
+    
+
   std::cout << " Done! " <<((float)t)/CLOCKS_PER_SEC<< std::endl;
   std::cout<<"**********************************************************************************************\n";
   std::cout<<"Total No. of events : "<<N_total<<"\n";
@@ -1076,7 +1261,9 @@ void Tag_and_Probe_Efficiency( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
   std::cout<<"No. of events passing event selection plus WP_Tight_Ele27 Trigger : "<<N_eve_tight_27<<"\n";
   std::cout<<"Combined Efficiency B to H :"<<effi_tight_27<<"\n";
   std::cout<<"Efficiency B to F :"<<effi_tight_27_BCDEF<<"\n";
-  std::cout<<"Efficiency G and H :"<<effi_tight_27_GH<<"\n\n";
+  std::cout<<"Efficiency G and H : "<<effi_tight_27_GH<<"\n\n";
+  std::cout<<"Number of Total Probe Electrons : "<<all_27<<"\n";
+  std::cout<<"Number of Passed Probe Electrons : "<<pass_27<<"\n\n";
   std::cout<<"No. of events passing event selection plus WP_Tight_Ele32 Trigger : "<<N_eve_tight_32<<"\n";
   std::cout<<"Combined Efficiency B to H :"<<effi_tight_32<<"\n";
   std::cout<<"Efficiency B to F :"<<effi_tight_32_BCDEF<<"\n";

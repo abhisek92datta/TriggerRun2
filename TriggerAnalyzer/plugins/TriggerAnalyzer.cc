@@ -1300,14 +1300,28 @@ cout<<"f";
       //for (unsigned h = 0; h < obj.filterLabels().size(); ++h){
         for (unsigned h = 0; h < obj.pathNames().size(); ++h){
 
-            if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPLoose_Gsf_v")!=std::string::npos )
-                triggerObjects_hlt_ele27wploose.push_back(obj_TLV);
-            if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPTight_Gsf_v")!=std::string::npos )
-                triggerObjects_hlt_ele27wptight.push_back(obj_TLV);
-            if( obj.pathNames()[h].find("HLT_Ele32_eta2p1_WPTight_Gsf_v")!=std::string::npos )
-                triggerObjects_hlt_ele32wptight.push_back(obj_TLV);
-            if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v")!=std::string::npos )
-                triggerObjects_hlt_ele27wplooseht200.push_back(obj_TLV);
+            unsigned int path_index = hlt_config_.triggerIndex(obj.pathNames()[h]);
+
+            if( path_index >= triggerResults->size() ) continue;
+
+            int path_accept = triggerResults->accept(path_index);
+
+            if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPLoose_Gsf_v")!=std::string::npos ) {
+                if(path_accept)
+                    triggerObjects_hlt_ele27wploose.push_back(obj_TLV);
+            }
+            if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPTight_Gsf_v")!=std::string::npos ) {
+                if(path_accept)
+                    triggerObjects_hlt_ele27wptight.push_back(obj_TLV);
+            }
+            if( obj.pathNames()[h].find("HLT_Ele32_eta2p1_WPTight_Gsf_v")!=std::string::npos ) {
+                if(path_accept)
+                    triggerObjects_hlt_ele32wptight.push_back(obj_TLV);
+            }
+            if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v")!=std::string::npos ) {
+                if(path_accept)
+                    triggerObjects_hlt_ele27wplooseht200.push_back(obj_TLV);
+            }
 
     /*
 	if( obj.filterLabels()[h]=="hltL1sL1SingleEG25" ) triggerObjects_L1SingleEG25.push_back(obj_TLV);

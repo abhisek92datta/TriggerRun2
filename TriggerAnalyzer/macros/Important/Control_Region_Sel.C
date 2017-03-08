@@ -290,21 +290,21 @@ void Control_Region_Sel( int maxNentries=-1, int Njobs=1, int jobN=1 ) {
 				if (isTrigCutM[i]==1 && lepton_rel_Iso[i]<0.15 ) {  			 // for Cut based electron ID
 				//if (isTrigMVAM[i]==1 && lepton_rel_Iso[i]<0.15 ) {               // for Triggering MVA electron ID
 					numLooseEle++;
-					vdouble vlepton;
-					vlepton.push_back(lepton_pt[i]);
-					vlepton.push_back(lepton_eta[i]);
-					vlepton.push_back(lepton_phi[i]);
-					vlepton.push_back(lepton_energy[i]);
-                    vlepton.push_back(lepton_charge[i]);
-                    vlepton.push_back(lepton_px[i]);
-                    vlepton.push_back(lepton_py[i]);
-                    vlepton.push_back(lepton_pz[i]);
-				    //Trigger, GSF and HIP SF not applied
-					//vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
-                    vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]);
-                    vvLEPTON.push_back(vlepton);
 					if ( lepton_pt[i]>30 && fabs(lepton_eta[i])<2.1  ) {
 						numTightEle++;
+                        vdouble vlepton;
+                        vlepton.push_back(lepton_pt[i]);
+                        vlepton.push_back(lepton_eta[i]);
+                        vlepton.push_back(lepton_phi[i]);
+                        vlepton.push_back(lepton_energy[i]);
+                        vlepton.push_back(lepton_charge[i]);
+                        vlepton.push_back(lepton_px[i]);
+                        vlepton.push_back(lepton_py[i]);
+                        vlepton.push_back(lepton_pz[i]);
+                        //Trigger, GSF and HIP SF not applied
+                        //vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]*lepton_gsf_sf[i]*lepton_hip_sf[i]);
+                        vlepton.push_back(lepton_id_sf[i]*lepton_iso_sf[i]);
+                        vvLEPTON.push_back(vlepton);
 					}
 				}
 			}	
