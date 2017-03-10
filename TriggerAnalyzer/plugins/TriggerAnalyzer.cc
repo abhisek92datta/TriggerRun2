@@ -1306,20 +1306,22 @@ cout<<"f";
 
             int path_accept = triggerResults->accept(path_index);
 
+            bool isBoth = obj.hasPathName( obj.pathNames()[h], true, true );
+
             if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPLoose_Gsf_v")!=std::string::npos ) {
-                if(path_accept)
+                if(path_accept && isBoth)
                     triggerObjects_hlt_ele27wploose.push_back(obj_TLV);
             }
             if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPTight_Gsf_v")!=std::string::npos ) {
-                if(path_accept)
+                if(path_accept && isBoth)
                     triggerObjects_hlt_ele27wptight.push_back(obj_TLV);
             }
             if( obj.pathNames()[h].find("HLT_Ele32_eta2p1_WPTight_Gsf_v")!=std::string::npos ) {
-                if(path_accept)
+                if(path_accept && isBoth)
                     triggerObjects_hlt_ele32wptight.push_back(obj_TLV);
             }
             if( obj.pathNames()[h].find("HLT_Ele27_eta2p1_WPLoose_Gsf_HT200_v")!=std::string::npos ) {
-                if(path_accept)
+                if(path_accept && isBoth)
                     triggerObjects_hlt_ele27wplooseht200.push_back(obj_TLV);
             }
 
